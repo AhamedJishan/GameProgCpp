@@ -111,20 +111,11 @@ void Game::updateGame()
 	m_ballPos.x += m_ballVelocity.x * deltaTime;
 	m_ballPos.y += m_ballVelocity.y * deltaTime;
 	if (m_ballPos.y < (1.5f * m_thickness) && m_ballVelocity.y < 0)
-	{
 		m_ballVelocity.y *= -1;
-		timeSinceCollision = 0.0f;
-	}
 	else if (m_ballPos.y > (720 - 1.5f * m_thickness) && m_ballVelocity.y > 0)
-	{
 		m_ballVelocity.y *= -1;
-		timeSinceCollision = 0.0f;
-	}
 	else if (m_ballPos.x > 1280 - 1.5f * m_thickness && m_ballVelocity.x > 0)
-	{
 		m_ballVelocity.x *= -1;
-		timeSinceCollision = 0.0f;
-	}
 
 	if (m_ballPos.y + m_thickness >= m_paddlePos.y && m_ballPos.y <= m_paddlePos.y + m_paddleHeight && m_ballPos.x <= (m_paddlePos.x + m_thickness) && m_ballPos.x >= m_paddlePos.x && m_ballVelocity.x < 0)
 	{
