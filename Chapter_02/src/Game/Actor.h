@@ -17,7 +17,7 @@ namespace ch2
 			EDead
 		};
 
-		Actor(Game* game);
+		Actor(class Game* game);
 		virtual ~Actor();
 
 		void Update(float deltaTime);
@@ -27,6 +27,8 @@ namespace ch2
 		void AddComponent(class Component* component);
 		void RemoveComponent(class Component* component);
 
+		State GetState() { return m_State; }
+
 	private:
 		State m_State;
 
@@ -35,6 +37,6 @@ namespace ch2
 
 
 		std::vector<class Component*> m_Components;
-		Game* m_Game;
+		class Game* m_Game;
 	};
 }
