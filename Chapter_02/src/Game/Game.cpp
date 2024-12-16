@@ -38,6 +38,9 @@ namespace ch2
 			return false;
 		}
 
+		// LOAD DATA
+		//LoadData();
+
 		return true;
 	}
 
