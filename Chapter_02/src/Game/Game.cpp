@@ -1,5 +1,7 @@
 #include "Game.h"
 
+#include <SDL_image.h>
+
 namespace ch2
 {
 	Game::Game()
@@ -20,10 +22,19 @@ namespace ch2
 			return false;
 		}
 
+		IMG_Init(IMG_INIT_PNG);
+
 		m_Window = SDL_CreateWindow("Chapter_02", 100, 50, 1280, 720, 0);
 		if (!m_Window)
 		{
 			SDL_Log("Failed to create SDL Window!");
+			return false;
+		}
+
+		m_Renderer = SDL_CreateRenderer(m_Window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+		if (!m_Renderer)
+		{
+			SDL_Log("Failed to Create SDL Renderer!");
 			return false;
 		}
 
@@ -73,6 +84,36 @@ namespace ch2
 
 		if (!TryRemoveActor(m_Actors, actor))
 			TryRemoveActor(m_PendingActors, actor);
+	}
+
+	SDL_Texture* Game::GetTexture(const char* filename)
+	{
+		SDL_Texture* texture;
+
+		auto it = m_Textures.find(filename);
+		if (it != m_Textures.end())
+		{
+			texture = it->second;
+		}
+		else
+		{
+			SDL_Surface* surf = IMG_Load(filename);
+			if (!surf)
+			{
+				SDL_Log("Failed to load the texture: ", filename);
+				return nullptr;
+			}
+
+			texture = SDL_CreateTextureFromSurface(m_Renderer, surf);
+			SDL_FreeSurface(surf);
+			if (!texture)
+			{
+				SDL_Log("Failed to convert sdl surface to texture: ", filename);
+				return nullptr;
+			}
+		}
+
+		return texture;
 	}
 
 	void Game::ProcessInput()
