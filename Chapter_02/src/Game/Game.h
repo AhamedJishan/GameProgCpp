@@ -6,6 +6,7 @@
 #include <vector>
 #include <unordered_map>
 #include "Actor.h"
+#include "SpriteComponent.h"
 
 namespace ch2
 {
@@ -21,6 +22,9 @@ namespace ch2
 
 		void AddActor(class Actor* actor);
 		void RemoveActor(class Actor* actor);
+
+		void AddSprite(class SpriteComponent* sprite);
+		void RemoveSprite(class SpriteComponent* sprite);
 
 		void LoadData();
 
@@ -42,6 +46,7 @@ namespace ch2
 		bool m_UpdatingActor;
 
 		std::unordered_map<std::string, SDL_Texture*> m_Textures;
+		std::vector<class SpriteComponent*> m_Sprites;
 	};
 
 }

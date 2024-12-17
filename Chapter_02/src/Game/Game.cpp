@@ -89,6 +89,25 @@ namespace ch2
 			TryRemoveActor(m_PendingActors, actor);
 	}
 
+	void Game::AddSprite(SpriteComponent* sprite)
+	{
+		int drawOrder = sprite->GetDrawOrder();
+
+		auto it = m_Sprites.begin();
+
+		for ( ; it != m_Sprites.end(); it++)
+			if (drawOrder < (*it)->GetDrawOrder())
+				break;
+
+		m_Sprites.insert(it, sprite);
+	}
+
+	void Game::RemoveSprite(SpriteComponent* sprite)
+	{
+		auto it = std::find(m_Sprites.begin(), m_Sprites.end(), sprite);
+		m_Sprites.erase(it);
+	}
+
 	SDL_Texture* Game::GetTexture(const char* filename)
 	{
 		SDL_Texture* texture;
@@ -121,6 +140,23 @@ namespace ch2
 
 	void Game::ProcessInput()
 	{
+		SDL_Event event;
+
+		// While there are still events in the queue
+		while (SDL_PollEvent(&event))
+		{
+			switch (event.type)
+			{
+			case SDL_QUIT:
+				m_IsRunning = false;
+				break;
+			}
+		}
+
+		// Keyboard Input
+		const Uint8* keyboardState = SDL_GetKeyboardState(NULL);
+		if (keyboardState[SDL_SCANCODE_ESCAPE])
+			m_IsRunning = false;
 	}
 
 	void Game::UpdateGame()
@@ -154,5 +190,13 @@ namespace ch2
 
 	void Game::GenerateOutput()
 	{
+		SDL_SetRenderDrawColor(m_Renderer, 20, 20, 20, 255);
+		SDL_RenderClear(m_Renderer);
+
+		for (SpriteComponent* sprite : m_Sprites)
+			sprite->Draw(m_Renderer);
+
+		// swap buffers
+		SDL_RenderPresent(m_Renderer);
 	}
 }
