@@ -3,7 +3,9 @@
 namespace ch2
 {
 	AnimSpriteComponent::AnimSpriteComponent(Actor* owner, int drawOrder)
-		:SpriteComponent(owner, drawOrder)
+		:SpriteComponent(owner, drawOrder),
+		m_CurrFrame(0.0f),
+		m_AnimFPS(24.0f)
 	{
 	}
 
@@ -13,7 +15,7 @@ namespace ch2
 
 		if (m_AnimTextures.size() > 0)
 		{
-			m_CurrFrame = m_AnimFPS * deltaTime;
+			m_CurrFrame += m_AnimFPS * deltaTime;
 
 			while (m_CurrFrame >= m_AnimTextures.size())
 				m_CurrFrame -= m_AnimTextures.size();

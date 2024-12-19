@@ -28,11 +28,11 @@ namespace ch2
 			SDL_Rect r;
 			for (auto& bgTexture : m_BGTextures)
 			{
-				r.x = m_Owner->GetPosition().x + bgTexture.m_Offset.x;
-				r.y = m_Owner->GetPosition().y + bgTexture.m_Offset.y;
-				r.w = m_Owner->GetScale() * m_ScreenSize.x;
-				r.h = m_Owner->GetScale() * m_ScreenSize.y;
-				SDL_RenderCopyEx(renderer, bgTexture.m_Texture, NULL, &r, -Math::ToDegrees(m_Owner->GetRotation()), NULL, SDL_FLIP_NONE);
+				r.w = static_cast<int>(m_ScreenSize.x);
+				r.h = static_cast<int>(m_ScreenSize.y);
+				r.x = static_cast<int>(m_Owner->GetPosition().x + bgTexture.m_Offset.x);
+				r.y = static_cast<int>(m_Owner->GetPosition().y + bgTexture.m_Offset.y);
+				SDL_RenderCopy(renderer, bgTexture.m_Texture, nullptr, &r);
 			}
 		}
 	}

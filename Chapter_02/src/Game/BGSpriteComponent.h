@@ -18,7 +18,7 @@ namespace ch2
 
 		void SetBGTexture(const std::vector<SDL_Texture*> textures);
 
-		void SetScreenSize(const Vector2& size) { m_ScreenSize = size; }
+		void SetScreenSize(const Vector2 size) { m_ScreenSize = size; }
 		void SetScrollSpeed(const float speed) { m_ScrollSpeed = speed; }
 		float GetScrollSpeed() const { return m_ScrollSpeed; }
 

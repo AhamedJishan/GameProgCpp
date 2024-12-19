@@ -1,6 +1,9 @@
 #include "Game.h"
 
 #include <SDL_image.h>
+#include <algorithm>
+#include "Ship.h"
+#include "BGSpriteComponent.h"
 
 namespace ch2
 {
@@ -9,37 +12,37 @@ namespace ch2
 		m_IsRunning = true;
 		m_TicksCount = 0;
 	}
-	Game::~Game()
-	{
-	}
 
 	bool Game::Init()
 	{
-		int sdlResult = SDL_Init(SDL_INIT_VIDEO);
-		if (sdlResult != 0)
+		if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0)
 		{
-			SDL_Log("Failed to Initialise SDL!");
+			SDL_Log("Unable to initialize SDL: %s", SDL_GetError());
 			return false;
 		}
 
-		IMG_Init(IMG_INIT_PNG);
-
-		m_Window = SDL_CreateWindow("Chapter_02", 100, 50, 1280, 720, 0);
+		m_Window = SDL_CreateWindow("Game Programming in C++ (Chapter 2)", 100, 100, 1280, 720, 0);
 		if (!m_Window)
 		{
-			SDL_Log("Failed to create SDL Window!");
+			SDL_Log("Failed to create window: %s", SDL_GetError());
 			return false;
 		}
 
 		m_Renderer = SDL_CreateRenderer(m_Window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 		if (!m_Renderer)
 		{
-			SDL_Log("Failed to Create SDL Renderer!");
+			SDL_Log("Failed to create renderer: %s", SDL_GetError());
+			return false;
+		}
+
+		if (IMG_Init(IMG_INIT_PNG) == 0)
+		{
+			SDL_Log("Unable to initialize SDL_image: %s", SDL_GetError());
 			return false;
 		}
 
 		// LOAD DATA
-		//LoadData();
+		LoadData();
 
 		return true;
 	}
@@ -56,9 +59,9 @@ namespace ch2
 
 	void Game::Shutdown()
 	{
-		while (!m_Actors.empty())
-			delete m_Actors.back();
-
+		UnLoadData();
+		IMG_Quit();
+		SDL_DestroyRenderer(m_Renderer);
 		SDL_DestroyWindow(m_Window);
 		SDL_Quit();
 	}
@@ -73,12 +76,13 @@ namespace ch2
 
 	void Game::RemoveActor(Actor* actor)
 	{
-		auto TryRemoveActor = [](std::vector<Actor*> vec, Actor* actor)
+		auto TryRemoveActor = [](std::vector<Actor*>& vec, Actor* actor)
 			{
 				auto it = std::find(vec.begin(), vec.end(), actor);
 				if (it != vec.end())
 				{
-					vec.erase(it);
+					std::iter_swap(it, vec.end() - 1);
+					vec.pop_back();
 					return true;
 				}
 				
@@ -105,7 +109,47 @@ namespace ch2
 	void Game::RemoveSprite(SpriteComponent* sprite)
 	{
 		auto it = std::find(m_Sprites.begin(), m_Sprites.end(), sprite);
-		m_Sprites.erase(it);
+		if (it != m_Sprites.end())
+		{
+			m_Sprites.erase(it);
+		}
+	}
+
+	void Game::LoadData()
+	{
+		m_Ship = new Ship(this);
+		m_Ship->SetPosition(Vector2(100.0f, 720.0f / 2.0f));
+		m_Ship->SetScale(1.5f);
+
+		Actor* temp = new Actor(this);
+		std::vector<SDL_Texture*> textures = {
+			GetTexture("Assets/Farback01.png"),
+			GetTexture("Assets/Farback02.png")
+		};
+		BGSpriteComponent* bgs = new BGSpriteComponent(temp);
+		bgs->SetScreenSize(Vector2(1280, 720));
+		bgs->SetBGTexture(textures);
+		bgs->SetScrollSpeed(-100.0f);
+
+		temp = new Actor(this);
+		textures = {
+			GetTexture("Assets/Stars.png"),
+			GetTexture("Assets/Stars.png")
+		};
+		bgs = new BGSpriteComponent(temp, 50);
+		bgs->SetScreenSize(Vector2(1280, 720));
+		bgs->SetBGTexture(textures);
+		bgs->SetScrollSpeed(-200.0f);
+	}
+
+	void Game::UnLoadData()
+	{
+		while (!m_Actors.empty())
+			delete m_Actors.back();
+
+		for (auto i : m_Textures)
+			SDL_DestroyTexture(i.second);
+		m_Textures.clear();
 	}
 
 	SDL_Texture* Game::GetTexture(const char* filename)
@@ -122,7 +166,7 @@ namespace ch2
 			SDL_Surface* surf = IMG_Load(filename);
 			if (!surf)
 			{
-				SDL_Log("Failed to load the texture: ", filename);
+				SDL_Log("Failed to load the texture: %s", filename);
 				return nullptr;
 			}
 
@@ -157,6 +201,8 @@ namespace ch2
 		const Uint8* keyboardState = SDL_GetKeyboardState(NULL);
 		if (keyboardState[SDL_SCANCODE_ESCAPE])
 			m_IsRunning = false;
+
+		m_Ship->ProcessInput(keyboardState);
 	}
 
 	void Game::UpdateGame()

@@ -14,7 +14,6 @@ namespace ch2
 	{
 	public:
 		Game();
-		~Game();
 
 		bool Init();
 		void RunLoop();
@@ -27,6 +26,7 @@ namespace ch2
 		void RemoveSprite(class SpriteComponent* sprite);
 
 		void LoadData();
+		void UnLoadData();
 
 		SDL_Texture* GetTexture(const char* filename);
 	private:
@@ -47,6 +47,8 @@ namespace ch2
 
 		std::unordered_map<std::string, SDL_Texture*> m_Textures;
 		std::vector<class SpriteComponent*> m_Sprites;
+
+		class Ship* m_Ship;
 	};
 
 }

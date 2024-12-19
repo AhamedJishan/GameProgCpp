@@ -155,6 +155,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Game\Ship.cpp" />
     <ClCompile Include="src\Game\Actor.cpp" />
     <ClCompile Include="src\Game\AnimSpriteComponent.cpp" />
     <ClCompile Include="src\Game\BGSpriteComponent.cpp" />
@@ -165,6 +166,7 @@
     <ClCompile Include="src\Game\SpriteComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Game\Ship.h" />
     <ClInclude Include="src\Game\Actor.h" />
     <ClInclude Include="src\Game\AnimSpriteComponent.h" />
     <ClInclude Include="src\Game\BGSpriteComponent.h" />
