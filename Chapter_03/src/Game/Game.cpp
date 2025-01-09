@@ -1,11 +1,14 @@
 #include "Game.h"
 
+#include "Actor.h"
+
 namespace ch3
 {
 	Game::Game()
 	{
 		m_IsRunnning = true;
 		m_TicksCount = 0;
+		m_UpdatingActors = false;
 	}
 	
 	bool Game::init()
@@ -50,6 +53,32 @@ namespace ch3
 		SDL_DestroyRenderer(m_Renderer);
 		SDL_DestroyWindow(m_Window);
 		SDL_Quit();
+	}
+
+	void Game::addActor(Actor* actor)
+	{
+		if (m_UpdatingActors)
+			m_PendingActors.emplace_back(actor);
+		else
+			m_Actors.emplace_back(actor);
+	}
+
+	void Game::removeActor(Actor* actor)
+	{
+		auto tryRemoveActor = [](std::vector<Actor*>& vec, Actor* actor)
+			{
+				auto it = std::find(vec.begin(), vec.end(), actor);
+				if (it != vec.end())
+				{
+					delete *it;
+					vec.erase(it);
+					return true;
+				}
+				return false;
+			};
+
+		if (!tryRemoveActor(m_Actors, actor))
+			tryRemoveActor(m_PendingActors, actor);
 	}
 
 	SDL_Texture* Game::getTexture(const char* filename)
@@ -97,6 +126,29 @@ namespace ch3
 		float deltaTime = (SDL_GetTicks() - m_TicksCount) / 1000.0f;
 		deltaTime = deltaTime > 0.5f ? 0.5f : deltaTime;
 		m_TicksCount = SDL_GetTicks();
+
+		// Update Actors
+		m_UpdatingActors = true;
+		for (auto actor : m_Actors)
+			actor->update(deltaTime);
+		m_UpdatingActors = false;
+
+		// Move pending actors to m_Actors
+		for (auto pendingActor : m_PendingActors)
+			m_Actors.emplace_back(pendingActor);
+		m_PendingActors.clear();
+
+		// Delete dead actors
+		for (auto it = m_Actors.begin(); it != m_Actors.end(); )
+		{
+			if ((*it)->getState() == Actor::EDead)
+			{
+				delete* it;
+				it = m_Actors.erase(it);
+			}
+			else
+				it++;
+		}
 	}
 
 	void Game::generateOutput()
