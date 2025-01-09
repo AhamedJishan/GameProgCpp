@@ -1,8 +1,9 @@
 #pragma once
 
 /**
-* ---------------------------------------------------------------------------------------------------------
-* Actor Class
+ * ---------------------------------------------------------------------------------------------------------
+ *												Actor Class
+ * ---------------------------------------------------------------------------------------------------------
 * Represents a game object in the project. Every game object will inherit from the Actor class.
 * The class encapsulates the state, position, scale, rotation, and game reference for an object and provides
 * functionality for updating the object and its components during the game loop.
