@@ -18,6 +18,7 @@
 *
 * - Destructor:
 *   - Declared `virtual` to ensure proper cleanup of resources in derived classes when the actor is destroyed.
+*	- deletes every component stored in the `m_Components` one by one.
 *
 * - Core Methods:
 *   1. `update(float deltaTime)`:
@@ -43,6 +44,7 @@
 */
 
 
+#include <vector>
 #include "Math.h"
 
 namespace ch3
@@ -61,6 +63,9 @@ namespace ch3
 		virtual ~Actor();
 
 		void update(float deltaTime);
+
+		void addComponent(class Component* component);
+		void removeComponent(class Component* component);
 
 
 		// Getters and Setters
@@ -92,5 +97,7 @@ namespace ch3
 		float m_Scale;
 
 		class Game* m_Game;
+
+		std::vector<class Component*> m_Components;
 	};
 }
