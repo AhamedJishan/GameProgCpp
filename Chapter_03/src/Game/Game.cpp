@@ -83,18 +83,29 @@ namespace ch3
 
 	SDL_Texture* Game::getTexture(const char* filename)
 	{
-		SDL_Surface* surface = IMG_Load(filename);
-		if (!surface)
-		{
-			SDL_Log("Failed to load the texture at '%s'", filename);
-			return nullptr;
-		}
+		SDL_Texture* texture;
 
-		SDL_Texture* texture = SDL_CreateTextureFromSurface(m_Renderer, surface);
-		if (!texture)
+		auto it = m_Textures.find(filename);
+		if (it != m_Textures.end())
 		{
-			SDL_Log("Failed to create the texture from '%s'", filename);
-			return nullptr;
+			texture = it->second;
+		}
+		else
+		{
+			SDL_Surface* surface = IMG_Load(filename);
+			if (!surface)
+			{
+				SDL_Log("Failed to load the texture at '%s'", filename);
+				return nullptr;
+			}
+
+			texture = SDL_CreateTextureFromSurface(m_Renderer, surface);
+			if (!texture)
+			{
+				SDL_Log("Failed to create the texture from '%s'", filename);
+				return nullptr;
+			}
+			m_Textures.emplace(filename, texture);
 		}
 
 		return texture;

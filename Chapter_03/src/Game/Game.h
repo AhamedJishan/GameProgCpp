@@ -32,7 +32,8 @@
 *
 * - Utility Method:
 *   1. `getTexture(const char* filename)`:
-*      - Loads an image file as a texture using SDL_image and returns the texture.
+*		- If the texture is already in `m_Textures`, it simple returns the texture.
+*		- Otherwise it loads an image file stores it in `m_Texture` and then returns it.
 *	2. Actor Management:
  *      - `addActor(Actor* actor)`: Adds a new actor to the game. If the game is updating, 
  *        the actor is stored in `m_PendingActors` and will be moved to `m_Actors` at the end of the current update.
@@ -43,6 +44,7 @@
 
 
 #include <vector>
+#include <unordered_map>
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 
@@ -74,6 +76,8 @@ namespace ch3
 		std::vector<class Actor*> m_Actors;
 		std::vector<class Actor*> m_PendingActors;
 		bool m_UpdatingActors;
+
+		std::unordered_map<const char*, SDL_Texture*> m_Textures;
 
 		bool m_IsRunnning;
 		Uint32 m_TicksCount;
