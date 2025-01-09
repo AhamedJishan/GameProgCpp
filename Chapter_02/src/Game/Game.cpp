@@ -177,6 +177,8 @@ namespace ch2
 				SDL_Log("Failed to convert sdl surface to texture: ", filename);
 				return nullptr;
 			}
+
+			m_Textures.emplace(filename, texture);
 		}
 
 		return texture;
