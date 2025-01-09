@@ -1,6 +1,7 @@
 #include "Actor.h"
 
 #include "Component.h"
+#include "Game.h"
 
 namespace ch3
 {
@@ -11,12 +12,12 @@ namespace ch3
 		 m_Scale	(0.0f),
 		 m_Game		(game)
 	{
-		// TODO: add actor to the game's actor list
+		m_Game->addActor(this);
 	}
 	
 	Actor::~Actor()
 	{
-		// TODO: remove actor from the game's actor list
+		m_Game->removeActor(this);
 
 		for (auto component : m_Components)
 			delete component;
