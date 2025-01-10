@@ -159,6 +159,7 @@
     <ClInclude Include="src\Game\Component.h" />
     <ClInclude Include="src\Game\Game.h" />
     <ClInclude Include="src\Game\Math.h" />
+    <ClInclude Include="src\Game\SpriteComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\EntryPoint.cpp" />
@@ -166,6 +167,7 @@
     <ClCompile Include="src\Game\Component.cpp" />
     <ClCompile Include="src\Game\Game.cpp" />
     <ClCompile Include="src\Game\Math.cpp" />
+    <ClCompile Include="src\Game\SpriteComponent.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

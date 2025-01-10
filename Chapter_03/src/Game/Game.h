@@ -1,14 +1,15 @@
 #pragma once
 
 /**
- * ---------------------------------------------------------------------------------------------------------
- *												Actor Class
- * ---------------------------------------------------------------------------------------------------------
+* ---------------------------------------------------------------------------------------------------------
+*												Game Class
+* ---------------------------------------------------------------------------------------------------------
 * The Game class encapsulates the main functionality of an SDL-based game.
 * It handles initialization, the main game loop, and cleanup operations.
 *
 * - Constructor:
 *   Initializes `m_IsRunning` (game running state) and `m_TicksCount` (used for delta time calculation).
+* 
 *
 * - Core Methods:
 *   1. `init()`:
@@ -22,23 +23,34 @@
 *         - `processInput()`: Handles event polling and user input.
 *         - `updateGame()`: Updates game state:-
 *							- Calculates `deltaTime` (time elapsed since the last frame).
- *							- Updates all active actors in `m_Actors`.
- *							- Moves newly added actors from `m_PendingActors` to `m_Actors`.
- *							- Removes and deletes "dead" actors from `m_Actors`.
+*							- Updates all active actors in `m_Actors`.
+*							- Moves newly added actors from `m_PendingActors` to `m_Actors`.
+*							- Removes and deletes "dead" actors from `m_Actors`.
 *         - `generateOutput()`: Renders the current frame (clears, generates, and swaps the buffer).
 *
 *   3. `shutdown()`:
 *      - Cleans up SDL components: destroys the renderer and window, and quits SDL subsystems.
+* 
 *
 * - Utility Method:
 *   1. `getTexture(const char* filename)`:
 *		- If the texture is already in `m_Textures`, it simple returns the texture.
 *		- Otherwise it loads an image file stores it in `m_Texture` and then returns it.
+* 
 *	2. Actor Management:
- *      - `addActor(Actor* actor)`: Adds a new actor to the game. If the game is updating, 
- *        the actor is stored in `m_PendingActors` and will be moved to `m_Actors` at the end of the current update.
- *      - `removeActor(Actor* actor)`: Removes an actor from the game. If the game is updating, 
- *        the actor is marked for removal and deleted after the current update.
+*		- `addActor(Actor* actor)`:
+*			- Adds a new actor to the game. If the game is updating, the actor is stored in `m_PendingActors`
+*			and will be moved to `m_Actors` at the end of the current update.
+*		- `removeActor(Actor* actor)`: 
+*			- Removes an actor from the game. If the game is updating, the actor is marked for removal and 
+*			  deleted after the current update.
+* 
+*	3. Sprite Management:
+*		- `addSprite(SpriteComponent* sprite)`:
+*			- Adds a new sprite to the game. `m_Sprites` is maintained in an order such that sprites with
+*			  lower `drawOrder` values are rendered in front, ensuring correct visual layering.
+*		- `removeSprite(SpriteComponent* sprite)`:
+*			- Removes a sprite from the game.
 * ------------------------------------------------------------------------------------------------------------------
 */
 
@@ -62,6 +74,9 @@ namespace ch3
 		void addActor(class Actor* actor);
 		void removeActor(class Actor* actor);
 
+		void addSprite(class SpriteComponent* sprite);
+		void removeSprite(class SpriteComponent* sprite);
+
 		SDL_Texture* getTexture(const char* filename);
 
 	private:
@@ -76,6 +91,8 @@ namespace ch3
 		std::vector<class Actor*> m_Actors;
 		std::vector<class Actor*> m_PendingActors;
 		bool m_UpdatingActors;
+
+		std::vector<class SpriteComponent*> m_Sprites;
 
 		std::unordered_map<const char*, SDL_Texture*> m_Textures;
 

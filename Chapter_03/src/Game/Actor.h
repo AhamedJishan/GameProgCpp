@@ -82,6 +82,8 @@ namespace ch3
 		float	getScale() const				{ return m_Scale; }
 		void	setScale(float position)		{ m_Scale = m_Scale; }
 
+		Game*	getGame() const					{ return m_Game; }
+
 
 	protected:
 		virtual void updateActor(float deltaTime);

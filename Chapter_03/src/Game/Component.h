@@ -45,7 +45,7 @@ namespace ch3
 
 		int getUpdateOrder() const { return m_UppdateOrder; }
 
-	private:
+	protected:
 		class Actor* m_Owner;
 		int m_UppdateOrder;
 	};

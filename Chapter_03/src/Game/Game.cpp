@@ -1,6 +1,7 @@
 #include "Game.h"
 
 #include "Actor.h"
+#include "SpriteComponent.h"
 
 namespace ch3
 {
@@ -79,6 +80,25 @@ namespace ch3
 
 		if (!tryRemoveActor(m_Actors, actor))
 			tryRemoveActor(m_PendingActors, actor);
+	}
+
+	void Game::addSprite(SpriteComponent* sprite)
+	{
+		int drawOrder = sprite->getDrawOrder();
+		auto it = m_Sprites.begin();
+
+		for ( ; it != m_Sprites.end(); it++)
+			if (drawOrder < (*it)->getDrawOrder())
+				break;
+
+		m_Sprites.insert(it, sprite);
+	}
+
+	void Game::removeSprite(SpriteComponent* sprite)
+	{
+		auto it = std::find(m_Sprites.begin(), m_Sprites.end(), sprite);
+
+		m_Sprites.erase(it);
 	}
 
 	SDL_Texture* Game::getTexture(const char* filename)
