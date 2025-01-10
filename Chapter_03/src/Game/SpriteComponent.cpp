@@ -36,10 +36,10 @@ namespace ch3
 			(
 				renderer,
 				m_Texture,
-				NULL,
+				nullptr,
 				&r,
 				-Math::ToDegrees(m_Owner->getRotation()),
-				NULL,
+				nullptr,
 				SDL_FLIP_NONE
 			);
 		}

@@ -2,6 +2,9 @@
 
 #include "Actor.h"
 #include "SpriteComponent.h"
+#include "Asteroid.h"
+
+#include <iostream>
 
 namespace ch3
 {
@@ -35,6 +38,8 @@ namespace ch3
 		}
 
 		IMG_Init(IMG_INIT_PNG);
+
+		loadData();
 		return true;
 	}
 	
@@ -50,6 +55,7 @@ namespace ch3
 	
 	void Game::shutdown()
 	{
+		unloadData();
 		IMG_Quit();
 		SDL_DestroyRenderer(m_Renderer);
 		SDL_DestroyWindow(m_Window);
@@ -71,7 +77,6 @@ namespace ch3
 				auto it = std::find(vec.begin(), vec.end(), actor);
 				if (it != vec.end())
 				{
-					delete *it;
 					vec.erase(it);
 					return true;
 				}
@@ -99,6 +104,28 @@ namespace ch3
 		auto it = std::find(m_Sprites.begin(), m_Sprites.end(), sprite);
 
 		m_Sprites.erase(it);
+	}
+
+	void Game::loadData()
+	{
+		const int numAsteroids = 20;
+		for (int i = 0; i < 20; i++)
+		{
+			Asteroid* as = new Asteroid(this);
+			std::cout << as->getPosition().x << ", " << as->getPosition().y << "\n";
+		}
+	}
+
+	void Game::unloadData()
+	{
+		// Delete all actors, the destructor of actor automatically calls removeactor()
+		while (!m_Actors.empty())
+			delete m_Actors.back();
+
+		// Destroy all textures
+		for (auto texture : m_Textures)
+			SDL_DestroyTexture(texture.second);
+		m_Textures.clear();
 	}
 
 	SDL_Texture* Game::getTexture(const char* filename)
@@ -184,8 +211,11 @@ namespace ch3
 
 	void Game::generateOutput()
 	{
-		SDL_SetRenderDrawColor(m_Renderer, 20, 20, 20, 255);
+		SDL_SetRenderDrawColor(m_Renderer, 100, 100, 100, 255);
 		SDL_RenderClear(m_Renderer);
+
+		for (auto sprite : m_Sprites)
+			sprite->draw(m_Renderer);
 
 		// Swap Buffers
 		SDL_RenderPresent(m_Renderer);

@@ -77,6 +77,9 @@ namespace ch3
 		void addSprite(class SpriteComponent* sprite);
 		void removeSprite(class SpriteComponent* sprite);
 
+		void loadData();
+		void unloadData();
+
 		SDL_Texture* getTexture(const char* filename);
 
 	private:
