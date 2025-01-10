@@ -25,6 +25,13 @@ namespace ch3
 		{
 			Vector2 pos = m_Owner->getPosition();
 			pos += m_Owner->getForward() * m_ForwardSpeed * deltaTime;
+
+			// Screen Wrapping just for Chapter_03 project.
+			pos.x = pos.x < 0.0f ? 1919.0f : pos.x;
+			pos.x = pos.x > 1920.0f ? 0.1f : pos.x;
+			pos.y = pos.y < 0.0f ? 1079.0f : pos.y;
+			pos.y = pos.y > 1079.0f ? 0.1f : pos.y;
+
 			m_Owner->setPosition(pos);
 		}
 	}
