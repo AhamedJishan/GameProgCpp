@@ -27,10 +27,10 @@ namespace ch3
 			pos += m_Owner->getForward() * m_ForwardSpeed * deltaTime;
 
 			// Screen Wrapping just for Chapter_03 project.
-			if (pos.x < 0.0f) pos.x = 1918.0f;
-			else if (pos.x > 1920.0f) pos.x = 2.0f;
-			if (pos.y < 0.0f) pos.y = 1078.0f;
-			else if (pos.y > 1080) pos.y = 2.0f;
+			if (pos.x < -2.0f) pos.x = 1278.0f;
+			else if (pos.x > 1282.0f) pos.x = -2.0f;
+			if (pos.y < -2.0f) pos.y = 718.0f;
+			else if (pos.y > 722) pos.y = -2.0f;
 
 			m_Owner->setPosition(pos);
 		}

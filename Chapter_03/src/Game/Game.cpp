@@ -1,8 +1,10 @@
 #include "Game.h"
+#include <iostream>
 
 #include "Actor.h"
 #include "SpriteComponent.h"
 #include "Asteroid.h"
+#include "Ship.h"
 
 namespace ch3
 {
@@ -21,7 +23,7 @@ namespace ch3
 			return false;
 		}
 
-		m_Window = SDL_CreateWindow("Chapter 03 - Vectors and Basic Physics", 0, 0, 1920, 1080, SDL_WINDOW_RESIZABLE | SDL_WINDOW_MAXIMIZED);
+		m_Window = SDL_CreateWindow("Chapter 03 - Vectors and Basic Physics", 50, 50, 1280, 720, SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI);
 		if (!m_Window)
 		{
 			SDL_Log("Failed to Create a Window: %s", SDL_GetError());
@@ -106,6 +108,7 @@ namespace ch3
 
 	void Game::loadData()
 	{
+		Ship* ship = new Ship(this);
 		const int numAsteroids = 25;
 		for (int i = 0; i < 20; i++)
 			Asteroid* as = new Asteroid(this);
