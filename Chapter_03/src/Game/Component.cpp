@@ -19,4 +19,7 @@ namespace ch3
 	void Component::update(float deltaTime)
 	{
 	}
+	void Component::processInput(const uint8_t* keyState)
+	{
+	}
 }

@@ -29,6 +29,21 @@ namespace ch3
 		updateActor(deltaTime);
 	}
 
+	void Actor::processInput(const uint8_t* keyState)
+	{
+		if (m_State == State::EActive)
+		{
+			for (auto component : m_Components)
+				component->processInput(keyState);
+
+			actorInput(keyState);
+		}
+	}
+
+	void Actor::actorInput(const uint8_t* keystate)
+	{
+	}
+
 	void Actor::addComponent(Component* component)
 	{
 		int updateOrder = component->getUpdateOrder();

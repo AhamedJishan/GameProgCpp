@@ -77,6 +77,9 @@ namespace ch3
 
 		void update(float deltaTime);
 
+		void processInput(const uint8_t* keyState);
+		virtual void actorInput(const uint8_t* keystate);
+
 		void addComponent(class Component* component);
 		void removeComponent(class Component* component);
 

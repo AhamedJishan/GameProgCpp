@@ -4,8 +4,6 @@
 #include "SpriteComponent.h"
 #include "Asteroid.h"
 
-#include <iostream>
-
 namespace ch3
 {
 	Game::Game()
@@ -108,12 +106,9 @@ namespace ch3
 
 	void Game::loadData()
 	{
-		const int numAsteroids = 20;
+		const int numAsteroids = 25;
 		for (int i = 0; i < 20; i++)
-		{
 			Asteroid* as = new Asteroid(this);
-			std::cout << as->getPosition().x << ", " << as->getPosition().y << "\n";
-		}
 	}
 
 	void Game::unloadData()
@@ -176,6 +171,11 @@ namespace ch3
 		const Uint8* keyboardState = SDL_GetKeyboardState(NULL);
 		if (keyboardState[SDL_SCANCODE_ESCAPE])
 			m_IsRunnning = false;
+
+		m_UpdatingActors = true;
+		for (auto actor : m_Actors)
+			actor->processInput(keyboardState);
+		m_UpdatingActors = false;
 	}
 	
 	void Game::updateGame()

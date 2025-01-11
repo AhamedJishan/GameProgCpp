@@ -42,6 +42,7 @@ namespace ch3
 		virtual ~Component();
 
 		virtual void update(float deltaTime);
+		virtual void processInput(const uint8_t* keyState);
 
 		int getUpdateOrder() const { return m_UppdateOrder; }
 
