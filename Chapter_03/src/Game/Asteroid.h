@@ -9,5 +9,10 @@ namespace ch3
 	public:
 		Asteroid(class Game* game);
 		~Asteroid();
+
+		const class CircleComponent* getCircle() { return m_Circle; }
+
+	private:
+		class CircleComponent* m_Circle;
 	};
 }

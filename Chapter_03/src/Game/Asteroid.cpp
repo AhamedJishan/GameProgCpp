@@ -3,6 +3,7 @@
 #include "Game.h"
 #include "MoveComponent.h"
 #include "SpriteComponent.h"
+#include "CircleComponent.h"
 #include "Random.h"
 
 namespace ch3
@@ -22,9 +23,15 @@ namespace ch3
 		SpriteComponent* sc = new SpriteComponent(this);
 		sc->setTexture(game->getTexture("Assets/Asteroid.png"));
 
+		m_Circle = new CircleComponent(this);
+		m_Circle->setRadius(40);
+
+		game->addAsteroid(this);
+
 	}
 
 	Asteroid::~Asteroid()
 	{
+		getGame()->removeAsteroid(this);
 	}
 }

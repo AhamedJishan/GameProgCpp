@@ -82,6 +82,11 @@ namespace ch3
 
 		SDL_Texture* getTexture(const char* filename);
 
+		const std::vector<class Asteroid*>& getAsteroids() const { return m_Asteroids; }
+
+		void addAsteroid(class Asteroid* asteroid);
+		void removeAsteroid(class Asteroid* asteroid);
+
 	private:
 		void processInput();
 		void updateGame();
@@ -101,5 +106,8 @@ namespace ch3
 
 		bool m_IsRunnning;
 		Uint32 m_TicksCount;
+
+		// Just for this project
+		std::vector<class Asteroid*> m_Asteroids;
 	};
 }

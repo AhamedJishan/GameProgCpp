@@ -109,9 +109,9 @@ namespace ch3
 	void Game::loadData()
 	{
 		Ship* ship = new Ship(this);
-		const int numAsteroids = 25;
-		for (int i = 0; i < 20; i++)
-			Asteroid* as = new Asteroid(this);
+		const int numAsteroids = 17;
+		for (int i = 0; i < numAsteroids; i++)
+			new Asteroid(this);
 	}
 
 	void Game::unloadData()
@@ -154,6 +154,18 @@ namespace ch3
 		}
 
 		return texture;
+	}
+
+	void Game::addAsteroid(Asteroid* asteroid)
+	{
+		m_Asteroids.emplace_back(asteroid);
+	}
+
+	void Game::removeAsteroid(Asteroid* asteroid)
+	{
+		auto it = std::find(m_Asteroids.begin(), m_Asteroids.end(), asteroid);
+		if (it != m_Asteroids.end())
+			m_Asteroids.erase(it);
 	}
 	
 	void Game::processInput()
@@ -200,7 +212,7 @@ namespace ch3
 		m_PendingActors.clear();
 
 		// Delete dead actors
-		for (auto it = m_Actors.begin(); it != m_Actors.end(); )
+		/*for (auto it = m_Actors.begin(); it != m_Actors.end(); )
 		{
 			if ((*it)->getState() == Actor::EDead)
 			{
@@ -209,6 +221,21 @@ namespace ch3
 			}
 			else
 				it++;
+		}*/
+		// Add any dead actors to a temp vector
+		std::vector<Actor*> deadActors;
+		for (auto actor : m_Actors)
+		{
+			if (actor->getState() == Actor::EDead)
+			{
+				deadActors.emplace_back(actor);
+			}
+		}
+
+		// Delete dead actors (which removes them from mActors)
+		for (auto actor : deadActors)
+		{
+			delete actor;
 		}
 	}
 

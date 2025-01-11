@@ -19,8 +19,8 @@ namespace ch3
 	{
 		m_Game->removeActor(this);
 
-		for (auto component : m_Components)
-			delete component;
+		while (!m_Components.empty())
+			delete m_Components.back();
 	}
 	
 	void Actor::update(float deltaTime)
