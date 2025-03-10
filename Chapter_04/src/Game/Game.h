@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SDL/SDL.h>
+#include <vector>
 
 namespace jLab
 {
@@ -13,7 +14,9 @@ namespace jLab
 		void RunLoop();
 		void Shutdown();
 
-		// Actor related stuff
+		void AddActor(class Actor* actor);
+		void RemoveActor(class Actor* actor);
+
 		// Sprites related stuff
 		// Texture related stuff
 
@@ -30,5 +33,9 @@ namespace jLab
 		SDL_Renderer*	m_Renderer;
 		SDL_Window*		m_Window;
 		bool			m_IsRunning;
+
+		bool m_UpdatingActors;
+		std::vector<class Actor*> m_Actors;
+		std::vector<class Actor*> m_PendingActors;
 	};
 }

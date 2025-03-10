@@ -1,14 +1,15 @@
 #include "Game.h"
 
 #include <SDL/SDL_image.h>
+#include <algorithm>
 
 namespace jLab
 {
 	Game::Game()
 		:m_Renderer(nullptr),
-		m_TicksCount(0),
 		m_Window(nullptr),
-		m_IsRunning(false)
+		m_IsRunning(false),
+		m_UpdatingActors(false)
 	{
 	}
 	
@@ -60,9 +61,48 @@ namespace jLab
 		SDL_DestroyWindow(m_Window);
 		SDL_Quit();
 	}
+
+	void Game::AddActor(Actor* actor)
+	{
+		if (m_UpdatingActors)
+			m_PendingActors.emplace_back(actor);
+		else
+			m_Actors.emplace_back(actor);
+	}
+
+	void Game::RemoveActor(Actor* actor)
+	{
+		auto iter = std::find(m_PendingActors.begin(), m_PendingActors.end(), actor);
+		if (iter != m_PendingActors.end())
+		{
+			std::iter_swap(iter, m_PendingActors.end() - 1);
+			m_PendingActors.pop_back();
+		}
+
+		iter = std::find(m_Actors.begin(), m_Actors.end(), actor);
+		if (iter != m_Actors.end())
+		{
+			std::iter_swap(iter, m_Actors.end() - 1);
+			m_Actors.pop_back();
+		}
+	}
 	
 	void Game::ProcessInput()
 	{
+		SDL_Event event;
+		while (SDL_PollEvent(&event))
+		{
+			switch (event.type)
+			{
+			case SDL_QUIT:
+				m_IsRunning = false;
+				break;
+			}
+		}
+
+		const Uint8* keyState = SDL_GetKeyboardState(NULL);
+		if (keyState[SDL_SCANCODE_ESCAPE])
+			m_IsRunning = false;
 	}
 	
 	void Game::UpdateGame()
@@ -71,6 +111,11 @@ namespace jLab
 	
 	void Game::GenerateOutput()
 	{
+		SDL_SetRenderDrawColor(m_Renderer, 20, 20, 20, 255);
+		SDL_RenderClear(m_Renderer);
+
+
+		SDL_RenderPresent(m_Renderer);
 	}
 	
 	void Game::LoadData()
