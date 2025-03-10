@@ -2,6 +2,7 @@
 
 #include <SDL/SDL_image.h>
 #include <algorithm>
+#include "Actor.h"
 
 namespace jLab
 {
@@ -103,10 +104,35 @@ namespace jLab
 		const Uint8* keyState = SDL_GetKeyboardState(NULL);
 		if (keyState[SDL_SCANCODE_ESCAPE])
 			m_IsRunning = false;
+
+		// Process Input for all the actors
+		m_UpdatingActors = true;
+		for (Actor* actor : m_Actors)
+			actor->ProcessInput(keyState);
+		m_UpdatingActors = false;
 	}
 	
 	void Game::UpdateGame()
 	{
+		// DeltaTime Calculations
+		Uint32 currentTicks = SDL_GetTicks();
+		float deltaTime = (currentTicks - m_TicksCount) / 1000.0f;
+		if (deltaTime > 0.05f)
+			deltaTime = 0.05f;
+		m_TicksCount = currentTicks;
+
+		// Update Actors
+		m_UpdatingActors = true;
+		for (Actor* actor : m_Actors)
+			actor->Update(deltaTime);
+		m_UpdatingActors = false;
+		// Move pending actors to main actors list
+		for (Actor* actor : m_PendingActors)
+			m_Actors.emplace_back(actor);
+		m_PendingActors.clear();
+		// Erase dead actors
+		m_Actors.erase( std::remove_if(m_Actors.begin(), m_Actors.end(), [](Actor* actor) { return actor->GetState() == Actor::EDead;}),
+			m_Actors.end() );
 	}
 	
 	void Game::GenerateOutput()

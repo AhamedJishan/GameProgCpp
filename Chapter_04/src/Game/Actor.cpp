@@ -30,7 +30,8 @@ namespace jLab
 	
 	void Actor::UpdateComponent(float deltaTime)
 	{
-		// Update each component
+		for (Component* component : m_Components)
+			component->Update(deltaTime);
 	}
 	
 	void Actor::UpdateActor(float deltaTime)
@@ -39,7 +40,8 @@ namespace jLab
 	
 	void Actor::ProcessInput(const uint8_t* keyboardState)
 	{
-		// pass the keyboard state to each component
+		for (Component* component : m_Components)
+			component->ProcessInput(keyboardState);
 
 		ActorInput(keyboardState);
 	}
