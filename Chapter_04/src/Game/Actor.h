@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <vector>
 #include "util/Math.h"
 
 namespace jLab
@@ -20,11 +21,13 @@ namespace jLab
 
 		void Update(float deltaTime);
 		void UpdateComponent(float deltaTime);
-		// To be implemented by the child Actor
 		virtual void UpdateActor(float deltaTime);
 
 		void ProcessInput(const uint8_t* keyboardState);
 		virtual void ActorInput(const uint8_t* keyboardState);
+
+		void AddComponent(class Component* component);
+		void RemoveComponent(class Component* component);
 
 
 		void SetPosition (Vector2 position)	{ m_Position = position; }
@@ -42,12 +45,14 @@ namespace jLab
 
 		Game* GetGame() { return m_Game; }
 
-	private:
+	protected:
 		Vector2 m_Position;
 		float m_Rotation;
 		float m_Scale;
 
 		State m_State;
 		class Game* m_Game;
+
+		std::vector<class Component*> m_Components;
 	};
 }

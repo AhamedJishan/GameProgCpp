@@ -1,6 +1,7 @@
 #include "Actor.h"
 
 #include "Game.h"
+#include "Component.h"
 
 namespace jLab
 {
@@ -45,5 +46,24 @@ namespace jLab
 	
 	void Actor::ActorInput(const uint8_t* keyboardState)
 	{
+	}
+	
+	void Actor::AddComponent(Component* component)
+	{
+		int updateOrder = component->GetUpdateOrder();
+		auto iter = m_Components.begin();
+		for ( ; iter != m_Components.end(); ++iter)
+		{
+			if (updateOrder < (*iter)->GetUpdateOrder())
+				break;
+		}
+		m_Components.insert(iter, component);
+	}
+	
+	void Actor::RemoveComponent(Component* component)
+	{
+		auto iter = std::find(m_Components.begin(), m_Components.end(), component);
+		if (iter != m_Components.end())
+			m_Components.erase(iter);
 	}
 }
