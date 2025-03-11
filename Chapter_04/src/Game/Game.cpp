@@ -3,6 +3,7 @@
 #include <SDL/SDL_image.h>
 #include <algorithm>
 #include "Actor.h"
+#include "SpriteComponent.h"
 
 namespace jLab
 {
@@ -87,8 +88,29 @@ namespace jLab
 			m_Actors.pop_back();
 		}
 	}
+
+	void Game::AddSprite(SpriteComponent* sprite)
+	{
+		int updateOrder = sprite->GetUpdateOrder();
+		auto iter = m_Sprites.begin();
+		for (; iter != m_Sprites.end(); iter++)
+		{
+			if (updateOrder < (*iter)->GetUpdateOrder())
+				break;
+		}
+		m_Sprites.insert(iter, sprite);
+	}
+
+	void Game::RemoveSprite(SpriteComponent* sprite)
+	{
+		auto iter = std::find(m_Sprites.begin(), m_Sprites.end(), sprite);
+		if (iter != m_Sprites.end())
+			m_Sprites.erase(iter);
+		else
+			SDL_Log("Tried to remove a sprite that is not in list");
+	}
 	
-	SDL_Texture* Game::GetTexture(std::string& filename)
+	SDL_Texture* Game::GetTexture(const std::string& filename)
 	{
 		SDL_Texture* tex = nullptr;
 
@@ -169,6 +191,8 @@ namespace jLab
 		SDL_SetRenderDrawColor(m_Renderer, 20, 20, 20, 255);
 		SDL_RenderClear(m_Renderer);
 
+		for (SpriteComponent* sprite : m_Sprites)
+			sprite->Draw(m_Renderer);
 
 		SDL_RenderPresent(m_Renderer);
 	}

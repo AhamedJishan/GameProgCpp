@@ -8,7 +8,7 @@ namespace jLab
 	Actor::Actor(Game* game)
 		:m_Position(Vector2::Zero),
 		m_Rotation(0),
-		m_Scale(0),
+		m_Scale(1),
 		m_Game(game)
 	{
 		m_Game->AddActor(this);
