@@ -2,6 +2,8 @@
 
 #include <SDL/SDL.h>
 #include <vector>
+#include <unordered_map>
+#include <string>
 
 namespace jLab
 {
@@ -18,7 +20,8 @@ namespace jLab
 		void RemoveActor(class Actor* actor);
 
 		// Sprites related stuff
-		// Texture related stuff
+		
+		SDL_Texture* GetTexture(std::string& filename);
 
 	private:
 		void ProcessInput();
@@ -37,5 +40,7 @@ namespace jLab
 		bool m_UpdatingActors;
 		std::vector<class Actor*> m_Actors;
 		std::vector<class Actor*> m_PendingActors;
+
+		std::unordered_map<std::string, SDL_Texture*> m_Textures;
 	};
 }

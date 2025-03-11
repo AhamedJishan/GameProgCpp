@@ -88,6 +88,35 @@ namespace jLab
 		}
 	}
 	
+	SDL_Texture* Game::GetTexture(std::string& filename)
+	{
+		SDL_Texture* tex = nullptr;
+
+		auto iter = m_Textures.find(filename);
+		if (iter != m_Textures.end())
+			tex = iter->second;
+		else
+		{
+			SDL_Surface* surf = IMG_Load(filename.c_str());
+			if (!surf)
+			{
+				SDL_Log("Failed to load texture file from '%s'", filename);
+				return tex;
+			}
+			tex = SDL_CreateTextureFromSurface(m_Renderer, surf);
+			SDL_FreeSurface(surf);
+			if (!tex)
+			{
+				SDL_Log("Failed to create texture file for '%s'", filename);
+				return tex;
+			}
+
+			m_Textures.emplace(filename.c_str(), tex);
+		}
+
+		return tex;
+	}
+
 	void Game::ProcessInput()
 	{
 		SDL_Event event;
