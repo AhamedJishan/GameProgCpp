@@ -159,6 +159,7 @@
     <ClCompile Include="src\Game\Actor.cpp" />
     <ClCompile Include="src\Game\Component.cpp" />
     <ClCompile Include="src\Game\Game.cpp" />
+    <ClCompile Include="src\Game\MoveComponent.cpp" />
     <ClCompile Include="src\Game\SpriteComponent.cpp" />
     <ClCompile Include="src\util\Math.cpp" />
   </ItemGroup>
@@ -166,6 +167,7 @@
     <ClInclude Include="src\Game\Actor.h" />
     <ClInclude Include="src\Game\Component.h" />
     <ClInclude Include="src\Game\Game.h" />
+    <ClInclude Include="src\Game\MoveComponent.h" />
     <ClInclude Include="src\Game\SpriteComponent.h" />
     <ClInclude Include="src\util\Math.h" />
   </ItemGroup>
