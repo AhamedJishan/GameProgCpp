@@ -5,6 +5,8 @@
 #include "Actor.h"
 #include "SpriteComponent.h"
 
+#include "MoveComponent.h"
+
 namespace jLab
 {
 	Game::Game()
@@ -199,6 +201,14 @@ namespace jLab
 	
 	void Game::LoadData()
 	{
+		Actor* actor = new Actor(this);
+		actor->SetPosition(Vector2(500, 350));
+		SpriteComponent* sc = new SpriteComponent(actor);
+		sc->SetTexture(GetTexture("Assets/Airplane.png"));
+
+		MoveComponent* mc = new MoveComponent(actor);
+		mc->SetAngularSpeed(10);
+		mc->SetForwardSpeed(1000);
 	}
 	
 	void Game::UnloadData()
