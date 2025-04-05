@@ -9,7 +9,7 @@ namespace jLab
 	public:
 		MoveComponent(class Actor* owner, int updateOrder = 100);
 
-		void Update(float deltaTime);
+		void Update(float deltaTime) override;
 
 		float GetAngularSpeed() { return m_AngularSpeed; }
 		float GetForwardSpeed() { return m_ForwardSpeed; }

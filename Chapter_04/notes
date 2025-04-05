@@ -1,0 +1,240 @@
+//------------------------------------------------------------------------------------------------------
+class AIState
+{
+	public:
+		AIState(AIComponent owner) : m_Owner(owner){}
+		virtual void OnUpdate(float deltaTime);
+		virtual void OnEnter() = 0;
+		virtual void OnExit() = 0;
+		virtual const char* GetName() const = 0;
+	protected:
+		class AIComponent m_Owner;
+}
+//------------------------------------------------------------------------------------------------------
+class AIComponent : public Component
+{
+	public:
+		AIComponent(class Actor* owner);
+		void Update(float deltaTime) override
+		{
+			if(m_CurrentState)
+				m_CurrentState->Update(deltaTime);
+		}
+		void ChangeState(const std::string& name)
+		{
+			if(m_CurrentState)
+				m_CurrentState->OnExit();
+			
+			auto iter = m_StateMap.find(name);
+			if(iter != m_StateMap.end())
+			{
+				m_CurrentState = iter->second;
+				m_CurrentState->OnEnter();
+			}
+			else
+			{
+				SDL_Log("Error");
+				m_CurrentState = nullptr;
+			}
+		}
+		void RegisterState(class AIState* state)
+		{
+			m_StateMap.emplace(state->GetName(), state);
+		}
+		
+	private:
+		std::unordered_map<std::string, class AIState*> m_StateMap;
+		class AIState* m_CurrentState;
+}
+//------------------------------------------------------------------------------------------------------
+// Undirected, unweighted adjacency list graph
+struct GraphNode
+{
+	std::vector<class GraphNode*> m_Adjacent;
+}
+struct Graph
+{
+    std::vector<class GrphNode*> m_Nodes;
+}
+//------------------------------------------------------------------------------------------------------
+// Wighted graph nodes
+struct WeightedEdge
+{
+    class WeightedGraphNode* m_From;
+    class WeightedGraphNode* m_To;
+    float m_Weight;
+}
+struct WeightedGraphNode
+{
+    std::vector<class WeightedEdge*> m_Nodes;
+}
+//------------------------------------------------------------------------------------------------------
+// BREADTH FIRST Search
+using NodeToParent = std::unordered_map<const GraphNode*, const GraphNode*>;
+
+NodeToParent map;
+bool found = BFS(graph, graph.[0], graph.[9], map);
+
+bool BFS(const Graph& graph, const GraphNode* start, const GraphNode* goal, NodeToParent& outMap)
+{
+    bool pathFound = false;
+    std::queue<class GraphNode*> q;
+    q.emplace(start);
+
+    while(!q.empty())
+    {
+        const class GraphNode* current = q.pop();
+        if(current == goal)
+        {
+            pathFound = true;
+            break;
+        }
+
+        for(const GraphNode* node : current->m_Adjacent)
+        {
+            GraphNode* parent = outMap[node];
+            if(parent == nullptr && node != start)
+            {
+                outMap[node] = current;
+                q.emplace(node);
+            }
+        }
+    }
+    return pathFound;
+}
+//------------------------------------------------------------------------------------------------------
+// GREEDY BEST FIRST Search
+struct GBFSScratch
+{
+	const WeightedEdge* m_ParentEdge = nullptr;
+	float m_Heuristic = 0.0f;
+	bool m_InOpenSet = false;
+	bool m_InClosedSet = false;
+}
+
+using GBFSMap = std::unordered_map<const WeightedGraphNode*, GBFSScratch>;
+
+bool GBFS (const WeightedGraph& graph, const WeightedGraphNode* start, const WeightedGraphNode* goal, GBFSMap& outMap)
+{
+	std::vector<const class WeightedGraphNode*> openSet;
+	const class WeightedGraphNode* current = start;
+	outMap[current].m_InClosedSet = true;
+
+	do
+	{
+		for(const WeightedEdge* edge : current->m_Edges)
+		{
+			class GBFSScratch& data = outMap[edge->m_To];
+			if(!data.m_InClosedSet)
+			{
+				data.m_ParentEdge = edge;
+				if(!data.m_InOpenSet)
+				{
+					data.m_Heuristic = ComputeHeuristic(edge->m_To, goal);
+					data.m_InOpenSet = true;
+					openSet.emplace_back(edge->m_To);
+				}
+			}
+		}
+
+		if (openSet.empty()) break;
+
+		auto iter = std::min_element(openSet.begin(), openSet.end(),
+						[&outMap](const WeightedGraphNode* a, const WeightedGraphNode* b) 
+							{
+								return outMap[a].m_Heuristic < outMap[b].m_Heuristic;
+							});
+
+		current = *iter;
+		openSet.erase(iter);
+		outMap[current].m_InOpenSet = false;
+		outMap[current].m_InClosedSet = true;
+
+	} while(current != goal)
+
+	return (current == goal) ? true : false;
+}
+//------------------------------------------------------------------------------------------------------
+// A* Search 
+struct AStarScratch
+{
+	const class WeightedEdge* m_ParentEdge = nullptr;
+	float m_Heuristic = 0;
+	float m_PathCost = 0;
+	bool m_InOpenSet = false;
+	bool m_InClosedSet = false;
+}
+
+using AStarMap = std::unordered_map<WeightedGraphNode*, AStarScratch>;
+
+bool AStar(const Weightedgraph* graph, const WeightedGraphNode* start, const WeightedGraphNode* goal, AStarMap& outMap)
+{
+	std::vector<class WeightedGraphNode*> openSet;
+	WeightedGraphNode* current = start;
+	outMap[current].m_InClosedSet = true;
+
+	do
+	{
+		for(const WeightedEdge* edge : current->m_Edges)
+		{
+			const class WeightedGraphNode* neighbor = edge->m_To;
+			class AStarScratch& data = outMap[neighbor];
+			if(!neighbor->m_InClosedSet)
+			{
+				if(!neighbor->m_InOpenSet)
+				{
+					neighbor->m_ParentEdge = edge;
+					neighbor->m_Heuristic = ComputeHeuristic(start, neighbor);
+					neighbor->m_PathCost = outMap[current].m_PathCost + edge->m_Weight;
+					neighbor->m_InOpenSet = true;
+					openSet.emplace(neighbor);
+				}
+				else
+				{
+					float newPathCost = outMap[current].m_PathCost + edge->m_Weight;
+					if(newPathCost < data.m_PathCost)
+					{
+						data.m_ParentEdge = edge;
+						data.m_PathCost = newPathCost;
+					}
+				}
+			}
+		}
+
+		if (openSet.empty()) break;
+
+		auto iter = std::min_element(openSet.begin(), openSet.end(),
+									[&outMap](const WieghtedGraphNode* a, const WeightedGraphNode* b)
+									{
+										float f_a = outMap[a].m_Heuristic + outMap[a].m_PathCost;
+										float f_b = outMap[b].m_Heuristic + outMap[b].m_PathCost;
+										return f_a < f_b;
+									});
+		current = *iter;
+		openSet.erase(iter);
+		outMap[current].m_InOpenSet = false;
+		outMap[current].m_InClosedSet = true;
+	} while(current != goal)
+
+	return current == goal;
+}
+//------------------------------------------------------------------------------------------------------
+// NavComponenet
+void NavComponent::TurnTo(const Vector2& pos)
+{
+	class Vector2 dir = pos - m_Owner->GetPosition();
+	float angle = Math::Atan2(-dir.y, dir.x);
+	m_Owner->SetRotation(angle);
+}
+
+void NavComponent::Update(float deltaTime)
+{
+	class Vector2 diff = m_NextPoint - m_Owner->GetPosition();
+	if(diff.Length() <= 2.0f)
+	{
+		m_NextPoint = GetNextPoint();
+		TurnTo(m_NextPoint);
+	}
+	MoveComponent::Update(floatDeltaTime);
+}
+//------------------------------------------------------------------------------------------------------
