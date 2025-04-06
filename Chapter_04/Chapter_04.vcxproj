@@ -157,6 +157,9 @@
   <ItemGroup>
     <ClCompile Include="src\EntryPoint.cpp" />
     <ClCompile Include="src\Game\Actor.cpp" />
+    <ClCompile Include="src\Game\AIComponent.cpp" />
+    <ClCompile Include="src\Game\AIState.cpp" />
+    <ClCompile Include="src\Game\CircleComponent.cpp" />
     <ClCompile Include="src\Game\Component.cpp" />
     <ClCompile Include="src\Game\Game.cpp" />
     <ClCompile Include="src\Game\MoveComponent.cpp" />
@@ -165,6 +168,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Game\Actor.h" />
+    <ClInclude Include="src\Game\AIComponent.h" />
+    <ClInclude Include="src\Game\AIState.h" />
+    <ClInclude Include="src\Game\CircleComponent.h" />
     <ClInclude Include="src\Game\Component.h" />
     <ClInclude Include="src\Game\Game.h" />
     <ClInclude Include="src\Game\MoveComponent.h" />
