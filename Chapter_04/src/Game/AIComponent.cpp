@@ -17,7 +17,7 @@ namespace jLab
 			m_CurrentState->Update(deltaTime);
 	}
 	
-	void AIComponent::ChangeState(std::string& stateName)
+	void AIComponent::ChangeState(const std::string& stateName)
 	{
 		if (m_CurrentState)
 			m_CurrentState->OnExit();
@@ -37,6 +37,6 @@ namespace jLab
 	
 	void AIComponent::RegisterState(AIState* state)
 	{
-		m_StateMap.emplace(state);
+		m_StateMap.emplace(state->GetName(), state);
 	}
 }

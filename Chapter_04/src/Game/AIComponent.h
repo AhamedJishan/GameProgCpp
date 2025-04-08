@@ -13,7 +13,7 @@ namespace jLab
 		AIComponent(class Actor* owner);
 
 		void Update(float deltaTime);
-		void ChangeState(std::string& stateName);
+		void ChangeState(const std::string& stateName);
 
 		void RegisterState(class AIState* state);
 	private:

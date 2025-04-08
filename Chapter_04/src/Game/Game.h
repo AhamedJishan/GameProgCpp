@@ -26,6 +26,8 @@ namespace jLab
 		
 		SDL_Texture* GetTexture(const std::string& filename);
 
+		class Grid* GetGrid() { return m_Grid; }
+
 	private:
 		void ProcessInput();
 		void UpdateGame();
@@ -46,5 +48,7 @@ namespace jLab
 
 		std::unordered_map<std::string, SDL_Texture*> m_Textures;
 		std::vector<class SpriteComponent*> m_Sprites;
+
+		class Grid* m_Grid;
 	};
 }

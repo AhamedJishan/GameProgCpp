@@ -5,7 +5,7 @@
 #include "Actor.h"
 #include "SpriteComponent.h"
 
-#include "MoveComponent.h"
+#include "Grid.h"
 
 namespace jLab
 {
@@ -13,7 +13,9 @@ namespace jLab
 		:m_Renderer(nullptr),
 		m_Window(nullptr),
 		m_IsRunning(false),
-		m_UpdatingActors(false)
+		m_UpdatingActors(false),
+		m_Grid(nullptr),
+		m_TicksCount(0)
 	{
 	}
 	
@@ -158,6 +160,13 @@ namespace jLab
 		if (keyState[SDL_SCANCODE_ESCAPE])
 			m_IsRunning = false;
 
+		int x, y;
+		Uint8 mouseState = SDL_GetMouseState(&x, &y);
+		if (SDL_BUTTON(mouseState) & SDL_BUTTON_LEFT)
+		{
+			m_Grid->ProcessClicks(x, y);
+		}
+
 		// Process Input for all the actors
 		m_UpdatingActors = true;
 		for (Actor* actor : m_Actors)
@@ -190,7 +199,7 @@ namespace jLab
 	
 	void Game::GenerateOutput()
 	{
-		SDL_SetRenderDrawColor(m_Renderer, 20, 20, 20, 255);
+		SDL_SetRenderDrawColor(m_Renderer, 40, 40, 40, 255);
 		SDL_RenderClear(m_Renderer);
 
 		for (SpriteComponent* sprite : m_Sprites)
@@ -201,14 +210,7 @@ namespace jLab
 	
 	void Game::LoadData()
 	{
-		Actor* actor = new Actor(this);
-		actor->SetPosition(Vector2(500, 350));
-		SpriteComponent* sc = new SpriteComponent(actor);
-		sc->SetTexture(GetTexture("Assets/Airplane.png"));
-
-		MoveComponent* mc = new MoveComponent(actor);
-		mc->SetAngularSpeed(10);
-		mc->SetForwardSpeed(1000);
+		m_Grid = new Grid(this);
 	}
 	
 	void Game::UnloadData()
