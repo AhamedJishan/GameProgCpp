@@ -4,6 +4,7 @@
 #include <vector>
 #include <unordered_map>
 #include <string>
+#include "util/Math.h"
 
 namespace jLab
 {
@@ -27,6 +28,8 @@ namespace jLab
 		SDL_Texture* GetTexture(const std::string& filename);
 
 		class Grid* GetGrid() { return m_Grid; }
+		std::vector<class Enemy*>& GetEnemies() { return m_Enemies; }
+		class Enemy* GetNearestEnemy(const Vector2& pos);
 
 	private:
 		void ProcessInput();
@@ -50,5 +53,6 @@ namespace jLab
 		std::vector<class SpriteComponent*> m_Sprites;
 
 		class Grid* m_Grid;
+		std::vector<class Enemy*> m_Enemies;
 	};
 }

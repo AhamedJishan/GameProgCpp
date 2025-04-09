@@ -1,6 +1,8 @@
 #include "Grid.h"
 
 #include "Tile.h"
+#include "Enemy.h"
+#include "Tower.h"
 
 namespace jLab
 {
@@ -52,8 +54,8 @@ namespace jLab
 		m_NextEnemyTime -= deltaTime;
 		if (m_NextEnemyTime <= 0)
 		{
-			// spawn ENEMY
-			m_NextEnemyTime = m_EnemyTime;
+			m_NextEnemyTime += m_EnemyTime;
+			new Enemy(GetGame());
 		}
 	}
 	
@@ -173,7 +175,8 @@ namespace jLab
 			m_SelectedTile->m_Blocked = true;
 			if (FindPath(GetEndTile(), GetStartTile()))
 			{
-				// Create new tower
+				Tower* tower = new Tower(GetGame());
+				tower->SetPosition(m_SelectedTile->GetPosition());
 			}
 			else
 			{

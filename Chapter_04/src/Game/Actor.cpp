@@ -17,6 +17,9 @@ namespace jLab
 	Actor::~Actor()
 	{
 		m_Game->RemoveActor(this);
+
+		while (!m_Components.empty())
+			delete m_Components.back();
 	}
 	
 	void Actor::Update(float deltaTime)

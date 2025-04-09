@@ -4,6 +4,7 @@
 #include <algorithm>
 #include "Actor.h"
 #include "SpriteComponent.h"
+#include "Enemy.h"
 
 #include "Grid.h"
 #include <iostream>
@@ -161,10 +162,7 @@ namespace jLab
 		if (keyState[SDL_SCANCODE_ESCAPE])
 			m_IsRunning = false;
 		if (keyState[SDL_SCANCODE_B])
-		{
 			m_Grid->BuildTower();
-			std::cout << "go\n";
-		}
 
 		int x, y;
 		Uint8 mouseState = SDL_GetMouseState(&x, &y);
@@ -198,9 +196,24 @@ namespace jLab
 		for (Actor* actor : m_PendingActors)
 			m_Actors.emplace_back(actor);
 		m_PendingActors.clear();
+
 		// Erase dead actors
-		m_Actors.erase( std::remove_if(m_Actors.begin(), m_Actors.end(), [](Actor* actor) { return actor->GetState() == Actor::EDead;}),
-			m_Actors.end() );
+
+		// Add any dead actors to a temp vector
+		std::vector<Actor*> deadActors;
+		for (auto actor : m_Actors)
+		{
+			if (actor->GetState() == Actor::EDead)
+			{
+				deadActors.emplace_back(actor);
+			}
+		}
+
+		// Delete dead actors (which removes them from mActors)
+		for (auto actor : deadActors)
+		{
+			delete actor;
+		}
 	}
 	
 	void Game::GenerateOutput()
@@ -213,6 +226,26 @@ namespace jLab
 
 		SDL_RenderPresent(m_Renderer);
 	}
+
+	Enemy* Game::GetNearestEnemy(const Vector2& pos)
+	{
+		Enemy* nearestEnemy = nullptr;
+		if (m_Enemies.size() > 0)
+		{
+			nearestEnemy = m_Enemies[0];
+			float nearestDistSq = (pos - nearestEnemy->GetPosition()).LengthSq();
+			for (int i = 1; i < m_Enemies.size(); i++)
+			{
+				float newNearestDistSq = (pos - m_Enemies[i]->GetPosition()).LengthSq();
+				if (newNearestDistSq < nearestDistSq)
+				{
+					nearestDistSq = newNearestDistSq;
+					nearestEnemy = m_Enemies[i];
+				}
+			}
+		}
+		return nearestEnemy;
+	}
 	
 	void Game::LoadData()
 	{
@@ -221,5 +254,14 @@ namespace jLab
 	
 	void Game::UnloadData()
 	{
+		while (!m_Actors.empty())
+			delete m_Actors.back();
+		m_Actors.clear();
+
+		for (auto i : m_Textures)
+		{
+			SDL_DestroyTexture(i.second);
+		}
+		m_Textures.clear();
 	}
 }

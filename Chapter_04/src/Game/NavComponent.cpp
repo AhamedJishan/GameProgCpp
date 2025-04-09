@@ -12,12 +12,17 @@ namespace jLab
 	
 	void NavComponent::Update(float deltaTime)
 	{
-		Vector2 diff = m_Owner->GetPosition() - m_NextTile->GetPosition();
-		if (diff.Length() <= 4.0f)
+		if (m_NextTile)
 		{
-			m_NextTile = m_NextTile->GetParent();
-			TurnTo(m_NextTile->GetPosition());
+			Vector2 diff = m_Owner->GetPosition() - m_NextTile->GetPosition();
+			if (diff.Length() <= 4.0f)
+			{
+				m_NextTile = m_NextTile->GetParent();
+				TurnTo(m_NextTile->GetPosition());
+			}
 		}
+
+		MoveComponent::Update(deltaTime);
 	}
 	
 	void NavComponent::StartPath(const Tile* start)
