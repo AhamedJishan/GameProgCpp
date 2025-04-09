@@ -23,7 +23,7 @@ namespace jLab
 		TileState GetTileState() { return m_TileState; }
 
 		void ToggleSelected();
-		const Tile* GetParent() { return m_Parent; }
+		const Tile* GetParent() const { return m_Parent; }
 
 	private:
 		std::vector<Tile*> m_Adjacents;

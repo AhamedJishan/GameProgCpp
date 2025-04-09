@@ -31,7 +31,7 @@ namespace jLab
 
 
 		void SetPosition (Vector2 position)	{ m_Position = position; }
-		Vector2& GetPosition () { return m_Position; }
+		const Vector2& GetPosition () const { return m_Position; }
 		Vector2 GetForward () { return Vector2(Math::Cos(m_Rotation), -Math::Sin(m_Rotation)); }
 
 		void SetRotation (float rotation) { m_Rotation = rotation; }
