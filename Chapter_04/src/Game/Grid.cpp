@@ -60,11 +60,11 @@ namespace jLab
 	void Grid::ProcessClicks(int x, int y)
 	{
 		y -= static_cast<int>(m_StartY - m_TileSize/2);
-		if (y > 0)
+		if (y >= 0)
 		{
 			y /= static_cast<int>(m_TileSize);
 			x /= static_cast<int>(m_TileSize);
-			if (x > 0 && x < m_NumCols && y > 0 && y < m_NumRows)
+			if (x >= 0 && x < m_NumCols && y >= 0 && y < m_NumRows)
 				SelectTile(x, y);
 		}
 	}
@@ -103,6 +103,9 @@ namespace jLab
 		{
 			for (Tile* neighbor : current->m_Adjacents)
 			{
+				if (neighbor->m_Blocked)
+					continue;
+
 				if (!neighbor->m_InClosedSet)
 				{
 					if (!neighbor->m_InOpenSet)

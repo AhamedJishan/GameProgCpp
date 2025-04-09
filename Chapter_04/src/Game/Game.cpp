@@ -6,6 +6,7 @@
 #include "SpriteComponent.h"
 
 #include "Grid.h"
+#include <iostream>
 
 namespace jLab
 {
@@ -159,6 +160,11 @@ namespace jLab
 		const Uint8* keyState = SDL_GetKeyboardState(NULL);
 		if (keyState[SDL_SCANCODE_ESCAPE])
 			m_IsRunning = false;
+		if (keyState[SDL_SCANCODE_B])
+		{
+			m_Grid->BuildTower();
+			std::cout << "go\n";
+		}
 
 		int x, y;
 		Uint8 mouseState = SDL_GetMouseState(&x, &y);
