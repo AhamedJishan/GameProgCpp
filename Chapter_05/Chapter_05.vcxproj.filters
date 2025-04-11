@@ -9,11 +9,13 @@
     <ClInclude Include="src\Engine\Game.h">
       <Filter>Engine</Filter>
     </ClInclude>
+    <ClInclude Include="src\Engine\VertexArray.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Game.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="src\EntryPoint.cpp" />
+    <ClCompile Include="src\Engine\VertexArray.cpp" />
   </ItemGroup>
 </Project>
