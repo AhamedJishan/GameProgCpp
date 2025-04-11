@@ -29,7 +29,8 @@ workspace "Chapter_05"
             "SDL2",
             "SDL2main",
             "SDL2_image",
-            "opengl32"
+            "opengl32",
+            "glew32"
         }
 
         filter "configurations:Debug"
