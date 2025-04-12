@@ -3,6 +3,8 @@
 #include <GLEW/GL/glew.h>
 #include <SDL/SDL_image.h>
 
+#include "VertexArray.h"
+
 namespace jLab
 {
 	Game::Game()
@@ -48,6 +50,8 @@ namespace jLab
 		glGetError();
 
 		IMG_Init(IMG_INIT_PNG);
+
+		InitSpriteVerts();
 
 		return true;
 	}
@@ -103,4 +107,22 @@ namespace jLab
 
 		SDL_GL_SwapWindow(m_Window);
 	}
+	
+	void Game::InitSpriteVerts()
+	{
+		float vertices[] = {
+			-0.5f,  0.5f, 0.f, // top left
+			 0.5f,  0.5f, 0.f, // top right
+			 0.5f, -0.5f, 0.f, // bottom right
+			-0.5f, -0.5f, 0.f, // bottom left
+		};
+
+		unsigned int indices[] = {
+			0, 1, 2,
+			2, 3, 0
+		};
+
+		m_SpriteVerts = new VertexArray(vertices, 4, indices, 6);
+	}
+
 }
