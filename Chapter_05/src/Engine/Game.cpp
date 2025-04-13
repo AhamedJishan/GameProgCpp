@@ -2,8 +2,11 @@
 
 #include <GLEW/GL/glew.h>
 #include <SDL/SDL_image.h>
+#include <algorithm>
 
+#include "Actor.h"
 #include "VertexArray.h"
+#include "Shader.h"
 
 namespace jLab
 {
@@ -12,6 +15,7 @@ namespace jLab
 		m_IsRunning = true;
 		m_TicksCount = 0;
 		m_Window = nullptr;
+		m_UpdatingActors = false;
 	}
 	
 	bool Game::Init()
@@ -52,6 +56,13 @@ namespace jLab
 		IMG_Init(IMG_INIT_PNG);
 
 		InitSpriteVerts();
+		if (!InitShaders())
+		{
+			SDL_Log("Failed to Initialise Shaders");
+			return false;
+		}
+
+		LoadData();
 
 		return true;
 	}
@@ -68,9 +79,40 @@ namespace jLab
 	
 	void Game::ShutDown()
 	{
+		UnloadData();
+
+		m_SpriteShader->Unload();
+		delete m_SpriteShader;
+		delete m_SpriteVerts;
+
 		SDL_GL_DeleteContext(m_Context);
 		SDL_DestroyWindow(m_Window);
 		SDL_Quit();
+	}
+
+	void Game::AddActor(Actor* actor)
+	{
+		if (m_UpdatingActors)
+			m_PendingActors.emplace_back(actor);
+		else
+			m_Actors.emplace_back(actor);
+	}
+
+	void Game::RemoveActor(Actor* actor)
+	{
+		auto iter = std::find(m_PendingActors.begin(), m_PendingActors.end(), actor);
+		if (iter != m_PendingActors.end())
+		{
+			std::iter_swap(iter, m_PendingActors.end() - 1);
+			m_PendingActors.pop_back();
+		}
+
+		iter = std::find(m_Actors.begin(), m_Actors.end(), actor);
+		if (iter != m_Actors.end())
+		{
+			std::iter_swap(iter, m_Actors.end() - 1);
+			m_Actors.pop_back();
+		}
 	}
 	
 	void Game::ProcessInput()
@@ -96,6 +138,29 @@ namespace jLab
 	
 	void Game::UpdateGame()
 	{
+		// Delta time calculations
+		float deltaTime = (SDL_GetTicks() - m_TicksCount)/1000.0f;
+		deltaTime = deltaTime > 0.05f ? 0.05f : deltaTime;
+		m_TicksCount = SDL_GetTicks();
+
+		// Updating all the actors
+		m_UpdatingActors = true;
+		for (Actor* actor : m_Actors)
+		{
+			actor->Update(deltaTime);
+		}
+		m_UpdatingActors = false;
+
+		// Moving pending actors to main actors list
+		for (Actor* actor : m_PendingActors)
+			m_Actors.emplace_back(actor);
+		m_PendingActors.clear();
+
+		// Remove dead Actors
+		m_Actors.erase(std::remove_if(m_Actors.begin(), m_Actors.end(), [](Actor* actor)
+			{
+				return actor->GetState() == Actor::EDead;
+			}), m_Actors.end());
 	}
 	
 	void Game::GenerateOutput()
@@ -123,6 +188,24 @@ namespace jLab
 		};
 
 		m_SpriteVerts = new VertexArray(vertices, 4, indices, 6);
+	}
+
+	bool Game::InitShaders()
+	{
+		m_SpriteShader = new Shader();
+
+		if (!m_SpriteShader->Load("src/Engine/Shaders/Basic.vert", "src/Engine/Shaders/Basic.frag"))
+			return false;
+
+		m_SpriteShader->SetActive();
+	}
+
+	void Game::LoadData()
+	{
+	}
+
+	void Game::UnloadData()
+	{
 	}
 
 }

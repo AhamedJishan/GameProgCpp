@@ -10,6 +10,7 @@
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="src\Engine\VertexArray.h" />
+    <ClInclude Include="src\Engine\Shader.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Game.cpp">
@@ -17,5 +18,10 @@
     </ClCompile>
     <ClCompile Include="src\EntryPoint.cpp" />
     <ClCompile Include="src\Engine\VertexArray.cpp" />
+    <ClCompile Include="src\Engine\Shader.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\Engine\Shaders\Basic.vert" />
+    <None Include="src\Engine\Shaders\Basic.frag" />
   </ItemGroup>
 </Project>

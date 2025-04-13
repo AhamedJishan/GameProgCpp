@@ -97,12 +97,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\Engine\Game.h" />
+    <ClInclude Include="src\Engine\Shader.h" />
     <ClInclude Include="src\Engine\VertexArray.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Game.cpp" />
+    <ClCompile Include="src\Engine\Shader.cpp" />
     <ClCompile Include="src\Engine\VertexArray.cpp" />
     <ClCompile Include="src\EntryPoint.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\Engine\Shaders\Basic.frag" />
+    <None Include="src\Engine\Shaders\Basic.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
