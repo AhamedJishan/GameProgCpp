@@ -56,7 +56,8 @@ namespace jLab
 		{
 			std::stringstream sstream;
 			sstream << shaderFile.rdbuf();
-			const char* contents = sstream.str().c_str();
+			std::string stringContents = sstream.str();
+			const char* contents = stringContents.c_str();
 
 			outShader = glCreateShader(shaderType);
 			glShaderSource(outShader, 1, &contents, nullptr);

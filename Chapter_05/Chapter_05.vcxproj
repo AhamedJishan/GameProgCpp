@@ -97,6 +97,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\Engine\Actor.h" />
+    <ClInclude Include="src\Engine\Component.h" />
     <ClInclude Include="src\Engine\Game.h" />
     <ClInclude Include="src\Engine\Shader.h" />
     <ClInclude Include="src\Engine\util\Math.h" />
@@ -104,6 +105,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Actor.cpp" />
+    <ClCompile Include="src\Engine\Component.cpp" />
     <ClCompile Include="src\Engine\Game.cpp" />
     <ClCompile Include="src\Engine\Shader.cpp" />
     <ClCompile Include="src\Engine\util\Math.cpp" />
