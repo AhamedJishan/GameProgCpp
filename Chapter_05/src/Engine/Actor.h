@@ -2,6 +2,7 @@
 
 #include "util/Math.h"
 #include <cstdint>
+#include <vector>
 
 namespace jLab
 {
@@ -21,7 +22,8 @@ namespace jLab
 		void Update(float deltaTime);
 		void ProcessInput(const uint8_t* keyState);
 
-		// TODO: Add and remove components
+		void AddComponent(class Component* component);
+		void RemoveComponent(class Component* component);
 
 		Vector2 GetPosition() const { return m_Position; }
 		void SetPosition(const Vector2 position) { m_Position = position; }
@@ -51,6 +53,6 @@ namespace jLab
 
 		State m_State;
 
-		// TODO: List of components
+		std::vector<class Component*> m_Components;
 	};
 }

@@ -11,6 +11,8 @@
     </ClInclude>
     <ClInclude Include="src\Engine\VertexArray.h" />
     <ClInclude Include="src\Engine\Shader.h" />
+    <ClInclude Include="src\Engine\Actor.h" />
+    <ClInclude Include="src\Engine\util\Math.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Game.cpp">
@@ -19,6 +21,8 @@
     <ClCompile Include="src\EntryPoint.cpp" />
     <ClCompile Include="src\Engine\VertexArray.cpp" />
     <ClCompile Include="src\Engine\Shader.cpp" />
+    <ClCompile Include="src\Engine\util\Math.cpp" />
+    <ClCompile Include="src\Engine\Actor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Engine\Shaders\Basic.vert" />

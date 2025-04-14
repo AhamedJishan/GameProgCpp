@@ -1,6 +1,7 @@
 #include "Actor.h"
 
 #include "Game.h"
+#include "Component.h"
 
 namespace jLab
 {
@@ -18,7 +19,8 @@ namespace jLab
 	{
 		m_Game->RemoveActor(this);
 
-		// TODO: Delete all Actors
+		while (!m_Components.empty())
+			delete m_Components.back();
 	}
 	
 	void Actor::Update(float deltaTime)
@@ -34,24 +36,43 @@ namespace jLab
 	{
 		if (m_State == State::EActive)
 		{
-			// TODO: Component input processing
+			for (auto component : m_Components)
+				component->ProcessInput(keyState);
+
 			ActorInput(keyState);
 		}
 	}
 	
-	// VIRTUAL
 	void Actor::UpdateActor(float deltaTime)
 	{
 	}
 	
 	void Actor::UpdateComponent(float deltaTime)
 	{
-		// TODO: Update all the components
+		for (Component* component : m_Components)
+			component->Update(deltaTime);
 	}
 	
-	// VIRTUAL
 	void Actor::ActorInput(const uint8_t* keyState)
 	{
 	}
 
+	void Actor::AddComponent(Component* component)
+	{
+		int updateOrder = component->GetUpdateOrder();
+
+		auto iter = m_Components.begin();
+		for (; iter != m_Components.end(); iter++)
+			if (updateOrder < (*iter)->GetUpdateOrder())
+				break;
+
+		m_Components.insert(iter, component);
+	}
+
+	void Actor::RemoveComponent(Component* component)
+	{
+		auto iter = std::find(m_Components.begin(), m_Components.end(), component);
+		if (iter != m_Components.end())
+			m_Components.erase(iter);
+	}
 }
