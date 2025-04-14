@@ -7,6 +7,7 @@
 #include "Actor.h"
 #include "VertexArray.h"
 #include "Shader.h"
+#include "SpriteComponent.h"
 
 namespace jLab
 {
@@ -114,6 +115,24 @@ namespace jLab
 			m_Actors.pop_back();
 		}
 	}
+
+	void Game::AddSprite(SpriteComponent* sprite)
+	{
+		int drawOrder = sprite->GetDrawOrder();
+
+		auto iter = m_Sprites.begin();
+		for (; iter != m_Sprites.end(); iter++)
+			if (drawOrder < (*iter)->GetDrawOrder())
+				break;
+		m_Sprites.insert(iter, sprite);
+	}
+
+	void Game::RemoveSprite(SpriteComponent* sprite)
+	{
+		auto iter = std::find(m_Sprites.begin(), m_Sprites.end(), sprite);
+		if (iter != m_Sprites.end())
+			m_Sprites.erase(iter);
+	}
 	
 	void Game::ProcessInput()
 	{
@@ -168,7 +187,9 @@ namespace jLab
 		glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		// TODO: Draw the scene
+		m_SpriteVerts->SetActive();
+		for (SpriteComponent* sprite : m_Sprites)
+			sprite->Draw(m_SpriteShader);
 
 		SDL_GL_SwapWindow(m_Window);
 	}
@@ -202,6 +223,8 @@ namespace jLab
 
 	void Game::LoadData()
 	{
+		Actor* testActor = new Actor(this);
+		SpriteComponent* sc = new SpriteComponent(testActor);
 	}
 
 	void Game::UnloadData()

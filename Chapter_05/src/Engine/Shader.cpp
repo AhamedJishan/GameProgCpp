@@ -45,7 +45,7 @@ namespace jLab
 	
 	void Shader::SetActive()
 	{
-		glLinkProgram(m_ShaderProgram);
+		glUseProgram(m_ShaderProgram);
 	}
 	
 	bool Shader::CompileShader(const std::string& filename, GLenum shaderType, GLuint& outShader)

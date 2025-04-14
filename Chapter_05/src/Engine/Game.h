@@ -17,6 +17,9 @@ namespace jLab
 		void AddActor(class Actor* actor);
 		void RemoveActor(class Actor* actor);
 
+		void AddSprite(class SpriteComponent* sprite);
+		void RemoveSprite(class SpriteComponent* sprite);
+
 	private:
 		void ProcessInput();
 		void UpdateGame();
@@ -38,6 +41,8 @@ namespace jLab
 		bool m_UpdatingActors;
 		std::vector<class Actor*> m_Actors;
 		std::vector<class Actor*> m_PendingActors;
+
+		std::vector<class SpriteComponent*> m_Sprites;
 		
 		bool m_IsRunning;
 		int m_TicksCount;
