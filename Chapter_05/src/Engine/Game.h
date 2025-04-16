@@ -2,6 +2,8 @@
 
 #include <SDL/SDL.h>
 #include <vector>
+#include <unordered_map>
+#include <string>
 
 namespace jLab
 {
@@ -19,6 +21,8 @@ namespace jLab
 
 		void AddSprite(class SpriteComponent* sprite);
 		void RemoveSprite(class SpriteComponent* sprite);
+
+		class Texture* GetTexture(const std::string& filename);
 
 	private:
 		void ProcessInput();
@@ -42,6 +46,7 @@ namespace jLab
 		std::vector<class Actor*> m_Actors;
 		std::vector<class Actor*> m_PendingActors;
 
+		std::unordered_map<std::string, class Texture*> m_Textures;
 		std::vector<class SpriteComponent*> m_Sprites;
 		
 		bool m_IsRunning;

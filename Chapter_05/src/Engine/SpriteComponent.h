@@ -11,13 +11,13 @@ namespace jLab
 		~SpriteComponent();
 
 		void Draw(class Shader* shader);
-		// TODO: Set Texture
 
+		void SetTexture(class Texture* texture);
 		int GetDrawOrder() { return m_DrawOrder; }
 		int GetTexWidth() { return m_TexWidth; }
 		int GetTexHeight() { return m_TexHeight; }
 	private:
-		// TODO: Texture
+		class Texture* m_Texture;
 		int m_DrawOrder;
 		int m_TexWidth;
 		int m_TexHeight;

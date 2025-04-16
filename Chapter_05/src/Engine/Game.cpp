@@ -8,6 +8,7 @@
 #include "VertexArray.h"
 #include "Shader.h"
 #include "SpriteComponent.h"
+#include "Texture.h"
 
 namespace jLab
 {
@@ -133,6 +134,30 @@ namespace jLab
 		if (iter != m_Sprites.end())
 			m_Sprites.erase(iter);
 	}
+
+	Texture* Game::GetTexture(const std::string& filename)
+	{
+		Texture* tex = nullptr;
+
+		auto iter = m_Textures.find(filename);
+		if (iter != m_Textures.end())
+		{
+			tex = iter->second;
+		}
+		else
+		{
+			tex = new Texture();
+			if (tex->Load(filename))
+				m_Textures.emplace(filename, tex);
+			else
+			{
+				delete tex;
+				return nullptr;
+			}
+		}
+
+		return tex;
+	}
 	
 	void Game::ProcessInput()
 	{
@@ -200,10 +225,10 @@ namespace jLab
 	void Game::InitSpriteVerts()
 	{
 		float vertices[] = {
-			-0.5f,  0.5f, 0.f, // top left
-			 0.5f,  0.5f, 0.f, // top right
-			 0.5f, -0.5f, 0.f, // bottom right
-			-0.5f, -0.5f, 0.f, // bottom left
+			-0.5f,  0.5f, 0.f, 0.f, 0.f, // top left
+			 0.5f,  0.5f, 0.f, 1.f, 0.f, // top right
+			 0.5f, -0.5f, 0.f, 1.f, 1.f, // bottom right
+			-0.5f, -0.5f, 0.f, 0.f, 1.f  // bottom left
 		};
 
 		unsigned int indices[] = {
@@ -218,7 +243,7 @@ namespace jLab
 	{
 		m_SpriteShader = new Shader();
 
-		if (!m_SpriteShader->Load("src/Engine/Shaders/Transform.vert", "src/Engine/Shaders/Transform.frag"))
+		if (!m_SpriteShader->Load("src/Engine/Shaders/Sprite.vert", "src/Engine/Shaders/Sprite.frag"))
 			return false;
 
 		m_SpriteShader->SetActive();
@@ -230,8 +255,15 @@ namespace jLab
 	void Game::LoadData()
 	{
 		Actor* testActor = new Actor(this);
-		testActor->SetScale(Vector3(300, 200, 1));
+		testActor->SetScale(Vector3(3, 3, 1));
 		SpriteComponent* sc = new SpriteComponent(testActor);
+		sc->SetTexture(GetTexture("Assets/ship.png"));
+
+		Actor* testActor2 = new Actor(this);
+		testActor2->SetScale(Vector3(3, 3, 1));
+		testActor2->SetPosition(Vector3(500, 200, 0));
+		SpriteComponent* sc2 = new SpriteComponent(testActor2);
+		sc2->SetTexture(GetTexture("Assets/Asteroid.png"));
 	}
 
 	void Game::UnloadData()

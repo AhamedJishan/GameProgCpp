@@ -101,7 +101,9 @@
     <ClInclude Include="src\Engine\Game.h" />
     <ClInclude Include="src\Engine\Shader.h" />
     <ClInclude Include="src\Engine\SpriteComponent.h" />
+    <ClInclude Include="src\Engine\Texture.h" />
     <ClInclude Include="src\Engine\util\Math.h" />
+    <ClInclude Include="src\Engine\util\stb_image.h" />
     <ClInclude Include="src\Engine\VertexArray.h" />
   </ItemGroup>
   <ItemGroup>
@@ -110,13 +112,17 @@
     <ClCompile Include="src\Engine\Game.cpp" />
     <ClCompile Include="src\Engine\Shader.cpp" />
     <ClCompile Include="src\Engine\SpriteComponent.cpp" />
+    <ClCompile Include="src\Engine\Texture.cpp" />
     <ClCompile Include="src\Engine\util\Math.cpp" />
+    <ClCompile Include="src\Engine\util\stb_image.cpp" />
     <ClCompile Include="src\Engine\VertexArray.cpp" />
     <ClCompile Include="src\EntryPoint.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Engine\Shaders\Basic.frag" />
     <None Include="src\Engine\Shaders\Basic.vert" />
+    <None Include="src\Engine\Shaders\Sprite.frag" />
+    <None Include="src\Engine\Shaders\Sprite.vert" />
     <None Include="src\Engine\Shaders\Transform.frag" />
     <None Include="src\Engine\Shaders\Transform.vert" />
   </ItemGroup>

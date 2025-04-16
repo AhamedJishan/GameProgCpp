@@ -15,6 +15,8 @@
     <ClInclude Include="src\Engine\util\Math.h" />
     <ClInclude Include="src\Engine\Component.h" />
     <ClInclude Include="src\Engine\SpriteComponent.h" />
+    <ClInclude Include="src\Engine\util\stb_image.h" />
+    <ClInclude Include="src\Engine\Texture.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Game.cpp">
@@ -27,11 +29,15 @@
     <ClCompile Include="src\Engine\Actor.cpp" />
     <ClCompile Include="src\Engine\Component.cpp" />
     <ClCompile Include="src\Engine\SpriteComponent.cpp" />
+    <ClCompile Include="src\Engine\util\stb_image.cpp" />
+    <ClCompile Include="src\Engine\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Engine\Shaders\Basic.vert" />
     <None Include="src\Engine\Shaders\Basic.frag" />
     <None Include="src\Engine\Shaders\Transform.vert" />
     <None Include="src\Engine\Shaders\Transform.frag" />
+    <None Include="src\Engine\Shaders\Sprite.vert" />
+    <None Include="src\Engine\Shaders\Sprite.frag" />
   </ItemGroup>
 </Project>
