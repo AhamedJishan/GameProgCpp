@@ -172,7 +172,10 @@ namespace jLab
 
 		// Moving pending actors to main actors list
 		for (Actor* actor : m_PendingActors)
+		{
+			actor->CalculateWorldTransform();
 			m_Actors.emplace_back(actor);
+		}
 		m_PendingActors.clear();
 
 		// Remove dead Actors
@@ -215,15 +218,19 @@ namespace jLab
 	{
 		m_SpriteShader = new Shader();
 
-		if (!m_SpriteShader->Load("src/Engine/Shaders/Basic.vert", "src/Engine/Shaders/Basic.frag"))
+		if (!m_SpriteShader->Load("src/Engine/Shaders/Transform.vert", "src/Engine/Shaders/Transform.frag"))
 			return false;
 
 		m_SpriteShader->SetActive();
+
+		Matrix4 viewProj = Matrix4::CreateSimpleViewProj(1280, 720);
+		m_SpriteShader->SetMatrixUniform("u_ViewProj", viewProj);
 	}
 
 	void Game::LoadData()
 	{
 		Actor* testActor = new Actor(this);
+		testActor->SetScale(Vector3(300, 200, 1));
 		SpriteComponent* sc = new SpriteComponent(testActor);
 	}
 

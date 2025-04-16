@@ -8,9 +8,10 @@ namespace jLab
 	Actor::Actor(Game* game)
 		:m_Game(game),
 		m_State(State::EActive),
-		m_Position(Vector2::Zero),
-		m_Scale(1),
-		m_Rotation(0)
+		m_Position(Vector3::Zero),
+		m_Scale(Vector3(1, 1, 1)),
+		m_Rotation(0),
+		m_UpdateWorldTranform(true)
 	{
 		m_Game->AddActor(this);
 	}
@@ -27,8 +28,12 @@ namespace jLab
 	{
 		if (m_State == State::EActive)
 		{
+			CalculateWorldTransform();
+
 			UpdateComponent(deltaTime);
 			UpdateActor(deltaTime);
+
+			CalculateWorldTransform();
 		}
 	}
 	
@@ -55,6 +60,21 @@ namespace jLab
 	
 	void Actor::ActorInput(const uint8_t* keyState)
 	{
+	}
+
+	void Actor::CalculateWorldTransform()
+	{
+		if (m_UpdateWorldTranform)
+		{
+			m_UpdateWorldTranform = false;
+
+			m_WorldTransform = Matrix4::CreateScale(m_Scale);
+			m_WorldTransform *= Matrix4::CreateRotationZ(m_Rotation);
+			m_WorldTransform *= Matrix4::CreateTranslation(Vector3(m_Position.x, m_Position.y, 0));
+
+			for (Component* component : m_Components)
+				component->OnUpdateWorldTransform();
+		}
 	}
 
 	void Actor::AddComponent(Component* component)

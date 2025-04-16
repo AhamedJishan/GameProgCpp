@@ -23,4 +23,8 @@ namespace jLab
 	void Component::ProcessInput(const uint8_t* keyState)
 	{
 	}
+
+	void Component::OnUpdateWorldTransform()
+	{
+	}
 }

@@ -2,6 +2,7 @@
 
 #include <string>
 #include "GLEW/GL/glew.h"
+#include "util/Math.h"
 
 namespace jLab
 {
@@ -15,6 +16,8 @@ namespace jLab
 		void Unload();
 
 		void SetActive();
+
+		void SetMatrixUniform(const char* name, const Matrix4& matrix);
 
 	private:
 		bool CompileShader(const std::string& filename, GLenum shaderType, GLuint& outShader);

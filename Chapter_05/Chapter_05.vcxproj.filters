@@ -31,5 +31,7 @@
   <ItemGroup>
     <None Include="src\Engine\Shaders\Basic.vert" />
     <None Include="src\Engine\Shaders\Basic.frag" />
+    <None Include="src\Engine\Shaders\Transform.vert" />
+    <None Include="src\Engine\Shaders\Transform.frag" />
   </ItemGroup>
 </Project>
