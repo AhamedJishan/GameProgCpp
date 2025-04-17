@@ -24,6 +24,10 @@ namespace jLab
 
 		class Texture* GetTexture(const std::string& filename);
 
+		void AddAsteroid(class Asteroid* asteroid);
+		void RemoveAsteroid(class Asteroid* asteroid);
+		std::vector<class Asteroid*>& GetAsteroids() { return m_Asteroids; }
+
 	private:
 		void ProcessInput();
 		void UpdateGame();
@@ -51,5 +55,8 @@ namespace jLab
 		
 		bool m_IsRunning;
 		int m_TicksCount;
+
+		class Ship* m_Ship;
+		std::vector<class Asteroid*> m_Asteroids;
 	};
 }

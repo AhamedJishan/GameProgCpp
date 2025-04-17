@@ -18,7 +18,7 @@ workspace "Chapter_05"
 
         includedirs {
             "../_dependencies/include",
-            "src/Game/"
+            "src"
         }
 
         libdirs {

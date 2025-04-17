@@ -10,6 +10,9 @@
 #include "Texture.h"
 
 #include "MoveComponent.h"
+#include "Game/Ship.h"
+#include "Game/Asteroid.h"
+#include "Game/Laser.h"
 
 namespace jLab
 {
@@ -160,6 +163,18 @@ namespace jLab
 
 		return tex;
 	}
+
+	void Game::AddAsteroid(Asteroid* asteroid)
+	{
+		m_Asteroids.emplace_back(asteroid);
+	}
+
+	void Game::RemoveAsteroid(Asteroid* asteroid)
+	{
+		auto iter = std::find(m_Asteroids.begin(), m_Asteroids.end(), asteroid);
+		if (iter != m_Asteroids.end())
+			m_Asteroids.erase(iter);
+	}
 	
 	void Game::ProcessInput()
 	{
@@ -180,6 +195,9 @@ namespace jLab
 
 		if (keyState[SDL_SCANCODE_ESCAPE])
 			m_IsRunning = false;
+
+		for (Actor* actor : m_Actors)
+			actor->ProcessInput(keyState);
 	}
 	
 	void Game::UpdateGame()
@@ -205,11 +223,21 @@ namespace jLab
 		}
 		m_PendingActors.clear();
 
-		// Remove dead Actors
-		m_Actors.erase(std::remove_if(m_Actors.begin(), m_Actors.end(), [](Actor* actor)
+		// Moving dead actors to temp list
+		std::vector<Actor*> deadActors;
+		for (auto actor : m_Actors)
+		{
+			if (actor->GetState() == Actor::EDead)
 			{
-				return actor->GetState() == Actor::EDead;
-			}), m_Actors.end());
+				deadActors.emplace_back(actor);
+			}
+		}
+
+		// Delete dead actors (which removes them from mActors)
+		for (auto actor : deadActors)
+		{
+ 			delete actor;
+		}
 	}
 	
 	void Game::GenerateOutput()
@@ -256,23 +284,22 @@ namespace jLab
 
 	void Game::LoadData()
 	{
-		Actor* testActor = new Actor(this);
-		testActor->SetScale(Vector3(1, 1, 1));
-		testActor->SetRotation(45);
-		SpriteComponent* sc = new SpriteComponent(testActor);
-		sc->SetTexture(GetTexture("Assets/ship.png"));
-		MoveComponent* mc = new MoveComponent(testActor);
-		mc->SetForwardSpeed(150);
+		m_Ship = new Ship(this);
 
-		Actor* testActor2 = new Actor(this);
-		testActor2->SetScale(Vector3(3, 3, 1));
-		testActor2->SetPosition(Vector3(500, 200, 0));
-		SpriteComponent* sc2 = new SpriteComponent(testActor2);
-		sc2->SetTexture(GetTexture("Assets/Asteroid.png"));
+		const int numAsteroids = 20;
+		for (int i = 0; i < numAsteroids; i++)
+			new Asteroid(this);
 	}
 
 	void Game::UnloadData()
 	{
+		while (m_Actors.empty())
+			delete m_Actors.back();
+		m_Actors.clear();
+
+		for (auto i : m_Textures)
+			delete i.second;
+		m_Textures.clear();
 	}
 
 }

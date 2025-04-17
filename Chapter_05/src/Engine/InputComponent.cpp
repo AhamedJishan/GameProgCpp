@@ -9,10 +9,10 @@ namespace jLab
 		:MoveComponent(owner, updateOrder),
 		m_MaxForwardSpeed(0),
 		m_MaxAngularSpeed(0),
-		m_ForwardKey(SDL_SCANCODE_W),
-		m_BackwardKey(SDL_SCANCODE_S),
-		m_ClockwiseKey(SDL_SCANCODE_D),
-		m_CounterClockwiseKey(SDL_SCANCODE_A)
+		m_ForwardKey(SDL_SCANCODE_UP),
+		m_BackwardKey(SDL_SCANCODE_DOWN),
+		m_ClockwiseKey(SDL_SCANCODE_RIGHT),
+		m_CounterClockwiseKey(SDL_SCANCODE_LEFT)
 	{
 	}
 	
@@ -26,9 +26,9 @@ namespace jLab
 
 		float angularSpeed = 0;
 		if (keyState[m_ClockwiseKey])
-			angularSpeed += m_MaxAngularSpeed;
-		if (keyState[m_CounterClockwiseKey])
 			angularSpeed -= m_MaxAngularSpeed;
+		if (keyState[m_CounterClockwiseKey])
+			angularSpeed += m_MaxAngularSpeed;
 
 		MoveComponent::SetForwardSpeed(forwardSpeed);
 		MoveComponent::SetAngularSpeed(angularSpeed);

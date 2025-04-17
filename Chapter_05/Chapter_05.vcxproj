@@ -58,7 +58,7 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>..\_dependencies\include;src\Game;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\_dependencies\include;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -76,7 +76,7 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>..\_dependencies\include;src\Game;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\_dependencies\include;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>None</DebugInformationFormat>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -108,6 +108,9 @@
     <ClInclude Include="src\Engine\VertexArray.h" />
     <ClInclude Include="src\Engine\util\Math.h" />
     <ClInclude Include="src\Engine\util\stb_image.h" />
+    <ClInclude Include="src\Game\Asteroid.h" />
+    <ClInclude Include="src\Game\Laser.h" />
+    <ClInclude Include="src\Game\Ship.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Actor.cpp" />
@@ -123,6 +126,9 @@
     <ClCompile Include="src\Engine\util\Math.cpp" />
     <ClCompile Include="src\Engine\util\stb_image.cpp" />
     <ClCompile Include="src\EntryPoint.cpp" />
+    <ClCompile Include="src\Game\Asteroid.cpp" />
+    <ClCompile Include="src\Game\Laser.cpp" />
+    <ClCompile Include="src\Game\Ship.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

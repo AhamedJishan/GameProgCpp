@@ -20,9 +20,12 @@ namespace jLab
 		float radiiSq = a.GetRadius() + b.GetRadius();
 		radiiSq *= radiiSq;
 
-		Vector3 diff = a.GetCenter() - b.GetCenter();
+		Vector3 ac = a.GetCenter();
+		Vector3 bc = b.GetCenter();
+		Vector3 diff = ac - bc;
+		//Vector3 diff = a.GetCenter() - b.GetCenter();
 		float distSq = diff.LengthSq();
 
-		return radiiSq < distSq;
+		return distSq < radiiSq;
 	}
 }

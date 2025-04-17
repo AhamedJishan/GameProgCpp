@@ -17,7 +17,7 @@ namespace jLab
 		};
 
 		Actor(class Game* game);
-		~Actor();
+		virtual ~Actor();
 
 		void Update(float deltaTime);
 		void ProcessInput(const uint8_t* keyState);
