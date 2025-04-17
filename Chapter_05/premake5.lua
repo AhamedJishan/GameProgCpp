@@ -28,7 +28,6 @@ workspace "Chapter_05"
         links {
             "SDL2",
             "SDL2main",
-            "SDL2_image",
             "opengl32",
             "glew32"
         }

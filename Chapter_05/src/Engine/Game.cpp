@@ -1,7 +1,6 @@
 #include "Game.h"
 
 #include <GLEW/GL/glew.h>
-#include <SDL/SDL_image.h>
 #include <algorithm>
 
 #include "Actor.h"
@@ -55,7 +54,8 @@ namespace jLab
 		}
 		glGetError();
 
-		IMG_Init(IMG_INIT_PNG);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		InitSpriteVerts();
 		if (!InitShaders())
@@ -255,7 +255,7 @@ namespace jLab
 	void Game::LoadData()
 	{
 		Actor* testActor = new Actor(this);
-		testActor->SetScale(Vector3(3, 3, 1));
+		testActor->SetScale(Vector3(1, 1, 1));
 		SpriteComponent* sc = new SpriteComponent(testActor);
 		sc->SetTexture(GetTexture("Assets/ship.png"));
 
