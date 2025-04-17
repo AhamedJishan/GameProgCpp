@@ -100,6 +100,7 @@
     <ClInclude Include="src\Engine\CircleComponent.h" />
     <ClInclude Include="src\Engine\Component.h" />
     <ClInclude Include="src\Engine\Game.h" />
+    <ClInclude Include="src\Engine\InputComponent.h" />
     <ClInclude Include="src\Engine\MoveComponent.h" />
     <ClInclude Include="src\Engine\Shader.h" />
     <ClInclude Include="src\Engine\SpriteComponent.h" />
@@ -113,6 +114,7 @@
     <ClCompile Include="src\Engine\CircleComponent.cpp" />
     <ClCompile Include="src\Engine\Component.cpp" />
     <ClCompile Include="src\Engine\Game.cpp" />
+    <ClCompile Include="src\Engine\InputComponent.cpp" />
     <ClCompile Include="src\Engine\MoveComponent.cpp" />
     <ClCompile Include="src\Engine\Shader.cpp" />
     <ClCompile Include="src\Engine\SpriteComponent.cpp" />
