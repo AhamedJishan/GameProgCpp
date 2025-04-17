@@ -99,6 +99,7 @@
     <ClInclude Include="src\Engine\Actor.h" />
     <ClInclude Include="src\Engine\Component.h" />
     <ClInclude Include="src\Engine\Game.h" />
+    <ClInclude Include="src\Engine\MoveComponent.h" />
     <ClInclude Include="src\Engine\Shader.h" />
     <ClInclude Include="src\Engine\SpriteComponent.h" />
     <ClInclude Include="src\Engine\Texture.h" />
@@ -110,6 +111,7 @@
     <ClCompile Include="src\Engine\Actor.cpp" />
     <ClCompile Include="src\Engine\Component.cpp" />
     <ClCompile Include="src\Engine\Game.cpp" />
+    <ClCompile Include="src\Engine\MoveComponent.cpp" />
     <ClCompile Include="src\Engine\Shader.cpp" />
     <ClCompile Include="src\Engine\SpriteComponent.cpp" />
     <ClCompile Include="src\Engine\Texture.cpp" />

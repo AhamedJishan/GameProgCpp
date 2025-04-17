@@ -9,6 +9,8 @@
 #include "SpriteComponent.h"
 #include "Texture.h"
 
+#include "MoveComponent.h"
+
 namespace jLab
 {
 	Game::Game()
@@ -256,8 +258,11 @@ namespace jLab
 	{
 		Actor* testActor = new Actor(this);
 		testActor->SetScale(Vector3(1, 1, 1));
+		testActor->SetRotation(45);
 		SpriteComponent* sc = new SpriteComponent(testActor);
 		sc->SetTexture(GetTexture("Assets/ship.png"));
+		MoveComponent* mc = new MoveComponent(testActor);
+		mc->SetForwardSpeed(150);
 
 		Actor* testActor2 = new Actor(this);
 		testActor2->SetScale(Vector3(3, 3, 1));
