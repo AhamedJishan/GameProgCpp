@@ -29,7 +29,7 @@ namespace jLab
 			if (pos.x > 660)
 				pos.x = -655;
 			else if (pos.x < -660)
-				pos.x = 665;
+				pos.x = 655;
 			else if (pos.y > 380)
 				pos.y = -375;
 			else if (pos.y < -380)
