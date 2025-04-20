@@ -98,11 +98,15 @@
   <ItemGroup>
     <ClCompile Include="src\Engine\Actor.cpp" />
     <ClCompile Include="src\Engine\Game.cpp" />
+    <ClCompile Include="src\Engine\util\stb_image.cpp" />
     <ClCompile Include="src\EntryPoint.cpp" />
+    <ClCompile Include="src\Engine\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Engine\Actor.h" />
     <ClInclude Include="src\Engine\Game.h" />
+    <ClInclude Include="src\Engine\Texture.h" />
+    <ClInclude Include="src\Engine\util\stb_image.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
