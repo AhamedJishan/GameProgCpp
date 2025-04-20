@@ -1,7 +1,10 @@
 #pragma once
 
 #include <SDL/SDL.h>
+#include <string>
 #include <vector>
+#include <unordered_map>
+#include "Texture.h"
 
 namespace jLab
 {
@@ -16,6 +19,8 @@ namespace jLab
 
 		void AddActor(class Actor* actor);
 		void RemoveActor(class Actor* actor);
+
+		class Texture* GetTexture(const std::string& filename, Texture::TextureType type);
 
 	private:
 		void UpdateGame();
@@ -32,5 +37,7 @@ namespace jLab
 		std::vector<class Actor*> m_Actors;
 		std::vector<class Actor*> m_PendingActors;
 		bool m_UpdatingActors;
+
+		std::unordered_map<std::string, class Texture*> m_Textures;
 	};
 }

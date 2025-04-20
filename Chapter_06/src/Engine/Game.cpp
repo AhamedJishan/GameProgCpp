@@ -3,6 +3,7 @@
 #include <GLEW/GL/glew.h>
 #include <algorithm>
 #include "Actor.h"
+#include "Texture.h"
 
 namespace jLab
 {
@@ -156,5 +157,29 @@ namespace jLab
 			std::iter_swap(iter, m_PendingActors.end() - 1);
 			m_PendingActors.pop_back();
 		}
+	}
+
+
+	Texture* Game::GetTexture(const std::string& filename, Texture::TextureType type)
+	{
+		auto iter = m_Textures.find(filename);
+		if (iter != m_Textures.end())
+		{
+			return iter->second;
+		}
+
+		Texture* texture = new Texture();
+		texture->SetTextureType(type);
+		if (texture->Load(filename))
+		{
+			m_Textures.emplace(filename, texture);
+		}
+		else
+		{
+			delete texture;
+			return nullptr;
+		}
+
+		return texture;
 	}
 }

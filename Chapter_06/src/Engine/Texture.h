@@ -23,6 +23,8 @@ namespace jLab
 		void SetTextureType(TextureType type) { m_Type = type; }
 		void SetActive(GLuint unit = 0);
 
+		TextureType GetType() { return m_Type; }
+
 	private:
 		GLuint m_Id;
 		int m_Width;

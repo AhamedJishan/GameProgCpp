@@ -30,7 +30,8 @@ workspace "Chapter_06"
             "SDL2",
             "SDL2main",
             "opengl32",
-            "glew32"
+            "glew32",
+            "assimp-vc143-mtd"
         }
 
         filter "configurations:Debug"
