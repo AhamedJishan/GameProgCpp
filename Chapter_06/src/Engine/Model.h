@@ -15,7 +15,7 @@ namespace jLab
 		Model(const std::string& path, class Game* game);
 		~Model();
 
-		void Draw(const class Shader& shader);
+		void Draw(const class Shader* shader);
 
 	private:
 		void Load(const std::string& path);
@@ -25,7 +25,6 @@ namespace jLab
 
 	private:
 		std::vector<class Mesh*> m_Meshes;
-		std::vector<class Texture*> m_Textures;
 		std::string m_Directory;
 
 		class Game* m_Game;

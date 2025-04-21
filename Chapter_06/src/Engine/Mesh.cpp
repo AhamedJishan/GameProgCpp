@@ -24,18 +24,18 @@ namespace jLab
 		glDeleteVertexArrays(1, &m_Id);
 	}
 	
-	void Mesh::Draw(const Shader& shader)
+	void Mesh::Draw(const Shader* shader)
 	{
 		int diffuseNr = 1;
-		std::string name;
 		for (int i = 0; i < m_Textures.size(); i++)
 		{
+			std::string name;
 			if (m_Textures[i]->GetType() == Texture::DiffuseTexture)
 			{
 				name = "texture_diffuse" + std::to_string(diffuseNr++);
 			}
 
-			shader.SetInt(name, i);
+			shader->SetInt(name, i);
 			m_Textures[i]->SetActive(i);
 		}
 

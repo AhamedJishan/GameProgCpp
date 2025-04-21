@@ -146,7 +146,7 @@ namespace jLab
 	{
 		glUniform2f(glGetUniformLocation(m_Id, name.c_str()), value.x, value.y);
 	}
-	void Shader::SetMat4(const std::string& name, const glm::mat4& mat)
+	void Shader::SetMat4(const std::string& name, const glm::mat4& mat) const
 	{
 		glUniformMatrix4fv(glGetUniformLocation(m_Id, name.c_str()), 1, GL_FALSE, glm::value_ptr(mat));
 	}

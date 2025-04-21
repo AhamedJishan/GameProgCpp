@@ -97,15 +97,22 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\Engine\Actor.h" />
+    <ClInclude Include="src\Engine\Camera.h" />
+    <ClInclude Include="src\Engine\Component\Component.h" />
+    <ClInclude Include="src\Engine\Component\MeshComponent.h" />
     <ClInclude Include="src\Engine\Game.h" />
     <ClInclude Include="src\Engine\Mesh.h" />
     <ClInclude Include="src\Engine\Model.h" />
     <ClInclude Include="src\Engine\Shader.h" />
     <ClInclude Include="src\Engine\Texture.h" />
     <ClInclude Include="src\Engine\util\stb_image.h" />
+    <ClInclude Include="src\Game\TestActor.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Actor.cpp" />
+    <ClCompile Include="src\Engine\Camera.cpp" />
+    <ClCompile Include="src\Engine\Component\Component.cpp" />
+    <ClCompile Include="src\Engine\Component\MeshComponent.cpp" />
     <ClCompile Include="src\Engine\Game.cpp" />
     <ClCompile Include="src\Engine\Mesh.cpp" />
     <ClCompile Include="src\Engine\Model.cpp" />
@@ -113,6 +120,11 @@
     <ClCompile Include="src\Engine\Texture.cpp" />
     <ClCompile Include="src\Engine\util\stb_image.cpp" />
     <ClCompile Include="src\EntryPoint.cpp" />
+    <ClCompile Include="src\Game\TestActor.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Shaders\BasicMesh.frag" />
+    <None Include="Assets\Shaders\BasicMesh.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -4,6 +4,12 @@
 #include <algorithm>
 #include "Actor.h"
 #include "Texture.h"
+#include "Shader.h"
+#include "Camera.h"
+#include "Component/MeshComponent.h"
+#include "Model.h"
+
+#include "Game/TestActor.h"
 
 namespace jLab
 {
@@ -13,6 +19,8 @@ namespace jLab
 		m_Context = NULL;
 		m_IsRunning = true;
 		m_TicksCount = 0;
+		m_Shader = nullptr;
+		m_Camera = nullptr;
 	}
 	
 	bool Game::Init()
@@ -50,8 +58,11 @@ namespace jLab
 		}
 		glGetError();
 
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		/*glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);*/
+		glEnable(GL_DEPTH_TEST);
+
+		LoadData();
 
 		return true;
 	}
@@ -68,6 +79,7 @@ namespace jLab
 	
 	void Game::ShutDown()
 	{
+		UnloadData();
 		SDL_GL_DeleteContext(m_Context);
 		SDL_DestroyWindow(m_Window);
 		SDL_Quit();
@@ -127,9 +139,13 @@ namespace jLab
 	void Game::GenerateOutput()
 	{
 		glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		// TODO: Render scene
+		m_Shader->SetActive();
+		m_Shader->SetMat4("uViewProjection", m_Camera->GetViewProjMatrix());
+		for (MeshComponent* mesh : m_Meshes)
+			mesh->Draw(m_Shader);
 
 		SDL_GL_SwapWindow(m_Window);
 	}
@@ -159,6 +175,18 @@ namespace jLab
 		}
 	}
 
+	void Game::AddMeshComponent(MeshComponent* mesh)
+	{
+		m_Meshes.emplace_back(mesh);
+	}
+
+	void Game::RemoveMeshComponent(MeshComponent* mesh)
+	{
+		auto iter = std::find(m_Meshes.begin(), m_Meshes.end(), mesh);
+		if (iter != m_Meshes.end())
+			m_Meshes.erase(iter);
+	}
+
 
 	Texture* Game::GetTexture(const std::string& filename, Texture::TextureType type)
 	{
@@ -181,5 +209,20 @@ namespace jLab
 		}
 
 		return texture;
+	}
+
+	void Game::LoadData()
+	{
+		m_Camera = new Camera(this, 1280, 720, 0.1f, 100.0f, 45.0f);
+		m_Camera->SetPosition(glm::vec3(0, 0, 10));
+		m_Shader = new Shader("Assets/Shaders/BasicMesh.vert", "Assets/Shaders/BasicMesh.frag");
+
+		TestActor* ta = new TestActor(this);
+	}
+	
+	void Game::UnloadData()
+	{
+		delete m_Camera;
+		delete m_Shader;
 	}
 }

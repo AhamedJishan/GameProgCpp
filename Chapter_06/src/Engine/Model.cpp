@@ -11,7 +11,7 @@ namespace jLab
 	Model::Model(const std::string& path, Game* game)
 	{
 		m_Game = game;
-		m_Directory = path.substr(0, path.find_last_of('/'));
+		m_Directory = path.substr(0, path.find_last_of('/') + 1);
 
 		Load(path);
 	}
@@ -20,7 +20,7 @@ namespace jLab
 	{
 	}
 	
-	void Model::Draw(const Shader& shader)
+	void Model::Draw(const Shader* shader)
 	{
 		for (Mesh* mesh : m_Meshes)
 			mesh->Draw(shader);
@@ -106,7 +106,6 @@ namespace jLab
 			std::vector<Texture*> specularTextures = LoadMaterialTextures(mat, aiTextureType_SPECULAR, scene);
 			textures.insert(textures.end(), specularTextures.begin(), specularTextures.end());
 		}
-
 		return new Mesh(vertices, indices, textures);
 	}
 	

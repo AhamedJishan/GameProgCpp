@@ -14,7 +14,7 @@ namespace jLab
 	}
 	
 	Texture::Texture(const std::string& filename, TextureType type)
-		:m_Type(TextureType::DiffuseTexture),
+		:m_Type(type),
 		m_Height(0),
 		m_Width(0),
 		m_Id(0)

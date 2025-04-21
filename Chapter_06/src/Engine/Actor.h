@@ -4,6 +4,7 @@
 #include <glm/vec3.hpp>
 #include <glm/gtc/quaternion.hpp>
 #include <glm/mat4x4.hpp>
+#include <vector>
 
 namespace jLab
 {
@@ -23,7 +24,8 @@ namespace jLab
 		void ProcessInput(const uint8_t* keyState);
 		void Update(float deltaTime);
 
-		// TODO: Add and removeComponent
+		void AddComponent(class Component* component);
+		void RemoveComponent(class Component* component);
 
 
 		// GETTERS and SETTERS ----------------------------------------------------------
@@ -57,5 +59,7 @@ namespace jLab
 
 		glm::mat4 m_WorldTransform;
 		bool m_RecomputeWorldTransform;
+
+		std::vector<class Component*> m_Components;
 	};
 }

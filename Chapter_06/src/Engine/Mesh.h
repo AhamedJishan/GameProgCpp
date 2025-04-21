@@ -19,7 +19,7 @@ namespace jLab
 		Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<class Texture*> textures);
 		~Mesh();
 
-		void Draw(const class Shader& shader);
+		void Draw(const class Shader* shader);
 
 	private:
 		void SetupMesh();
