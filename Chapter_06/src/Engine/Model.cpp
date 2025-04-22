@@ -2,6 +2,7 @@
 
 #include <SDL/SDL.h>
 #include "Game.h"
+#include "Renderer.h"
 #include "Mesh.h"
 #include "Texture.h"
 #include "Shader.h"
@@ -18,6 +19,8 @@ namespace jLab
 	
 	Model::~Model()
 	{
+		for (Mesh* mesh : m_Meshes)
+			delete mesh;
 	}
 	
 	void Model::Draw(const Shader* shader)
@@ -122,13 +125,13 @@ namespace jLab
 			switch (textureType)
 			{
 			case aiTextureType_DIFFUSE:
-				texture = m_Game->GetTexture(m_Directory + textureName.C_Str(), Texture::DiffuseTexture);
+				texture = m_Game->GetRenderer()->GetTexture(m_Directory + textureName.C_Str(), Texture::DiffuseTexture);
 				break;
 			case aiTextureType_HEIGHT:
-				texture = m_Game->GetTexture(m_Directory + textureName.C_Str(), Texture::NormalTexture);
+				texture = m_Game->GetRenderer()->GetTexture(m_Directory + textureName.C_Str(), Texture::NormalTexture);
 				break;
 			case aiTextureType_SPECULAR:
-				texture = m_Game->GetTexture(m_Directory + textureName.C_Str(), Texture::SpecularTexture);
+				texture = m_Game->GetRenderer()->GetTexture(m_Directory + textureName.C_Str(), Texture::SpecularTexture);
 				break;
 			default:
 				break;

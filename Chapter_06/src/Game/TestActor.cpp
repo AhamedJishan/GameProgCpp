@@ -1,14 +1,16 @@
 #include "TestActor.h"
 
+#include "Engine/Renderer.h"
 #include "Engine/Model.h"
 #include "Engine/Component/MeshComponent.h"
+#include "Engine/Game.h"
 
 namespace jLab
 {
 	TestActor::TestActor(Game* game)
 		:Actor(game)
 	{
-		Model* model = new Model("Assets/Models/backpack/backpack.obj", m_Game);
+		Model* model = m_Game->GetRenderer()->GetModel("Assets/Models/backpack/backpack.obj");
 		MeshComponent* mc = new MeshComponent(this);
 		mc->SetModel(model);
 	}

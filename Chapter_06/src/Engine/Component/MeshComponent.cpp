@@ -5,6 +5,7 @@
 #include "Engine/Actor.h"
 #include "Engine/Model.h"
 #include "Engine/Game.h"
+#include "Engine/Renderer.h"
 
 namespace jLab
 {
@@ -13,13 +14,13 @@ namespace jLab
 		m_Model(nullptr)
 	{
 		// TODO: Add this Mesh Component to renderer
-		m_Owner->GetGame()->AddMeshComponent(this);
+		m_Owner->GetGame()->GetRenderer()->AddMeshComponent(this);
 	}
 	
 	MeshComponent::~MeshComponent()
 	{
 		// TODO: Remove this Mesh Component to renderer
-		m_Owner->GetGame()->RemoveMeshComponent(this);
+		m_Owner->GetGame()->GetRenderer()->RemoveMeshComponent(this);
 	}
 	
 	void MeshComponent::Draw(const Shader* shader)
