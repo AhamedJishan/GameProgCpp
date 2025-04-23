@@ -35,6 +35,8 @@
     <ClInclude Include="src\Engine\Camera.h" />
     <ClInclude Include="src\Game\TestActor.h" />
     <ClInclude Include="src\Engine\Renderer.h" />
+    <ClInclude Include="src\Engine\Component\SpriteComponent.h" />
+    <ClInclude Include="src\Game\TestActor2.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Actor.cpp">
@@ -64,9 +66,15 @@
     <ClCompile Include="src\Engine\Component\MeshComponent.cpp" />
     <ClCompile Include="src\Game\TestActor.cpp" />
     <ClCompile Include="src\Engine\Renderer.cpp" />
+    <ClCompile Include="src\Engine\Component\SpriteComponent.cpp" />
+    <ClCompile Include="src\Game\TestActor2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Shaders\BasicMesh.vert" />
     <None Include="Assets\Shaders\BasicMesh.frag" />
+    <None Include="Assets\Shaders\BasicSprite.frag" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Assets\Shaders\BasicSprite.vert" />
   </ItemGroup>
 </Project>

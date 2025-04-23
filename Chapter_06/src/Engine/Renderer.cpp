@@ -1,9 +1,11 @@
 #include "Renderer.h"
 
+#include <algorithm>
 #include "Camera.h"
 #include "Component/MeshComponent.h"
 #include "Model.h"
 #include "Shader.h"
+#include "Component/SpriteComponent.h"
 
 namespace jLab
 {
@@ -37,6 +39,7 @@ namespace jLab
 		SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
 		SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
 		SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
+		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 		SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
 
@@ -50,13 +53,11 @@ namespace jLab
 		}
 		glGetError();
 
-		// TODO: Move to draw calls
-		/*glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);*/
-		glEnable(GL_DEPTH_TEST);
+		glViewport(0, 0, m_Width, m_Height);
 
 		// Setup Shader
-		m_Shader = new Shader("Assets/Shaders/BasicMesh.vert", "Assets/Shaders/BasicMesh.frag");
+		m_MeshShader = new Shader("Assets/Shaders/BasicMesh.vert", "Assets/Shaders/BasicMesh.frag");
+		m_SpriteShader = new Shader("Assets/Shaders/BasicSprite.vert", "Assets/Shaders/BasicSprite.frag");
 
 		return true;
 	}
@@ -69,7 +70,8 @@ namespace jLab
 
 	void Renderer::UnloadData()
 	{
-		delete m_Shader;
+		delete m_SpriteShader;
+		delete m_MeshShader;
 
 		for (auto i : m_Textures)
 			delete i.second;
@@ -84,15 +86,49 @@ namespace jLab
 		glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		// TODO: Render scene
-		m_Shader->SetActive();
-		m_Shader->SetMat4("uViewProjection", camera->GetViewProjMatrix());
+		glEnable(GL_DEPTH_TEST);
+
+		m_MeshShader->SetActive();
+		m_MeshShader->SetMat4("uViewProjection", camera->GetViewProjMatrix());
+
 		for (MeshComponent* mesh : m_Meshes)
-			mesh->Draw(m_Shader);
+			mesh->Draw(m_MeshShader);
+
+		glDisable(GL_DEPTH_TEST);
+
+
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		m_SpriteShader->SetActive();
+		m_SpriteShader->SetMat4("uViewProjection", camera->GetOrthoViewProjMatrix());
+
+		for (SpriteComponent* sprite : m_Sprites)
+			sprite->Draw(m_SpriteShader);
+
+		glDisable(GL_BLEND);
 
 		SDL_GL_SwapWindow(m_Window);
 	}
 	// ----------------------------------------------------
+
+	void Renderer::AddSpriteComponent(SpriteComponent* sprite)
+	{
+		int drawOrder = sprite->GetDrawOrder();
+
+		auto iter = m_Sprites.begin();
+		for (; iter != m_Sprites.end(); iter++)
+			if (drawOrder < (*iter)->GetDrawOrder())
+				break;
+
+		m_Sprites.insert(iter, sprite);
+	}
+	
+	void Renderer::RemoveSpriteComponent(SpriteComponent* sprite)
+	{
+		auto iter = std::find(m_Sprites.begin(), m_Sprites.end(), sprite);
+		m_Sprites.erase(iter);
+	}
 
 	void Renderer::AddMeshComponent(MeshComponent* mesh)
 	{

@@ -24,6 +24,8 @@ namespace jLab
 		void SetActive(GLuint unit = 0);
 
 		TextureType GetType() { return m_Type; }
+		int GetWidth() { return m_Width; }
+		int GetHeight() { return m_Height; }
 
 	private:
 		GLuint m_Id;

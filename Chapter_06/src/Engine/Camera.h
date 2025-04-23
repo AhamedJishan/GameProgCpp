@@ -16,6 +16,7 @@ namespace jLab
 		void UpdateActor(float deltaTime) override;
 
 		glm::mat4 GetViewProjMatrix();
+		glm::mat4 GetOrthoViewProjMatrix();
 
 	private:
 		int m_Width;

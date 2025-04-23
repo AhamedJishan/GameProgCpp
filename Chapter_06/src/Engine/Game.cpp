@@ -7,6 +7,7 @@
 #include "Camera.h"
 
 #include "Game/TestActor.h"
+#include "Game/TestActor2.h"
 
 namespace jLab
 {
@@ -15,7 +16,7 @@ namespace jLab
 		m_IsRunning = true;
 		m_TicksCount = 0;
 		m_Renderer = new Renderer(this);
-		m_Camera = new Camera(this, 1280, 720, 0.1f, 100.0f, 45.0f);
+		m_Camera = new Camera(this, 1280, 720, 0.1f, 10000.0f, 70.0f);
 	}
 	
 	bool Game::Init()
@@ -138,8 +139,11 @@ namespace jLab
 	void Game::LoadData()
 	{
 		TestActor* ta = new TestActor(this);
+		ta->SetPosition(glm::vec3(0, 0, -5));
+		TestActor2* ta2 = new TestActor2(this);
+		ta2->SetPosition(glm::vec3(500.0f, -220.0f, 0.0f));
 
-		m_Camera->SetPosition(glm::vec3(0, 0, 10));
+		m_Camera->SetPosition(glm::vec3(0, 0, 5));
 	}
 	
 	void Game::UnloadData()

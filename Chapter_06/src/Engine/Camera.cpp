@@ -35,4 +35,15 @@ namespace jLab
 
 		return (proj * view);
 	}
+	glm::mat4 Camera::GetOrthoViewProjMatrix()
+	{
+		glm::vec3 pos = GetPosition();
+		glm::vec3 forward = glm::vec3(0, 0, -1);
+		glm::vec3 up = glm::vec3(0, 1, 0);
+
+		glm::mat4 view = glm::lookAt(pos, pos + forward, up);
+		glm::mat4 proj = glm::ortho(-m_Width/2.0f, m_Width/2.0f, -m_Height/2.0f, m_Height/2.0f);
+
+		return (proj);
+	}
 }

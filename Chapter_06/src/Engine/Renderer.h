@@ -21,6 +21,8 @@ namespace jLab
 		void Draw(class Camera* camera);
 
 		// TODO: AddSprite and RemoveSprite
+		void AddSpriteComponent(class SpriteComponent* sprite);
+		void RemoveSpriteComponent(class SpriteComponent* sprite);
 
 		void AddMeshComponent(class MeshComponent* mesh);
 		void RemoveMeshComponent(class MeshComponent* mesh);
@@ -39,10 +41,12 @@ namespace jLab
 		SDL_GLContext m_Context;
 		class Game* m_Game;
 
-		class Shader* m_Shader;
+		class Shader* m_MeshShader;
+		class Shader* m_SpriteShader;
 
 		std::unordered_map<std::string, class Texture*> m_Textures;
 		std::unordered_map<std::string, class Model*> m_Models;
 		std::vector<class MeshComponent*> m_Meshes;
+		std::vector<class SpriteComponent*> m_Sprites;
 	};
 }

@@ -21,7 +21,7 @@ namespace jLab
 	
 	void TestActor::UpdateActor(float deltaTime)
 	{
-		glm::quat rot = glm::angleAxis(glm::radians(0.25f), glm::vec3(0, 1, 0));
-		SetRotation(rot * GetRotation());
+		glm::quat rot = glm::angleAxis(glm::radians(0.05f), glm::vec3(0, 1, 0));
+		SetRotation(GetRotation() * rot);
 	}
 }
