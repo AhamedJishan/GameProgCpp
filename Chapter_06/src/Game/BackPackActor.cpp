@@ -1,4 +1,4 @@
-#include "TestActor.h"
+#include "BackPackActor.h"
 
 #include "Engine/Renderer.h"
 #include "Engine/Model.h"
@@ -7,21 +7,22 @@
 
 namespace jLab
 {
-	TestActor::TestActor(Game* game)
+	BackPackActor::BackPackActor(Game* game)
 		:Actor(game)
 	{
 		Model* model = m_Game->GetRenderer()->GetModel("Assets/Models/backpack/backpack.obj");
 		MeshComponent* mc = new MeshComponent(this);
 		mc->SetModel(model);
+		mc->SetSpecular(glm::vec3(0.9), 16);
 	}
 	
-	TestActor::~TestActor()
+	BackPackActor::~BackPackActor()
 	{
 	}
 	
-	void TestActor::UpdateActor(float deltaTime)
+	void BackPackActor::UpdateActor(float deltaTime)
 	{
-		glm::quat rot = glm::angleAxis(glm::radians(0.05f), glm::vec3(0, 1, 0));
+		glm::quat rot = glm::angleAxis(glm::radians(0.4f), glm::vec3(0, 1, 0));
 		SetRotation(GetRotation() * rot);
 	}
 }

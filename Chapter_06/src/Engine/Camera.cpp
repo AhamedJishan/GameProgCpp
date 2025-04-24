@@ -1,5 +1,7 @@
 #include "Camera.h"
 
+#include <SDL/SDL.h>
+
 namespace jLab
 {
 	Camera::Camera(Game* game, int width, int height, float nearPlane, float farPlane, float fov)
@@ -18,6 +20,19 @@ namespace jLab
 	
 	void Camera::InputActor(const uint8_t* keyState)
 	{
+		float speed = 0.05f;
+		if (keyState[SDL_SCANCODE_W]) SetPosition(GetPosition() + GetForward() * speed);
+		if (keyState[SDL_SCANCODE_S]) SetPosition(GetPosition() - GetForward() * speed);
+		if (keyState[SDL_SCANCODE_D]) SetPosition(GetPosition() + GetRight() * speed);
+		if (keyState[SDL_SCANCODE_A]) SetPosition(GetPosition() - GetRight() * speed);
+		if (keyState[SDL_SCANCODE_RIGHT])
+		{
+			SetRotation(GetRotation() * glm::angleAxis(glm::radians(speed * 20), glm::vec3(0, 1, 0)));
+		}
+		if (keyState[SDL_SCANCODE_LEFT])
+		{
+			SetRotation(GetRotation() * glm::angleAxis(glm::radians(-speed * 20), glm::vec3(0, 1, 0)));
+		}
 	}
 	
 	void Camera::UpdateActor(float deltaTime)
@@ -27,7 +42,7 @@ namespace jLab
 	glm::mat4 Camera::GetViewProjMatrix()
 	{
 		glm::vec3 pos = GetPosition();
-		glm::vec3 forward = glm::vec3(0, 0, -1);
+		glm::vec3 forward = GetForward();
 		glm::vec3 up = glm::vec3(0, 1, 0);
 
 		glm::mat4 view = glm::lookAt(pos, pos + forward, up);

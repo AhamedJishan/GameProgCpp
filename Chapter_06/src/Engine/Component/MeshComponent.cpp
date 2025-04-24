@@ -11,7 +11,9 @@ namespace jLab
 {
 	MeshComponent::MeshComponent(Actor* owner, int updateOrder)
 		:Component(owner, updateOrder),
-		m_Model(nullptr)
+		m_Model(nullptr),
+		m_SpecularColor(glm::vec3(0)),
+		m_SpecularPower(0)
 	{
 		// TODO: Add this Mesh Component to renderer
 		m_Owner->GetGame()->GetRenderer()->AddMeshComponent(this);
@@ -28,6 +30,8 @@ namespace jLab
 		if (m_Model)
 		{
 			shader->SetMat4("uWorldTransform", m_Owner->GetWorldTransform());
+			shader->SetVec3("uSpecularColor", m_SpecularColor);
+			shader->SetFloat("uSpecularPower", m_SpecularPower);
 			m_Model->Draw(shader);
 		}
 	}

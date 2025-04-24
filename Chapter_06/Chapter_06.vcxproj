@@ -108,7 +108,10 @@
     <ClInclude Include="src\Engine\Shader.h" />
     <ClInclude Include="src\Engine\Texture.h" />
     <ClInclude Include="src\Engine\util\stb_image.h" />
-    <ClInclude Include="src\Game\TestActor.h" />
+    <ClInclude Include="src\Game\ContainerActor.h" />
+    <ClInclude Include="src\Game\BackPackActor.h" />
+    <ClInclude Include="src\Game\HealthBarActor.h" />
+    <ClInclude Include="src\Game\SceneActor.h" />
     <ClInclude Include="src\Game\TestActor2.h" />
   </ItemGroup>
   <ItemGroup>
@@ -125,13 +128,18 @@
     <ClCompile Include="src\Engine\Texture.cpp" />
     <ClCompile Include="src\Engine\util\stb_image.cpp" />
     <ClCompile Include="src\EntryPoint.cpp" />
-    <ClCompile Include="src\Game\TestActor.cpp" />
+    <ClCompile Include="src\Game\ContainerActor.cpp" />
+    <ClCompile Include="src\Game\BackPackActor.cpp" />
+    <ClCompile Include="src\Game\HealthBarActor.cpp" />
+    <ClCompile Include="src\Game\SceneActor.cpp" />
     <ClCompile Include="src\Game\TestActor2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Shaders\BasicMesh.frag" />
     <None Include="Assets\Shaders\BasicMesh.vert" />
     <None Include="Assets\Shaders\BasicSprite.frag" />
+    <None Include="Assets\Shaders\Phong.frag" />
+    <None Include="Assets\Shaders\Phong.vert" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Assets\Shaders\BasicSprite.vert" />

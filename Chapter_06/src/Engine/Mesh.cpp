@@ -26,18 +26,28 @@ namespace jLab
 	
 	void Mesh::Draw(const Shader* shader)
 	{
-		int diffuseNr = 1;
+		int diffuseNr = 0;
+		int specularNr = 0;
 		for (int i = 0; i < m_Textures.size(); i++)
 		{
 			std::string name;
 			if (m_Textures[i]->GetType() == Texture::DiffuseTexture)
 			{
-				name = "texture_diffuse" + std::to_string(diffuseNr++);
+				name = "texture_diffuse" + std::to_string(++diffuseNr);
+			}
+			else if (m_Textures[i]->GetType() == Texture::SpecularTexture)
+			{
+				name = "texture_specular" + std::to_string(++specularNr);
 			}
 
 			shader->SetInt(name, i);
 			m_Textures[i]->SetActive(i);
 		}
+
+		if (specularNr != 0)
+			shader->SetBool("uHasSpecular", true);
+		else
+			shader->SetBool("uHasSpecular", false);
 
 		glActiveTexture(0);
 

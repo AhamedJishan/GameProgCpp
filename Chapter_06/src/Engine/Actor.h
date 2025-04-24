@@ -35,7 +35,8 @@ namespace jLab
 		glm::quat GetRotation() const { return m_Rotation; }
 		glm::vec3 GetScale() const { return m_Scale; }
 		State GetState() const { return m_State; }
-		glm::vec3 GetForward() const { return glm::normalize(glm::vec3(0, 0, 1) * m_Rotation); }
+		glm::vec3 GetForward() const { return glm::normalize(glm::vec3(0, 0, -1) * m_Rotation); }
+		glm::vec3 GetRight() const { return glm::normalize(glm::cross(GetForward(), glm::vec3(0, 1, 0))); }
 
 		void SetWorldTransform(const glm::mat4 transform) { m_WorldTransform = transform; }
 		void SetPosition(const glm::vec3 position) { m_Position = position; m_RecomputeWorldTransform = true; }

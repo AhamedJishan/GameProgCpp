@@ -20,7 +20,6 @@ namespace jLab
 
 		void Draw(class Camera* camera);
 
-		// TODO: AddSprite and RemoveSprite
 		void AddSpriteComponent(class SpriteComponent* sprite);
 		void RemoveSpriteComponent(class SpriteComponent* sprite);
 

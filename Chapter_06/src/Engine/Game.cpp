@@ -6,8 +6,11 @@
 #include "Actor.h"
 #include "Camera.h"
 
-#include "Game/TestActor.h"
+#include "Game/BackPackActor.h"
 #include "Game/TestActor2.h"
+#include "Game/ContainerActor.h"
+#include "Game/HealthBarActor.h"
+#include "Game/SceneActor.h"
 
 namespace jLab
 {
@@ -79,6 +82,9 @@ namespace jLab
 
 		for (Actor* actor : actorsToBeDeleted)
 			delete actor;
+
+		// Frame lock 60fps
+		while (SDL_GetTicks() < (m_TicksCount + 16));
 	}
 	
 	void Game::ProcessInput()
@@ -138,10 +144,22 @@ namespace jLab
 
 	void Game::LoadData()
 	{
-		TestActor* ta = new TestActor(this);
-		ta->SetPosition(glm::vec3(0, 0, -5));
+		SceneActor* sa = new SceneActor(this);
+		sa->SetPosition(glm::vec3(0, -1, 0));
+
+		BackPackActor* ba = new BackPackActor(this);
+		ba->SetScale(glm::vec3(0.5f));
+		ba->SetPosition(glm::vec3(0, 0, -5));
+
 		TestActor2* ta2 = new TestActor2(this);
 		ta2->SetPosition(glm::vec3(500.0f, -220.0f, 0.0f));
+		ta2->SetScale(glm::vec3(0.75f));
+
+		ContainerActor* ca = new ContainerActor(this);
+		ca->SetPosition(glm::vec3(-3, 0, 0));
+
+		HealthBarActor* ha = new HealthBarActor(this);
+		ha->SetPosition(glm::vec3(-480, -320.0f, 0.0f));
 
 		m_Camera->SetPosition(glm::vec3(0, 0, 5));
 	}

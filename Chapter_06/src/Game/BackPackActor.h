@@ -5,11 +5,11 @@
 
 namespace jLab
 {
-	class TestActor : public Actor
+	class BackPackActor : public Actor
 	{
 	public:
-		TestActor(class Game* game);
-		~TestActor();
+		BackPackActor(class Game* game);
+		~BackPackActor();
 
 		void UpdateActor(float deltaTime) override;
 	};

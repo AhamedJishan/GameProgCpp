@@ -1,6 +1,7 @@
 #include "Renderer.h"
 
 #include <algorithm>
+#include "Game.h"
 #include "Camera.h"
 #include "Component/MeshComponent.h"
 #include "Model.h"
@@ -56,7 +57,7 @@ namespace jLab
 		glViewport(0, 0, m_Width, m_Height);
 
 		// Setup Shader
-		m_MeshShader = new Shader("Assets/Shaders/BasicMesh.vert", "Assets/Shaders/BasicMesh.frag");
+		m_MeshShader = new Shader("Assets/Shaders/Phong.vert", "Assets/Shaders/Phong.frag");
 		m_SpriteShader = new Shader("Assets/Shaders/BasicSprite.vert", "Assets/Shaders/BasicSprite.frag");
 
 		return true;
@@ -90,6 +91,10 @@ namespace jLab
 
 		m_MeshShader->SetActive();
 		m_MeshShader->SetMat4("uViewProjection", camera->GetViewProjMatrix());
+		m_MeshShader->SetVec3("uLightDir", glm::vec3(1, -0.5f, -1));
+		m_MeshShader->SetVec3("uLightColor", glm::vec3(1.0f, 1.0f, 1.0f));
+		m_MeshShader->SetVec3("uCameraPos", camera->GetPosition());
+		m_MeshShader->SetVec3("uAmbientColor", glm::vec3(0.2f, 0.2f, 0.2f));
 
 		for (MeshComponent* mesh : m_Meshes)
 			mesh->Draw(m_MeshShader);
