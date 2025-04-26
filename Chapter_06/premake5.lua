@@ -39,5 +39,5 @@ workspace "Chapter_06"
             runtime "Debug"
 
         filter "configurations:Release"
-                symbols "Off"
-                optimize "full"
+            symbols "Off"
+            optimize "full"
