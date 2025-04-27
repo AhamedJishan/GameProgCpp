@@ -27,14 +27,16 @@ namespace jLab
 		void AddComponent(class Component* component);
 		void RemoveComponent(class Component* component);
 
+
 		class Game* GetGame() { return m_Game; }
 		State GetState() { return m_State; }
-		void SetState(const State state) { m_State = state; }
-
 		glm::vec3 GetPosition() { return m_Position; }
 		glm::vec3 GetScale() { return m_Scale; }
 		glm::quat GetRotation() { return m_Rotation; }
+		glm::vec3 GetForward() { return glm::normalize(m_Rotation * glm::vec3(0, 0, -1)); }
+		glm::vec3 GetRight() { return glm::normalize(glm::cross(GetForward(), glm::vec3(0, 1, 0))); }
 
+		void SetState(const State state) { m_State = state; }
 		void SetPosition(const glm::vec3 position) { m_Position = position; m_RecomputeWorldTransform = true; }
 		void SetScale(const glm::vec3 scale) { m_Scale = scale; m_RecomputeWorldTransform = true; }
 		void SetRotation(const glm::quat rotation) { m_Rotation = rotation; m_RecomputeWorldTransform = true; }
