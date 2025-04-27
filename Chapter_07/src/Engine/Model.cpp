@@ -13,14 +13,16 @@ namespace jLab
 	{
 		m_Game = game;
 		m_Directory = filename.substr(0, filename.find_last_of('/') + 1);
+		Load(filename);
 	}
 	
 	Model::~Model()
 	{
-		// TODO: delet all meshes
+		while (!m_Meshes.empty())
+			delete m_Meshes.back();
 	}
 	
-	void Model::Draw(Shader* shader)
+	void Model::Draw(const Shader* shader)
 	{
 		for (Mesh* mesh : m_Meshes)
 			mesh->Draw(shader);
@@ -45,7 +47,7 @@ namespace jLab
 		for (int i = 0; i < node->mNumMeshes; i++)
 		{
 			Mesh* mesh = ProcessMesh(scene->mMeshes[node->mMeshes[i]], scene);
-			m_Meshes.emplace_back();
+			m_Meshes.emplace_back(mesh);
 		}
 
 		for (int i = 0; i < node->mNumChildren; i++)
@@ -69,17 +71,14 @@ namespace jLab
 			vec3.z = mesh->mVertices[i].z;
 			vertex.position = vec3;
 
-			if (mesh->mNormals)
-			{
-				vec3.x = mesh->mNormals[i].x;
-				vec3.y = mesh->mNormals[i].y;
-				vec3.z = mesh->mNormals[i].z;
-				vertex.normal = vec3;
-			}
+			vec3.x = mesh->mNormals[i].x;
+			vec3.y = mesh->mNormals[i].y;
+			vec3.z = mesh->mNormals[i].z;
+			vertex.normal = vec3;
 
-			glm::vec2 vec2;
 			if (mesh->mTextureCoords[0])
 			{
+				glm::vec2 vec2;
 				vec2.x = mesh->mTextureCoords[0][i].x;
 				vec2.y = mesh->mTextureCoords[0][i].y;
 				vertex.texCoord = vec2;

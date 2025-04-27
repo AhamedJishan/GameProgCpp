@@ -19,19 +19,27 @@ namespace jLab
 
 		void Draw();
 
+		void AddMeshRenderer(class MeshRenderer* mesh);
+		void RemoveMeshRenderer(class MeshRenderer* mesh);
+
+		class Texture* GetTexture(const std::string filename, Texture::TextureType type);
+		class Model* GetModel(const std::string filename);
+
 		int GetWidth() { return m_Width; }
 		int GetHeight() { return m_Height; }
 
-		class Texture* GetTexture(const std::string filename, Texture::TextureType type);
-
 	private:
-		class Game* m_Game;
 		SDL_Window* m_Window;
 		SDL_GLContext m_Context;
+		class Game* m_Game;
+		class Shader* m_MeshShader;
+		// TODO: Sprite Shader
 
 		int m_Width;
 		int m_Height;
 
 		std::unordered_map<std::string, class Texture*> m_Textures;
+		std::unordered_map<std::string, class Model*> m_Models;
+		std::vector<class MeshRenderer*> m_Meshes;
 	};
 }

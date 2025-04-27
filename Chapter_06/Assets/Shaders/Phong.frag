@@ -38,5 +38,5 @@ void main()
 	if (uHasSpecular == true) phong += specularColor * texture(texture_specular1, TexCoord).r;
 	else phong += specularColor;
 
-	OutColor = vec4(phong, 1);
+	OutColor = vec4(phong, baseColor.a);
 }

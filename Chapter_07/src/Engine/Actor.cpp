@@ -10,7 +10,7 @@ namespace jLab
 		m_State(State::E_Active),
 		m_Position(glm::vec3(0)),
 		m_Scale(glm::vec3(1)),
-		m_Rotation(glm::angleAxis(0.0f, glm::vec3(0, 1, 0))),
+		m_Rotation(glm::angleAxis(glm::radians(0.0f), glm::vec3(0, 1, 0))),
 		m_RecomputeWorldTransform(true)
 	{
 		m_Game->AddActor(this);

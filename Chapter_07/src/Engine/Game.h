@@ -17,14 +17,19 @@ namespace jLab
 		void RemoveActor(class Actor* actor);
 
 		class Renderer* GetRenderer() { return m_Renderer; }
+		class Camera* GetCamera() { return m_Camera; }
 
 	private:
 		void ProcessInput();
 		void UpdateGame();
 		void GenerateOutput();
 
+		void LoadData();
+		void UnloadData();
+
 	private:
 		class Renderer* m_Renderer;
+		class Camera* m_Camera;
 
 		int m_TicksCount;
 		bool m_IsRunning;

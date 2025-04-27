@@ -29,6 +29,7 @@ namespace jLab
 		m_Type = type;
 
 		int nrChannels;
+		stbi_set_flip_vertically_on_load(true);
 		unsigned char* data = stbi_load(filename.c_str(), &m_Width, &m_Height, &nrChannels, 0);
 		if (!data)
 		{

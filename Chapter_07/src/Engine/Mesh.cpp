@@ -8,6 +8,7 @@ namespace jLab
 {
 	Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<class Texture*> textures)
 	{
+		m_Id = 0;
 		m_Vertices = vertices;
 		m_Indices = indices;
 		m_Textures = textures;
@@ -22,7 +23,7 @@ namespace jLab
 		glDeleteVertexArrays(1, &m_Id);
 	}
 	
-	void Mesh::Draw(Shader* shader)
+	void Mesh::Draw(const Shader* shader)
 	{
 		int diffuseNr = 0;
 		int specularNr = 0;
@@ -43,24 +44,24 @@ namespace jLab
 		}
 
 		if (specularNr != 0)
-			shader->SetBool("uHasSpecular", true);
+			shader->SetBool("u_HasSpecular", true);
 		else
-			shader->SetBool("uHasSpecular", false);
+			shader->SetBool("u_HasSpecular", false);
 
 		glActiveTexture(0);
 
-		glBindVertexArray(m_VBO);
-		glDrawElements(GL_TRIANGLES, sizeof(m_Indices), GL_UNSIGNED_INT, 0);
+		glBindVertexArray(m_Id);
+		glDrawElements(GL_TRIANGLES, m_Indices.size(), GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
 	}
 	
 	void Mesh::SetupMesh()
 	{
-		glCreateVertexArrays(1, &m_Id);
+		glGenVertexArrays(1, &m_Id);
 		glGenBuffers(1, &m_VBO);
 		glGenBuffers(1, &m_EBO);
 
-		glBindVertexArray(m_VBO);
+		glBindVertexArray(m_Id);
 
 		glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
 		glBufferData(GL_ARRAY_BUFFER, m_Vertices.size() * sizeof(Vertex), &m_Vertices[0], GL_STATIC_DRAW);
@@ -71,9 +72,9 @@ namespace jLab
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
 		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, Vertex::normal)));
 		glEnableVertexAttribArray(2);
-		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texCoord));
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, Vertex::texCoord)));
 
 		glBindVertexArray(0);
 	}

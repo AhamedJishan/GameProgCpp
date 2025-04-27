@@ -14,7 +14,7 @@ namespace jLab
 		Model(const std::string& filename, class Game* game);
 		~Model();
 
-		void Draw(class Shader* shader);
+		void Draw(const class Shader* shader);
 
 	private:
 		void Load(const std::string& filename);

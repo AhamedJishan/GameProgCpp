@@ -21,6 +21,19 @@ namespace jLab
 	
 	void Camera::InputActor(const uint8_t* keyState)
 	{
+		float speed = 0.05f;
+		if (keyState[SDL_SCANCODE_W]) SetPosition(GetPosition() + GetForward() * speed);
+		if (keyState[SDL_SCANCODE_S]) SetPosition(GetPosition() - GetForward() * speed);
+		if (keyState[SDL_SCANCODE_D]) SetPosition(GetPosition() + GetRight() * speed);
+		if (keyState[SDL_SCANCODE_A]) SetPosition(GetPosition() - GetRight() * speed);
+		if (keyState[SDL_SCANCODE_RIGHT])
+		{
+			SetRotation(GetRotation() * glm::angleAxis(glm::radians(-speed * 20), glm::vec3(0, 1, 0)));
+		}
+		if (keyState[SDL_SCANCODE_LEFT])
+		{
+			SetRotation(GetRotation() * glm::angleAxis(glm::radians(speed * 20), glm::vec3(0, 1, 0)));
+		}
 	}
 	
 	void Camera::UpdateActor(float deltaTime)
@@ -34,7 +47,7 @@ namespace jLab
 		glm::vec3 up = glm::vec3(0, 1, 0);
 
 		glm::mat4 view = glm::lookAt(pos, pos + forward, up);
-		glm::mat4 proj = glm::perspective(m_FOV, (float)m_Width / (float)m_Height, m_NearPlane, m_FarPlane);
+		glm::mat4 proj = glm::perspective(glm::radians(m_FOV), ((float)m_Width / (float)m_Height), m_NearPlane, m_FarPlane);
 
 		return (proj * view);
 	}

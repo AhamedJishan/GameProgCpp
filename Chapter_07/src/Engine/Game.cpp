@@ -4,6 +4,11 @@
 #include <algorithm>
 #include "Renderer.h"
 #include "Actor.h"
+#include "Camera.h"
+
+#include "Game/BagActor.h"
+#include "Component/MeshRenderer.h"
+#include "Model.h"
 
 namespace jLab
 {
@@ -11,7 +16,8 @@ namespace jLab
 	{
 		m_IsRunning = true;
 		m_TicksCount = 0;
-		m_Renderer = nullptr;
+		m_Renderer = new Renderer(this);
+		m_Camera = new Camera(this, 1280, 720, 0.1f, 1000.0f, 90.0f);
 	}
 	
 	bool Game::Init()
@@ -22,12 +28,11 @@ namespace jLab
 			return false;
 		}
 
-		m_Renderer = new Renderer(this);
 		m_Renderer->Init(1280, 720);
 
 		// TODO: Initialise AudioSystem
 
-
+		LoadData();
 		return true;
 	}
 	
@@ -43,6 +48,9 @@ namespace jLab
 	
 	void Game::Shutdown()
 	{
+		UnloadData();
+		delete m_Camera;
+		delete m_Renderer;
 		SDL_Quit();
 	}
 	
@@ -66,7 +74,7 @@ namespace jLab
 		if (keyState[SDL_SCANCODE_ESCAPE])
 			m_IsRunning = false;
 		
-		for (Actor* actor : m_PendingActors)
+		for (Actor* actor : m_Actors)
 			actor->ProcessInput(keyState);
 	}
 	
@@ -74,11 +82,8 @@ namespace jLab
 	{
 		// DeltaTime Calculations
 		float deltaTime = (SDL_GetTicks() - m_TicksCount)/1000.0f;
-		deltaTime = deltaTime > 0.05f ? 0.05f : deltaTime;
+		deltaTime = std::min(deltaTime, 0.05f);
 		m_TicksCount = SDL_GetTicks();
-
-		// Lock FPS at 60
-		while (!SDL_TICKS_PASSED(SDL_GetTicks(), m_TicksCount + 16));
 
 		// UPDATE all actors
 		m_UpdatingActors = true;
@@ -88,7 +93,7 @@ namespace jLab
 
 		// MOVE pending actors to m_Actors
 		for (Actor* actor : m_PendingActors)
-			m_PendingActors.emplace_back(actor);
+			m_Actors.emplace_back(actor);
 		m_PendingActors.clear();
 
 		// DELETE dead actors
@@ -102,14 +107,15 @@ namespace jLab
 			delete actor;
 
 		actorsToBeDeleted.clear();
+
+		// Lock FPS at 60
+		while (SDL_GetTicks() < m_TicksCount + 16);
 	}
 	
 	void Game::GenerateOutput()
 	{
 		m_Renderer->Draw();
 	}
-
-
 
 	void Game::AddActor(Actor* actor)
 	{
@@ -125,7 +131,7 @@ namespace jLab
 		if (iter != m_Actors.end())
 		{
 			std::iter_swap(iter, m_Actors.end() - 1);
-			m_Actors.erase(m_Actors.end() - 1);
+			m_Actors.pop_back();
 			return;
 		}
 
@@ -133,7 +139,27 @@ namespace jLab
 		if (iter != m_PendingActors.end())
 		{
 			std::iter_swap(iter, m_PendingActors.end() - 1);
-			m_PendingActors.erase(m_PendingActors.end() - 1);
+			m_PendingActors.pop_back();
 		}
+	}
+
+	void Game::LoadData()
+	{
+		BagActor* ba = new BagActor(this);
+		ba->SetPosition(glm::vec3(0, 0, -5));
+		ba->SetScale(glm::vec3(0.5f));
+
+		Actor* actor = new Actor(this);
+		Model* model = m_Renderer->GetModel("Assets/Models/scene/scene.obj");
+		MeshRenderer* mr = new MeshRenderer(actor);
+		mr->SetModel(model);
+		mr->SetSpecular(glm::vec3(0.2f), 8);
+		actor->SetPosition(glm::vec3(0, -1, 0));
+
+		m_Camera->SetPosition(glm::vec3(0, 0, 5));
+	}
+
+	void Game::UnloadData()
+	{
 	}
 }

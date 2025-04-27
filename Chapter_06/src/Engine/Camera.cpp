@@ -27,11 +27,11 @@ namespace jLab
 		if (keyState[SDL_SCANCODE_A]) SetPosition(GetPosition() - GetRight() * speed);
 		if (keyState[SDL_SCANCODE_RIGHT])
 		{
-			SetRotation(GetRotation() * glm::angleAxis(glm::radians(speed * 20), glm::vec3(0, 1, 0)));
+			SetRotation(GetRotation() * glm::angleAxis(glm::radians(-speed * 20), glm::vec3(0, 1, 0)));
 		}
 		if (keyState[SDL_SCANCODE_LEFT])
 		{
-			SetRotation(GetRotation() * glm::angleAxis(glm::radians(-speed * 20), glm::vec3(0, 1, 0)));
+			SetRotation(GetRotation() * glm::angleAxis(glm::radians(speed * 20), glm::vec3(0, 1, 0)));
 		}
 	}
 	

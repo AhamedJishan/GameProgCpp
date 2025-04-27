@@ -35,13 +35,14 @@ namespace jLab
 		glm::quat GetRotation() { return m_Rotation; }
 		glm::vec3 GetForward() { return glm::normalize(m_Rotation * glm::vec3(0, 0, -1)); }
 		glm::vec3 GetRight() { return glm::normalize(glm::cross(GetForward(), glm::vec3(0, 1, 0))); }
+		glm::mat4 GetWorldTransform() { return m_WorldTransform; }
 
 		void SetState(const State state) { m_State = state; }
 		void SetPosition(const glm::vec3 position) { m_Position = position; m_RecomputeWorldTransform = true; }
 		void SetScale(const glm::vec3 scale) { m_Scale = scale; m_RecomputeWorldTransform = true; }
 		void SetRotation(const glm::quat rotation) { m_Rotation = rotation; m_RecomputeWorldTransform = true; }
 		void Rotate(float angle, glm::vec3 axis) {
-			m_Rotation = glm::normalize(glm::angleAxis(glm::radians(angle), axis) * m_Rotation);
+			m_Rotation = glm::normalize(m_Rotation * glm::angleAxis(angle, axis));
 			m_RecomputeWorldTransform = true;
 		}
 
