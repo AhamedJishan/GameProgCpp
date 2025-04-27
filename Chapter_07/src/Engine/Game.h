@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 namespace jLab
 {
 	class Game
@@ -12,6 +14,8 @@ namespace jLab
 		void Shutdown();
 
 		// TODO: Actor management
+		void AddActor(class Actor* actor);
+		void RemoveActor(class Actor* actor);
 
 	private:
 		void ProcessInput();
@@ -23,5 +27,9 @@ namespace jLab
 
 		int m_TicksCount;
 		bool m_IsRunning;
+
+		std::vector<class Actor*> m_Actors;
+		std::vector<class Actor*> m_PendingActors;
+		bool m_UpdatingActors;
 	};
 }

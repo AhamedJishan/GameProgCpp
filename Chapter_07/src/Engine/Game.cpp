@@ -1,7 +1,9 @@
 #include "Game.h"
 
 #include <SDL/SDL.h>
+#include <algorithm>
 #include "Renderer.h"
+#include "Actor.h"
 
 namespace jLab
 {
@@ -64,15 +66,74 @@ namespace jLab
 		if (keyState[SDL_SCANCODE_ESCAPE])
 			m_IsRunning = false;
 		
-		// TODO: Call processInput for all actors
+		for (Actor* actor : m_PendingActors)
+			actor->ProcessInput(keyState);
 	}
 	
 	void Game::UpdateGame()
 	{
+		// DeltaTime Calculations
+		float deltaTime = (SDL_GetTicks() - m_TicksCount)/1000.0f;
+		deltaTime = deltaTime > 0.05 ? 0.05 : deltaTime;
+		m_TicksCount = SDL_GetTicks();
+
+		// Lock FPS at 60
+		while (!SDL_TICKS_PASSED(SDL_GetTicks(), m_TicksCount + 16));
+
+		// UPDATE all actors
+		m_UpdatingActors = true;
+		for (Actor* actor : m_Actors)
+			actor->Update(deltaTime);
+		m_UpdatingActors = false;
+
+		// MOVE pending actors to m_Actors
+		for (Actor* actor : m_PendingActors)
+			m_PendingActors.emplace_back(actor);
+		m_PendingActors.clear();
+
+		// DELETE dead actors
+		std::vector<Actor*> actorsToBeDeleted;
+
+		for (Actor* actor : m_Actors)
+			if (actor->GetState() == Actor::E_Dead)
+				actorsToBeDeleted.emplace_back(actor);
+		// Destructor of the actor calls RemoveActor()
+		for (Actor* actor : actorsToBeDeleted)
+			delete actor;
+
+		actorsToBeDeleted.clear();
 	}
 	
 	void Game::GenerateOutput()
 	{
 		m_Renderer->Draw();
+	}
+
+
+
+	void Game::AddActor(Actor* actor)
+	{
+		if (m_UpdatingActors)
+			m_PendingActors.emplace_back(actor);
+		else
+			m_Actors.emplace_back(actor);
+	}
+
+	void Game::RemoveActor(Actor* actor)
+	{
+		auto iter = std::find(m_Actors.begin(), m_Actors.end(), actor);
+		if (iter != m_Actors.end())
+		{
+			std::iter_swap(iter, m_Actors.end() - 1);
+			m_Actors.erase(m_Actors.end() - 1);
+			return;
+		}
+
+		iter = std::find(m_PendingActors.begin(), m_PendingActors.end(), actor);
+		if (iter != m_PendingActors.end())
+		{
+			std::iter_swap(iter, m_PendingActors.end() - 1);
+			m_PendingActors.erase(m_PendingActors.end() - 1);
+		}
 	}
 }
