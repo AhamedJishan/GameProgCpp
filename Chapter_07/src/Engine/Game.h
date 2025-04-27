@@ -16,6 +16,8 @@ namespace jLab
 		void AddActor(class Actor* actor);
 		void RemoveActor(class Actor* actor);
 
+		class Renderer* GetRenderer() { return m_Renderer; }
+
 	private:
 		void ProcessInput();
 		void UpdateGame();

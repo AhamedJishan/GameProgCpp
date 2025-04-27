@@ -14,15 +14,13 @@ namespace jLab
 			E_NORMAL
 		};
 
-		Texture(const std::string& filename, TextureType type = E_DIFFUSE);
+		Texture();
 		~Texture();
 
-		void SetActive();
+		bool Load(const std::string& filename, TextureType type = E_DIFFUSE);
+		void SetActive(int slot = 0);
 
 		TextureType GetType() { return m_Type; }
-
-	private:
-		void Load(const std::string& filename);
 
 	private:
 		unsigned int m_Id;

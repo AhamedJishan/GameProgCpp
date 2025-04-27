@@ -6,13 +6,11 @@
 
 namespace jLab
 {
-	Texture::Texture(const std::string& filename, TextureType type)
-		:m_Type(type),
-		m_Id(0),
+	Texture::Texture()
+		:m_Id(0),
 		m_Width(0),
 		m_Height(0)
 	{
-		Load(filename);
 	}
 	
 	Texture::~Texture()
@@ -20,19 +18,22 @@ namespace jLab
 		glDeleteTextures(1, &m_Id);
 	}
 	
-	void Texture::SetActive()
+	void Texture::SetActive(int slot)
 	{
+		glActiveTexture(GL_TEXTURE0 + slot);
 		glBindTexture(GL_TEXTURE_2D, m_Id);
 	}
 
-	void Texture::Load(const std::string& filename)
+	bool Texture::Load(const std::string& filename, TextureType type)
 	{
+		m_Type = type;
+
 		int nrChannels;
 		unsigned char* data = stbi_load(filename.c_str(), &m_Width, &m_Height, &nrChannels, 0);
 		if (!data)
 		{
 			SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to load image: %s", filename.c_str());
-			return;
+			return false;
 		}
 
 		GLenum format = 0;
@@ -43,7 +44,7 @@ namespace jLab
 		{
 			SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "%d channel images are not supported", nrChannels);
 			stbi_image_free(data);
-			return;
+			return false;
 		}
 
 		glGenTextures(1, &m_Id);
@@ -54,5 +55,6 @@ namespace jLab
 		glGenerateMipmap(GL_TEXTURE_2D);
 
 		stbi_image_free(data);
+		return true;
 	}
 }
