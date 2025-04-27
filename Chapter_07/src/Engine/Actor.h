@@ -1,10 +1,10 @@
 #pragma once
 
 #include <cstdint>
-
+#include <vector>
 #include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>
-#include<glm/gtc/quaternion.hpp>
+#include <glm/gtc/quaternion.hpp>
 
 namespace jLab
 {
@@ -24,7 +24,8 @@ namespace jLab
 		void ProcessInput(const uint8_t* keyState);
 		void Update(float deltaTime);
 
-		// TODO: Component Management
+		void AddComponent(class Component* component);
+		void RemoveComponent(class Component* component);
 
 		class Game* GetGame() { return m_Game; }
 		State GetState() { return m_State; }
@@ -58,5 +59,7 @@ namespace jLab
 
 		bool m_RecomputeWorldTransform;
 		glm::mat4 m_WorldTransform;
+
+		std::vector<class Component*> m_Components;
 	};
 }
