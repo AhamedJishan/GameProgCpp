@@ -1,0 +1,58 @@
+#include "Texture.h"
+
+#include <GLEW/GL/glew.h>
+#include <SDL/SDL.h>
+#include "stbi/stb_image.h"
+
+namespace jLab
+{
+	Texture::Texture(const std::string& filename, TextureType type)
+		:m_Type(type),
+		m_Id(0),
+		m_Width(0),
+		m_Height(0)
+	{
+		Load(filename);
+	}
+	
+	Texture::~Texture()
+	{
+		glDeleteTextures(1, &m_Id);
+	}
+	
+	void Texture::SetActive()
+	{
+		glBindTexture(GL_TEXTURE_2D, m_Id);
+	}
+
+	void Texture::Load(const std::string& filename)
+	{
+		int nrChannels;
+		unsigned char* data = stbi_load(filename.c_str(), &m_Width, &m_Height, &nrChannels, 0);
+		if (!data)
+		{
+			SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to load image: %s", filename.c_str());
+			return;
+		}
+
+		GLenum format = 0;
+		if		(nrChannels == 1) format = GL_RED;
+		else if (nrChannels == 3) format = GL_RGB;
+		else if (nrChannels == 4) format = GL_RGBA;
+		else
+		{
+			SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "%d channel images are not supported", nrChannels);
+			stbi_image_free(data);
+			return;
+		}
+
+		glGenTextures(1, &m_Id);
+		glBindTexture(GL_TEXTURE_2D, m_Id);
+		glTexImage2D(GL_TEXTURE_2D, 0, format, m_Width, m_Height, 0, format, GL_UNSIGNED_BYTE, data);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glGenerateMipmap(GL_TEXTURE_2D);
+
+		stbi_image_free(data);
+	}
+}

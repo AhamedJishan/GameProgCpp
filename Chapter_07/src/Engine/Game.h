@@ -13,7 +13,6 @@ namespace jLab
 		void Run();
 		void Shutdown();
 
-		// TODO: Actor management
 		void AddActor(class Actor* actor);
 		void RemoveActor(class Actor* actor);
 

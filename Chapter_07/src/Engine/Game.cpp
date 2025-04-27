@@ -74,7 +74,7 @@ namespace jLab
 	{
 		// DeltaTime Calculations
 		float deltaTime = (SDL_GetTicks() - m_TicksCount)/1000.0f;
-		deltaTime = deltaTime > 0.05 ? 0.05 : deltaTime;
+		deltaTime = deltaTime > 0.05f ? 0.05f : deltaTime;
 		m_TicksCount = SDL_GetTicks();
 
 		// Lock FPS at 60
