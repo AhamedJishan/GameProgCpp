@@ -22,6 +22,9 @@ namespace jLab
 
 		TextureType GetType() { return m_Type; }
 
+		int GetWidth() { return m_Width; }
+		int GetHeight() { return m_Height; }
+
 	private:
 		unsigned int m_Id;
 		TextureType m_Type;

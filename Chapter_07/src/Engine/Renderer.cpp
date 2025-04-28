@@ -6,6 +6,7 @@
 #include "Shader.h"
 #include "Camera.h"
 #include "Component/MeshRenderer.h"
+#include "Component/SpriteComponent.h"
 #include "Model.h"
 
 namespace jLab
@@ -59,21 +60,28 @@ namespace jLab
 
 		glViewport(0, 0, m_Width, m_Height);
 
-		// TODO: Load Shaders and create spriteverts
-		m_MeshShader = new Shader("Assets/Shaders/Phong.vert", "Assets/Shaders/Phong.frag");
+		LoadShaders();
+		InitSpriteVerts();
 
 		return true;
 	}
 	
 	void Renderer::Shutdown()
 	{
+		glDeleteVertexArrays(1, &m_SpriteVAO);
+		glDeleteBuffers(1, &m_SpriteVBO);
+		glDeleteBuffers(1, &m_SpriteEBO);
+		delete m_MeshShader;
+		delete m_SpriteShader;
+
 		SDL_GL_DeleteContext(m_Context);
 		SDL_DestroyWindow(m_Window);
 	}
 	
 	void Renderer::Draw()
 	{
-		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+		//glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+		glClearColor(0.21f, 0.2058f, 0.252f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glEnable(GL_DEPTH_TEST);
@@ -83,13 +91,25 @@ namespace jLab
 		m_MeshShader->SetVec3("u_CameraPos", m_Game->GetCamera()->GetPosition());
 		m_MeshShader->SetVec3("u_LightColor", glm::vec3(1.0f));
 		m_MeshShader->SetVec3("u_LightDir", glm::vec3(1, -0.5f, -1));
-		m_MeshShader->SetVec3("u_AmbientColor", glm::vec3(0.2f, 0.2f, 0.3f));
+		m_MeshShader->SetVec3("u_AmbientColor", glm::vec3(0.21f, 0.2f, 0.25f));
 
 		for (MeshRenderer* mesh : m_Meshes)
 			mesh->Draw(m_MeshShader);
 
 
 		glDisable(GL_DEPTH_TEST);
+
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		m_SpriteShader->SetActive();
+		m_SpriteShader->SetMat4("u_ViewProjection", m_Game->GetCamera()->GetOrthoProjMatrix());
+		glBindVertexArray(m_SpriteVAO);
+
+		for (SpriteComponent* sprite : m_Sprites)
+			sprite->Draw(m_SpriteShader);
+
+		glDisable(GL_BLEND);
 
 		SDL_GL_SwapWindow(m_Window);
 	}
@@ -104,6 +124,25 @@ namespace jLab
 		auto iter = std::find(m_Meshes.begin(), m_Meshes.end(), mesh);
 		if (iter != m_Meshes.end())
 			m_Meshes.erase(iter);
+	}
+
+	void Renderer::AddSpriteComponent(SpriteComponent* sprite)
+	{
+		int drawOrder = sprite->GetDrawOrder();
+		auto iter = m_Sprites.begin();
+		
+		for (; iter != m_Sprites.end(); iter++)
+			if (drawOrder < (*iter)->GetDrawOrder())
+				break;
+
+		m_Sprites.insert(iter, sprite);
+	}
+
+	void Renderer::RemoveSpriteComponent(SpriteComponent* sprite)
+	{
+		auto iter = std::find(m_Sprites.begin(), m_Sprites.end(), sprite);
+		if (iter != m_Sprites.end())
+			m_Sprites.erase(iter);
 	}
 
 	Texture* Renderer::GetTexture(const std::string filename, Texture::TextureType type)
@@ -135,5 +174,47 @@ namespace jLab
 		m_Models.emplace(filename, model);
 
 		return model;
+	}
+
+	void Renderer::LoadShaders()
+	{
+		m_MeshShader = new Shader("Assets/Shaders/Phong.vert", "Assets/Shaders/Phong.frag");
+		m_SpriteShader = new Shader("Assets/Shaders/Sprite.vert", "Assets/Shaders/Sprite.frag");
+	}
+	
+	void Renderer::InitSpriteVerts()
+	{
+		float vertices[] = {
+			-0.5f, 0.5f, 0.f,	 0.f, 0.f, 0.0f,	 0.f, 0.f, // top left
+			 0.5f, 0.5f, 0.f,	 0.f, 0.f, 0.0f,	 1.f, 0.f, // top right
+			 0.5f,-0.5f, 0.f,	 0.f, 0.f, 0.0f,	 1.f, 1.f, // bottom right
+			-0.5f,-0.5f, 0.f,	 0.f, 0.f, 0.0f,	 0.f, 1.f  // bottom left
+		};
+
+		unsigned int indices[] = {
+			0, 1, 2,
+			2, 3, 0
+		};
+
+		glGenVertexArrays(1, &m_SpriteVAO);
+		glGenBuffers(1, &m_SpriteVBO);
+		glGenBuffers(1, &m_SpriteEBO);
+
+		glBindVertexArray(m_SpriteVAO);
+
+		glBindBuffer(GL_ARRAY_BUFFER, m_SpriteVBO);
+		glBufferData(GL_ARRAY_BUFFER, 4 * 8 * sizeof(float), &vertices[0], GL_STATIC_DRAW);
+
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_SpriteEBO);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
+
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), 0);
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), reinterpret_cast<void*>(3 * sizeof(float)));
+		glEnableVertexAttribArray(2);
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), reinterpret_cast<void*>(6 * sizeof(float)));
+
+		glBindVertexArray(0);
 	}
 }

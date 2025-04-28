@@ -13,7 +13,7 @@ namespace jLab
 		MeshRenderer* mc = new MeshRenderer(this);
 		Model* model = m_Game->GetRenderer()->GetModel("Assets/Models/backpack/backpack.obj");
 		mc->SetModel(model);
-		mc->SetSpecular(glm::vec3(1.0f), 32);
+		mc->SetSpecular(glm::vec3(0.4f), 8);
 	}
 
 	BagActor::~BagActor()

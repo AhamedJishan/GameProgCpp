@@ -7,8 +7,10 @@
 #include "Camera.h"
 
 #include "Game/BagActor.h"
-#include "Component/MeshRenderer.h"
-#include "Model.h"
+#include "Game/ContainerActor.h"
+#include "Game/SceneActor.h"
+#include "Game/radarActor.h"
+#include "Game/HealthBarActor.h"
 
 namespace jLab
 {
@@ -17,7 +19,7 @@ namespace jLab
 		m_IsRunning = true;
 		m_TicksCount = 0;
 		m_Renderer = new Renderer(this);
-		m_Camera = new Camera(this, 1280, 720, 0.1f, 1000.0f, 90.0f);
+		m_Camera = new Camera(this, 1280, 720, 0.1f, 1000.0f, 80.0f);
 	}
 	
 	bool Game::Init()
@@ -146,15 +148,21 @@ namespace jLab
 	void Game::LoadData()
 	{
 		BagActor* ba = new BagActor(this);
-		ba->SetPosition(glm::vec3(0, 0, -5));
+		ba->SetPosition(glm::vec3(1, 0, -5));
 		ba->SetScale(glm::vec3(0.5f));
 
-		Actor* actor = new Actor(this);
-		Model* model = m_Renderer->GetModel("Assets/Models/scene/scene.obj");
-		MeshRenderer* mr = new MeshRenderer(actor);
-		mr->SetModel(model);
-		mr->SetSpecular(glm::vec3(0.2f), 8);
-		actor->SetPosition(glm::vec3(0, -1, 0));
+		ContainerActor* ca = new ContainerActor(this);
+		ca->SetPosition(glm::vec3(-1, 0, 0));
+
+		SceneActor* sa = new SceneActor(this);
+		sa->SetPosition(glm::vec3(0, -1, 0));
+
+		RadarActor* ra = new RadarActor(this);
+		ra->SetScale(glm::vec3(0.75f));
+		ra->SetPosition(glm::vec3(530.0f, -250.0f, 0.0f));
+
+		HealthBarActor* ha = new HealthBarActor(this);
+		ha->SetPosition(glm::vec3(-485.0f, -320.0f, 0.0f));
 
 		m_Camera->SetPosition(glm::vec3(0, 0, 5));
 	}
