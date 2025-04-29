@@ -17,6 +17,7 @@ namespace jLab
 		void RemoveActor(class Actor* actor);
 
 		class Renderer* GetRenderer() { return m_Renderer; }
+		class AudioSystem* GetAudioSystem() { return m_AudioSystem; }
 		class Camera* GetCamera() { return m_Camera; }
 
 	private:
@@ -29,6 +30,7 @@ namespace jLab
 
 	private:
 		class Renderer* m_Renderer;
+		class AudioSystem* m_AudioSystem;
 		class Camera* m_Camera;
 
 		int m_TicksCount;

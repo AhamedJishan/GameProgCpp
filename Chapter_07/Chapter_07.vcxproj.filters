@@ -56,6 +56,8 @@
     <ClInclude Include="src\Engine\Component\SpriteComponent.h" />
     <ClInclude Include="src\Game\RadarActor.h" />
     <ClInclude Include="src\Game\HealthBarActor.h" />
+    <ClInclude Include="src\Engine\AudioSystem.h" />
+    <ClInclude Include="src\Engine\SoundEvent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Actor.cpp">
@@ -100,6 +102,8 @@
     <ClCompile Include="src\Engine\Component\SpriteComponent.cpp" />
     <ClCompile Include="src\Game\RadarActor.cpp" />
     <ClCompile Include="src\Game\HealthBarActor.cpp" />
+    <ClCompile Include="src\Engine\AudioSystem.cpp" />
+    <ClCompile Include="src\Engine\SoundEvent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Shaders\Phong.vert" />

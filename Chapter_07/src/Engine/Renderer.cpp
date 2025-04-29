@@ -22,7 +22,6 @@ namespace jLab
 	
 	Renderer::~Renderer()
 	{
-		Shutdown();
 	}
 	
 	bool Renderer::Init(int screenWidth, int screenHeight)
@@ -81,7 +80,7 @@ namespace jLab
 	void Renderer::Draw()
 	{
 		//glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-		glClearColor(0.21f, 0.2058f, 0.252f, 1.0f);
+		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glEnable(GL_DEPTH_TEST);
@@ -91,7 +90,7 @@ namespace jLab
 		m_MeshShader->SetVec3("u_CameraPos", m_Game->GetCamera()->GetPosition());
 		m_MeshShader->SetVec3("u_LightColor", glm::vec3(1.0f));
 		m_MeshShader->SetVec3("u_LightDir", glm::vec3(1, -0.5f, -1));
-		m_MeshShader->SetVec3("u_AmbientColor", glm::vec3(0.21f, 0.2f, 0.25f));
+		m_MeshShader->SetVec3("u_AmbientColor", glm::vec3(0.2f, 0.2f, 0.25f));
 
 		for (MeshRenderer* mesh : m_Meshes)
 			mesh->Draw(m_MeshShader);

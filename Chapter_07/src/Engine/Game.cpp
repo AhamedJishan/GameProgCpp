@@ -3,6 +3,8 @@
 #include <SDL/SDL.h>
 #include <algorithm>
 #include "Renderer.h"
+#include "AudioSystem.h"
+#include "SoundEvent.h"
 #include "Actor.h"
 #include "Camera.h"
 
@@ -19,6 +21,7 @@ namespace jLab
 		m_IsRunning = true;
 		m_TicksCount = 0;
 		m_Renderer = new Renderer(this);
+		m_AudioSystem = new AudioSystem(this);
 		m_Camera = new Camera(this, 1280, 720, 0.1f, 1000.0f, 80.0f);
 	}
 	
@@ -31,8 +34,7 @@ namespace jLab
 		}
 
 		m_Renderer->Init(1280, 720);
-
-		// TODO: Initialise AudioSystem
+		m_AudioSystem->Init();
 
 		LoadData();
 		return true;
@@ -52,7 +54,10 @@ namespace jLab
 	{
 		UnloadData();
 		delete m_Camera;
+		m_Renderer->Shutdown();
 		delete m_Renderer;
+		m_AudioSystem->Shutdown();
+		delete m_AudioSystem;
 		SDL_Quit();
 	}
 	
@@ -110,6 +115,8 @@ namespace jLab
 
 		actorsToBeDeleted.clear();
 
+		m_AudioSystem->Update(deltaTime);
+
 		// Lock FPS at 60
 		while (SDL_GetTicks() < m_TicksCount + 16);
 	}
@@ -165,6 +172,9 @@ namespace jLab
 		ha->SetPosition(glm::vec3(-485.0f, -320.0f, 0.0f));
 
 		m_Camera->SetPosition(glm::vec3(0, 0, 5));
+
+		SoundEvent audioEvent = m_AudioSystem->PlayEvent("event:/Music");
+		audioEvent.SetPaused(false);
 	}
 
 	void Game::UnloadData()
