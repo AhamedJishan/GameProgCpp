@@ -24,7 +24,7 @@ namespace jLab
 		while (iter != m_Events2D.end())
 		{
 			if (!iter->IsValid())
-				m_Events2D.erase(iter);
+				iter = m_Events2D.erase(iter);
 			else
 				iter++;
 		}

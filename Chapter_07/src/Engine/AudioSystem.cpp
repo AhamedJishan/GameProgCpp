@@ -101,16 +101,15 @@ namespace jLab
 			m_Banks.emplace(name, bank);
 			bank->loadSampleData();
 
+			// Fetching events
 			int numEvents = 0;
 			bank->getEventCount(&numEvents);
-
 			if (numEvents > 0)
 			{
 				std::vector<FMOD::Studio::EventDescription*> events(numEvents);
 				bank->getEventList(events.data(), numEvents, &numEvents);
 
 				char eventName[maxPathLength];
-
 				for (int i = 0; i < numEvents; i++)
 				{
 					FMOD::Studio::EventDescription* event = events[i];
@@ -118,6 +117,24 @@ namespace jLab
 					m_Events.emplace(eventName, event);
 				}
 			}
+
+			// Fetching Buses
+			int numBuses = 0;
+			bank->getBusCount(&numBuses);
+			if (numBuses > 0)
+			{
+				std::vector<FMOD::Studio::Bus*> buses(numBuses);
+				bank->getBusList(buses.data(), numBuses, &numBuses);
+
+				char busName[maxPathLength];
+				for (int i = 0; i < numBuses; i++)
+				{
+					FMOD::Studio::Bus* bus = buses[i];
+					bus->getPath(busName, maxPathLength, nullptr);
+					m_Buses.emplace(busName, bus);
+				}
+			}
+
 		}
 		else
 		{
@@ -211,6 +228,52 @@ namespace jLab
 		listener.velocity = { 0, 0, 0 };
 
 		m_System->setListenerAttributes(0, &listener);
+	}
+
+	float AudioSystem::GetBusVolume(const std::string& name)
+	{
+		float volume = 0.0f;
+		auto iter = m_Buses.find(name);
+
+		if (iter != m_Buses.end())
+			iter->second->getVolume(&volume);
+		else
+			SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Bus '%s' is not a part of any loaded buses", name.c_str());
+
+		return volume;
+	}
+
+	bool AudioSystem::GetBusPaused(const std::string& name)
+	{
+		bool paused = false;
+		auto iter = m_Buses.find(name);
+
+		if (iter != m_Buses.end())
+			iter->second->getPaused(&paused);
+		else
+			SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Bus '%s' is not a part of any loaded buses", name.c_str());
+
+		return paused;
+	}
+
+	void AudioSystem::SetBusVolume(const std::string& name, float volume)
+	{
+		auto iter = m_Buses.find(name);
+
+		if (iter != m_Buses.end())
+			iter->second->setVolume(volume);
+		else
+			SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Bus '%s' is not a part of any loaded buses", name.c_str());
+	}
+
+	void AudioSystem::SetBusPaused(const std::string& name, bool pause)
+	{
+		auto iter = m_Buses.find(name);
+
+		if (iter != m_Buses.end())
+			iter->second->setPaused(pause);
+		else
+			SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Bus '%s' is not a part of any loaded buses", name.c_str());
 	}
 
 	FMOD::Studio::EventInstance* AudioSystem::GetEventInstance(unsigned int id)

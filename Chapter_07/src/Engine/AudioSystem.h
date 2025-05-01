@@ -29,6 +29,11 @@ namespace jLab
 
 		void SetListener(glm::mat4& viewMatrix);
 
+		float GetBusVolume(const std::string& name);
+		bool GetBusPaused(const std::string& name);
+		void SetBusVolume(const std::string& name, float volume);
+		void SetBusPaused(const std::string& name, bool pause);
+
 	protected:
 		friend class SoundEvent;
 		FMOD::Studio::EventInstance* GetEventInstance(unsigned int id);
@@ -41,6 +46,7 @@ namespace jLab
 		FMOD::System* m_CoreSystem;
 
 		std::unordered_map<std::string, FMOD::Studio::Bank*> m_Banks;
+		std::unordered_map<std::string, FMOD::Studio::Bus*> m_Buses;
 		std::unordered_map<std::string, FMOD::Studio::EventDescription*> m_Events;
 		std::unordered_map<unsigned int, FMOD::Studio::EventInstance*> m_EventInstances;
 	};
