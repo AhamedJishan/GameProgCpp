@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include "SoundEvent.h"
 
 namespace jLab
 {
@@ -39,5 +40,11 @@ namespace jLab
 		std::vector<class Actor*> m_Actors;
 		std::vector<class Actor*> m_PendingActors;
 		bool m_UpdatingActors;
+
+	private:
+		void HandleKeyPress(int keyState);
+
+	private:
+		SoundEvent m_ReverbSnapshot;
 	};
 }

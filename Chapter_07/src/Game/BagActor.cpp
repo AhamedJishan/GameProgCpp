@@ -5,6 +5,7 @@
 #include "Engine/Game.h"
 #include "Engine/Renderer.h"
 #include "Engine/Component/AudioComponent.h"
+#include "Engine/SoundEvent.h"
 
 namespace jLab
 {

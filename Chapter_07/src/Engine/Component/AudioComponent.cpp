@@ -1,6 +1,5 @@
 #include "AudioComponent.h"
 
-#include "Engine/SoundEvent.h"
 #include "Engine/AudioSystem.h"
 #include "Engine/Actor.h"
 #include "Engine/Game.h"
@@ -46,7 +45,7 @@ namespace jLab
 				event.Set3DAttributes(m_Owner->GetWorldTransform());
 	}
 	
-	void AudioComponent::PlayEvent(const std::string& name)
+	SoundEvent AudioComponent::PlayEvent(const std::string& name)
 	{
 		SoundEvent event = m_Owner->GetGame()->GetAudioSystem()->PlayEvent(name);
 		if (event.Is3D())
@@ -56,6 +55,8 @@ namespace jLab
 		}
 		else
 			m_Events2D.emplace_back(event);
+
+		return event;
 	}
 	
 	void AudioComponent::StopAllEvents()

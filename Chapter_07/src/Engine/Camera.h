@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Actor.h"
-
+#include "SoundEvent.h"
 
 namespace jLab
 {
@@ -24,5 +24,11 @@ namespace jLab
 		float m_NearPlane;
 		float m_FarPlane;
 		float m_FOV;
+
+	private:
+		class AudioComponent* m_AudioComponent;
+		SoundEvent m_FootstepSound;
+		float m_LastFootstep;
+		const float m_FOOTSTEP_INTERVAL = 0.5f;
 	};
 }

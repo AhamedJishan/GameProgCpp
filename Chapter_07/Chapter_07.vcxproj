@@ -113,6 +113,7 @@
     <ClInclude Include="src\Game\BagActor.h" />
     <ClInclude Include="src\Game\ContainerActor.h" />
     <ClInclude Include="src\Game\HealthBarActor.h" />
+    <ClInclude Include="src\Game\ManagerActor.h" />
     <ClInclude Include="src\Game\RadarActor.h" />
     <ClInclude Include="src\Game\SceneActor.h" />
     <ClInclude Include="src\stbi\stb_image.h" />
@@ -136,6 +137,7 @@
     <ClCompile Include="src\Game\BagActor.cpp" />
     <ClCompile Include="src\Game\ContainerActor.cpp" />
     <ClCompile Include="src\Game\HealthBarActor.cpp" />
+    <ClCompile Include="src\Game\ManagerActor.cpp" />
     <ClCompile Include="src\Game\RadarActor.cpp" />
     <ClCompile Include="src\Game\SceneActor.cpp" />
     <ClCompile Include="src\stbi\stb_image.cpp" />

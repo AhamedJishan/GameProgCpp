@@ -2,6 +2,8 @@
 
 #include "Game.h"
 #include "Renderer.h"
+#include "Component/AudioComponent.h"
+//#include "SoundEvent.h"
 
 namespace jLab
 {
@@ -13,6 +15,11 @@ namespace jLab
 		m_FarPlane(farPlane),
 		m_FOV(fov)
 	{
+		m_AudioComponent = new AudioComponent(this);
+		m_FootstepSound = m_AudioComponent->PlayEvent("event:/Footstep");
+		m_FootstepSound.SetPaused(true);
+
+		m_LastFootstep = 0.0f;
 	}
 	
 	Camera::~Camera()
@@ -22,6 +29,8 @@ namespace jLab
 	void Camera::InputActor(const uint8_t* keyState)
 	{
 		float speed = 0.05f;
+		glm::vec3 curPos = GetPosition();
+
 		if (keyState[SDL_SCANCODE_W]) SetPosition(GetPosition() + GetForward() * speed);
 		if (keyState[SDL_SCANCODE_S]) SetPosition(GetPosition() - GetForward() * speed);
 		if (keyState[SDL_SCANCODE_D]) SetPosition(GetPosition() + GetRight() * speed);
@@ -34,10 +43,18 @@ namespace jLab
 		{
 			SetRotation(GetRotation() * glm::angleAxis(glm::radians(speed * 20), glm::vec3(0, 1, 0)));
 		}
+
+		if (curPos != GetPosition() && m_LastFootstep <= 0.01f)
+		{
+			m_FootstepSound.SetPaused(false);
+			m_FootstepSound.Restart();
+			m_LastFootstep = m_FOOTSTEP_INTERVAL;
+		}
 	}
 	
 	void Camera::UpdateActor(float deltaTime)
 	{
+		m_LastFootstep -= deltaTime;
 	}
 	
 	glm::mat4 Camera::GetViewMatrix()

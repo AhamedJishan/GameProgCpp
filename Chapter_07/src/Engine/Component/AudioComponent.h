@@ -4,6 +4,8 @@
 #include <vector>
 #include <string>
 
+#include "Engine/SoundEvent.h"
+
 namespace jLab
 {
 	class AudioComponent : public Component
@@ -15,11 +17,11 @@ namespace jLab
 		void Update(float deltaTime) override;
 		void OnUpdateWorldTransform() override;
 
-		void PlayEvent(const std::string& name);
+		SoundEvent PlayEvent(const std::string& name);
 		void StopAllEvents();
 
 	private:
-		std::vector<class SoundEvent> m_Events2D;
-		std::vector<class SoundEvent> m_Events3D;
+		std::vector<SoundEvent> m_Events2D;
+		std::vector<SoundEvent> m_Events3D;
 	};
 }

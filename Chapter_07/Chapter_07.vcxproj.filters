@@ -59,6 +59,7 @@
     <ClInclude Include="src\Engine\AudioSystem.h" />
     <ClInclude Include="src\Engine\SoundEvent.h" />
     <ClInclude Include="src\Engine\Component\AudioComponent.h" />
+    <ClInclude Include="src\Game\ManagerActor.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Actor.cpp">
@@ -106,6 +107,7 @@
     <ClCompile Include="src\Engine\AudioSystem.cpp" />
     <ClCompile Include="src\Engine\SoundEvent.cpp" />
     <ClCompile Include="src\Engine\Component\AudioComponent.cpp" />
+    <ClCompile Include="src\Game\ManagerActor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Shaders\Phong.vert" />

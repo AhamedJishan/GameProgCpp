@@ -4,7 +4,6 @@
 #include <algorithm>
 #include "Renderer.h"
 #include "AudioSystem.h"
-#include "SoundEvent.h"
 #include "Actor.h"
 #include "Camera.h"
 
@@ -22,7 +21,6 @@ namespace jLab
 		m_TicksCount = 0;
 		m_Renderer = new Renderer(this);
 		m_AudioSystem = new AudioSystem(this);
-		m_Camera = new Camera(this, 1280, 720, 0.1f, 1000.0f, 80.0f);
 	}
 	
 	bool Game::Init()
@@ -35,6 +33,8 @@ namespace jLab
 
 		m_Renderer->Init(1280, 720);
 		m_AudioSystem->Init();
+
+		m_Camera = new Camera(this, 1280, 720, 0.1f, 1000.0f, 80.0f);
 
 		LoadData();
 		return true;
@@ -70,6 +70,10 @@ namespace jLab
 			{
 			case SDL_QUIT:
 				m_IsRunning = false;
+				break;
+			case SDL_KEYDOWN:
+				if (!event.key.repeat)
+					HandleKeyPress(event.key.keysym.scancode);
 				break;
 			default:
 				break;
@@ -175,11 +179,41 @@ namespace jLab
 		m_Camera->SetPosition(glm::vec3(0, 0, 5));
 
 		SoundEvent audioEvent = m_AudioSystem->PlayEvent("event:/Music");
-		audioEvent.SetVolume(0.5f);
-		audioEvent.SetPaused(false);
+		audioEvent.SetVolume(0.6f);
 	}
 
 	void Game::UnloadData()
 	{
+	}
+
+	void Game::HandleKeyPress(int keyState)
+	{
+		switch (keyState)
+		{
+		case SDL_SCANCODE_R:
+		{
+			if (!m_ReverbSnapshot.IsValid())
+				m_ReverbSnapshot = m_AudioSystem->PlayEvent("snapshot:/WithReverb");
+			else
+				m_ReverbSnapshot.Stop();
+			break;
+		}
+		case SDL_SCANCODE_UP:
+		{
+			float volume = m_AudioSystem->GetBusVolume("bus:/");
+			volume = std::min(1.0f, volume + 0.1f);
+			m_AudioSystem->SetBusVolume("bus:/", volume);
+			break;
+		}
+		case SDL_SCANCODE_DOWN:
+		{
+			float volume = m_AudioSystem->GetBusVolume("bus:/");
+			volume = std::max(0.0f, volume - 0.1f);
+			m_AudioSystem->SetBusVolume("bus:/", volume);
+			break;
+		}
+		default:
+			break;
+		}
 	}
 }
