@@ -40,6 +40,16 @@ namespace jLab
 	{
 	}
 	
+	glm::mat4 Camera::GetViewMatrix()
+	{
+		glm::vec3 pos = GetPosition();
+		glm::vec3 forward = GetForward();
+		glm::vec3 up = glm::vec3(0, 1, 0);
+
+		glm::mat4 view = glm::lookAt(pos, pos + forward, up);
+		return view;
+	}
+
 	glm::mat4 Camera::GetViewProjMatrix()
 	{
 		glm::vec3 pos = GetPosition();

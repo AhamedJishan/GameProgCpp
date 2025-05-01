@@ -4,9 +4,13 @@
 #include <unordered_map>
 #include <vector>
 #include <string>
+#include <glm/mat4x4.hpp>
 
 namespace jLab
 {
+	// Converts a vec3 to FMOD_VECTOR as i consider -Z to be forward, but FMOD takes +Z to be forward
+	FMOD_VECTOR VecToFmodVec(float x, float y, float z);
+
 	class AudioSystem
 	{
 	public:
@@ -22,6 +26,8 @@ namespace jLab
 		void UnloadAllBanks();
 
 		class SoundEvent PlayEvent(const std::string& name);
+
+		void SetListener(glm::mat4& viewMatrix);
 
 	protected:
 		friend class SoundEvent;

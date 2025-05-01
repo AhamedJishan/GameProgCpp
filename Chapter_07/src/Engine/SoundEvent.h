@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <glm/mat4x4.hpp>
 
 namespace jLab
 {
@@ -10,9 +11,11 @@ namespace jLab
 		SoundEvent();
 
 		bool IsValid();
+		bool Is3D();
 		void Restart();
 		void Stop(bool allowFadeOut = true);
 
+		void Set3DAttributes(const glm::mat4& worldTranform);
 		void SetPaused(bool pause);
 		void SetVolume(float value);
 		void SetPitch(float value);

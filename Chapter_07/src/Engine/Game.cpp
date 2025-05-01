@@ -116,6 +116,7 @@ namespace jLab
 		actorsToBeDeleted.clear();
 
 		m_AudioSystem->Update(deltaTime);
+		m_AudioSystem->SetListener(m_Camera->GetViewMatrix());
 
 		// Lock FPS at 60
 		while (SDL_GetTicks() < m_TicksCount + 16);
@@ -174,6 +175,7 @@ namespace jLab
 		m_Camera->SetPosition(glm::vec3(0, 0, 5));
 
 		SoundEvent audioEvent = m_AudioSystem->PlayEvent("event:/Music");
+		audioEvent.SetVolume(0.5f);
 		audioEvent.SetPaused(false);
 	}
 

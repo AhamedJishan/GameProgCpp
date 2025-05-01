@@ -14,6 +14,7 @@ namespace jLab
 		void InputActor(const uint8_t* keyState) override;
 		void UpdateActor(float deltaTime) override;
 
+		glm::mat4 GetViewMatrix();
 		glm::mat4 GetViewProjMatrix();
 		glm::mat4 GetOrthoProjMatrix();
 

@@ -58,6 +58,7 @@
     <ClInclude Include="src\Game\HealthBarActor.h" />
     <ClInclude Include="src\Engine\AudioSystem.h" />
     <ClInclude Include="src\Engine\SoundEvent.h" />
+    <ClInclude Include="src\Engine\Component\AudioComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Actor.cpp">
@@ -104,6 +105,7 @@
     <ClCompile Include="src\Game\HealthBarActor.cpp" />
     <ClCompile Include="src\Engine\AudioSystem.cpp" />
     <ClCompile Include="src\Engine\SoundEvent.cpp" />
+    <ClCompile Include="src\Engine\Component\AudioComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Shaders\Phong.vert" />

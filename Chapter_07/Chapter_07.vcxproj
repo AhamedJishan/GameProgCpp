@@ -99,6 +99,7 @@
     <ClInclude Include="src\Engine\Actor.h" />
     <ClInclude Include="src\Engine\AudioSystem.h" />
     <ClInclude Include="src\Engine\Camera.h" />
+    <ClInclude Include="src\Engine\Component\AudioComponent.h" />
     <ClInclude Include="src\Engine\Component\Component.h" />
     <ClInclude Include="src\Engine\Component\MeshRenderer.h" />
     <ClInclude Include="src\Engine\Component\SpriteComponent.h" />
@@ -120,6 +121,7 @@
     <ClCompile Include="src\Engine\Actor.cpp" />
     <ClCompile Include="src\Engine\AudioSystem.cpp" />
     <ClCompile Include="src\Engine\Camera.cpp" />
+    <ClCompile Include="src\Engine\Component\AudioComponent.cpp" />
     <ClCompile Include="src\Engine\Component\Component.cpp" />
     <ClCompile Include="src\Engine\Component\MeshRenderer.cpp" />
     <ClCompile Include="src\Engine\Component\SpriteComponent.cpp" />

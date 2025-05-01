@@ -4,6 +4,7 @@
 #include "Engine/Model.h"
 #include "Engine/Game.h"
 #include "Engine/Renderer.h"
+#include "Engine/Component/AudioComponent.h"
 
 namespace jLab
 {
@@ -14,6 +15,10 @@ namespace jLab
 		Model* model = m_Game->GetRenderer()->GetModel("Assets/Models/backpack/backpack.obj");
 		mc->SetModel(model);
 		mc->SetSpecular(glm::vec3(0.4f), 8);
+
+
+		AudioComponent* ac = new AudioComponent(this);
+		ac->PlayEvent("event:/FireLoop");
 	}
 
 	BagActor::~BagActor()

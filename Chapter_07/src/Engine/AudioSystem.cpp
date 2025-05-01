@@ -2,11 +2,24 @@
 
 #include <SDL/SDL.h>
 #include <fmod_errors.h>
+#include <glm/vec3.hpp>
 #include "SoundEvent.h"
+
 
 namespace jLab
 {
 	unsigned int AudioSystem::s_NextId = 0;
+
+	FMOD_VECTOR VecToFmodVec(float x, float y, float z)
+	{
+		FMOD_VECTOR retVec;
+
+		retVec.x = x;
+		retVec.y = y;
+		retVec.z = z;
+
+		return retVec;
+	}
 
 	AudioSystem::AudioSystem(Game* game)
 		:m_Game(game),
@@ -185,6 +198,21 @@ namespace jLab
 		return SoundEvent();
 	}
 
+	void AudioSystem::SetListener(glm::mat4& viewMatrix)
+	{
+		glm::mat4 invViewMat = glm::inverse(viewMatrix);
+
+		FMOD_3D_ATTRIBUTES listener;
+
+		listener.position = VecToFmodVec(invViewMat[3][0], invViewMat[3][1], invViewMat[3][2]);
+		listener.forward =	VecToFmodVec(invViewMat[2][0], invViewMat[2][1], invViewMat[2][2]);
+		listener.up =		VecToFmodVec(invViewMat[1][0], invViewMat[1][1], invViewMat[1][2]);
+
+		listener.velocity = { 0, 0, 0 };
+
+		m_System->setListenerAttributes(0, &listener);
+	}
+
 	FMOD::Studio::EventInstance* AudioSystem::GetEventInstance(unsigned int id)
 	{
 		FMOD::Studio::EventInstance* event = nullptr;
@@ -193,7 +221,7 @@ namespace jLab
 		if (iter != m_EventInstances.end())
 			event = iter->second;
 
-		return nullptr;
+		return event;
 	}
 
 }

@@ -18,12 +18,22 @@ namespace jLab
 	
 	bool SoundEvent::IsValid()
 	{
+		return (m_System && m_System->GetEventInstance(m_Id) != nullptr);
+	}
+
+	bool SoundEvent::Is3D()
+	{
+		bool is3D = false;
 		FMOD::Studio::EventInstance* event = m_System ? m_System->GetEventInstance(m_Id) : nullptr;
 
 		if (event)
-			return event->isValid();
-
-		return false;
+		{
+			FMOD::Studio::EventDescription* ed = nullptr;
+			event->getDescription(&ed);
+			if (ed)
+				ed->is3D(&is3D);
+		}
+		return is3D;
 	}
 	
 	void SoundEvent::Restart()
@@ -44,6 +54,23 @@ namespace jLab
 			event->stop(mode);
 	}
 	
+	void SoundEvent::Set3DAttributes(const glm::mat4& worldTranform)
+	{
+		FMOD::Studio::EventInstance* event = m_System ? m_System->GetEventInstance(m_Id) : nullptr;
+
+		if (event)
+		{
+			FMOD_3D_ATTRIBUTES attribute;
+
+			attribute.position	= VecToFmodVec(worldTranform[3][0], worldTranform[3][1], worldTranform[3][2]);
+			attribute.forward	= VecToFmodVec(worldTranform[2][0], worldTranform[2][1], worldTranform[2][2]);
+			attribute.up		= VecToFmodVec(worldTranform[1][0], worldTranform[1][1], worldTranform[1][2]);
+			attribute.velocity = { 0, 0, 0 };
+
+			event->set3DAttributes(&attribute);
+		}
+	}
+
 	void SoundEvent::SetPaused(bool pause)
 	{
 		FMOD::Studio::EventInstance* event = m_System ? m_System->GetEventInstance(m_Id) : nullptr;
