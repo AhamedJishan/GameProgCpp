@@ -14,7 +14,7 @@ namespace jLab
 		m_InputState.Keyboard.m_CurrentState = SDL_GetKeyboardState(NULL);
 		memset(m_InputState.Keyboard.m_PreviousState, 0, SDL_NUM_SCANCODES);
 
-		return false;
+		return true;
 	}
 	
 	void InputSystem::Shutdown()

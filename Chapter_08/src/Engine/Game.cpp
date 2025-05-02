@@ -2,6 +2,7 @@
 
 #include <SDL/SDL.h>
 #include "InputSystem.h"
+#include "Renderer.h"
 
 namespace jLab
 {
@@ -10,6 +11,7 @@ namespace jLab
 		m_IsRunning = true;
 		m_TicksCount = 0;
 		m_InputSystem = new InputSystem();
+		m_Renderer = new Renderer(this);
 	}
 	
 	bool Game::Init()
@@ -20,6 +22,7 @@ namespace jLab
 			return false;
 		}
 
+		m_Renderer->Init(1280, 720);
 		m_InputSystem->Init();
 
 		LoadData();
@@ -39,6 +42,7 @@ namespace jLab
 	
 	void Game::Shutdown()
 	{
+		m_Renderer->Shutdown();
 		m_InputSystem->Shutdown();
 		UnloadData();
 		SDL_Quit();
@@ -46,17 +50,22 @@ namespace jLab
 	
 	void Game::ProcessInput()
 	{
-		SDL_Event event;
-
 		m_InputSystem->PreUpdate();
 
-		while (!SDL_PollEvent(&event))
+		SDL_Event event;
+		while (SDL_PollEvent(&event))
 		{
 			switch (event.type)
 			{
 			case SDL_QUIT:
 			{
 				m_IsRunning = false;
+				break;
+			}
+			case SDL_KEYDOWN:
+			{
+				if (event.key.keysym.scancode == SDL_SCANCODE_ESCAPE)
+					m_IsRunning = false;
 				break;
 			}
 			default:
@@ -71,10 +80,15 @@ namespace jLab
 	
 	void Game::UpdateGame()
 	{
+		if (m_InputSystem->GetInputState().Keyboard.GetKeyState(SDL_SCANCODE_SPACE) == ButtonState::E_Released)
+			SDL_Log("Space Released");
+		if (m_InputSystem->GetInputState().Keyboard.GetKeyState(SDL_SCANCODE_SPACE) == ButtonState::E_Pressed)
+			SDL_Log("Space Pressed");
 	}
 	
 	void Game::GenerateOutput()
 	{
+		m_Renderer->Draw();
 	}
 	
 	void Game::LoadData()
