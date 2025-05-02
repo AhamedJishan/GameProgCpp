@@ -1,7 +1,7 @@
 #include "Game.h"
 
 #include <SDL/SDL.h>
-#include "Input/InputSystem.h"
+#include "InputSystem.h"
 
 namespace jLab
 {
