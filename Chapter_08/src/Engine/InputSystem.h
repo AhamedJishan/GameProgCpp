@@ -34,6 +34,8 @@ namespace jLab
 
 		const InputState& GetInputState() const { return m_InputState; }
 
+		void SetRelativeMouseMode(bool value);
+
 	private:
 		InputState m_InputState;
 	};

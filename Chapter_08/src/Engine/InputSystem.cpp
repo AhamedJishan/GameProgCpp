@@ -37,9 +37,21 @@ namespace jLab
 		m_InputState.Keyboard.m_CurrentState = SDL_GetKeyboardState(NULL);
 
 		// MOUSE
-		int x, y;
-		m_InputState.Mouse.m_CurrentState = SDL_GetMouseState(&x, &y);
-		m_InputState.Mouse.m_Position.x = static_cast<float>(x - WINDOW_WIDTH/2.0f);
-		m_InputState.Mouse.m_Position.y = static_cast<float>(WINDOW_HEIGHT/2.0f - y);
+		int x = 0, y = 0;
+		if (m_InputState.Mouse.m_RelativeMode)
+			m_InputState.Mouse.m_CurrentState = SDL_GetRelativeMouseState(&x, &y);
+		else
+			m_InputState.Mouse.m_CurrentState = SDL_GetMouseState(&x, &y);
+
+		m_InputState.Mouse.m_Position.x = static_cast<float>(x);
+		m_InputState.Mouse.m_Position.y = static_cast<float>(y);
+	}
+
+	void InputSystem::SetRelativeMouseMode(bool value)
+	{
+		SDL_bool set = value ? SDL_TRUE : SDL_FALSE;
+		SDL_SetRelativeMouseMode(set);
+
+		m_InputState.Mouse.m_RelativeMode = value;
 	}
 }

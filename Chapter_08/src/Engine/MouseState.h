@@ -20,5 +20,6 @@ namespace jLab
 		glm::vec2 m_Position;
 		uint32_t m_CurrentState;
 		uint32_t m_PreviousState;
+		bool m_RelativeMode;
 	};
 }
