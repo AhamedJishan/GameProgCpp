@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KeyboardState.h"
+#include "MouseState.h"
 
 namespace jLab
 {
@@ -15,6 +16,7 @@ namespace jLab
 	struct InputState
 	{
 		KeyboardState Keyboard;
+		MouseState Mouse;
 	};
 
 	class InputSystem

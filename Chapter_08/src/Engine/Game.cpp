@@ -22,7 +22,7 @@ namespace jLab
 			return false;
 		}
 
-		m_Renderer->Init(1280, 720);
+		m_Renderer->Init(WINDOW_WIDTH, WINDOW_HEIGHT);
 		m_InputSystem->Init();
 
 		LoadData();
@@ -84,6 +84,14 @@ namespace jLab
 			SDL_Log("Space Released");
 		if (m_InputSystem->GetInputState().Keyboard.GetKeyState(SDL_SCANCODE_SPACE) == ButtonState::E_Pressed)
 			SDL_Log("Space Pressed");
+
+		if (m_InputSystem->GetInputState().Mouse.GetButtonState(SDL_BUTTON_LEFT) == ButtonState::E_Released)
+			SDL_Log("Mouse Released");
+		if (m_InputSystem->GetInputState().Mouse.GetButtonState(SDL_BUTTON_LEFT) == ButtonState::E_Pressed)
+			SDL_Log("Mouse Pressed");
+		SDL_Log("Mouse position = %f, %f", m_InputSystem->GetInputState().Mouse.GetPosition().x,
+			m_InputSystem->GetInputState().Mouse.GetPosition().y);
+
 	}
 	
 	void Game::GenerateOutput()
