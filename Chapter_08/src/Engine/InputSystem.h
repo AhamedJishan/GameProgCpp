@@ -1,5 +1,6 @@
 #pragma once
 
+#include <SDL/SDL.h>
 #include "KeyboardState.h"
 #include "MouseState.h"
 
@@ -31,6 +32,8 @@ namespace jLab
 		void PreUpdate();
 		// Called right after SDL_PollEvents
 		void Update();
+
+		void ProcessEvent(SDL_Event& event);
 
 		const InputState& GetInputState() const { return m_InputState; }
 

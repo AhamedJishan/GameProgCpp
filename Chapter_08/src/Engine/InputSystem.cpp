@@ -29,6 +29,7 @@ namespace jLab
 
 		// MOUSE
 		m_InputState.Mouse.m_PreviousState = m_InputState.Mouse.m_CurrentState;
+		m_InputState.Mouse.m_ScrollWheel = glm::vec2(0);
 	}
 	
 	void InputSystem::Update()
@@ -45,6 +46,21 @@ namespace jLab
 
 		m_InputState.Mouse.m_Position.x = static_cast<float>(x);
 		m_InputState.Mouse.m_Position.y = static_cast<float>(y);
+	}
+
+
+	void InputSystem::ProcessEvent(SDL_Event& event)
+	{
+		switch (event.type)
+		{
+		case SDL_MOUSEWHEEL:
+		{
+			m_InputState.Mouse.m_ScrollWheel = glm::vec2(static_cast<float>(event.wheel.x), static_cast<float>(event.wheel.y));
+			break;
+		}
+		default:
+			break;
+		}
 	}
 
 	void InputSystem::SetRelativeMouseMode(bool value)

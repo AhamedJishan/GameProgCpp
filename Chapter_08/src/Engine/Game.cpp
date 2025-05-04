@@ -68,6 +68,11 @@ namespace jLab
 					m_IsRunning = false;
 				break;
 			}
+			case SDL_MOUSEWHEEL:
+			{
+				m_InputSystem->ProcessEvent(event);
+				break;
+			}
 			default:
 				break;
 			}
@@ -89,8 +94,9 @@ namespace jLab
 			SDL_Log("Mouse Released");
 		if (m_InputSystem->GetInputState().Mouse.GetButtonState(SDL_BUTTON_LEFT) == ButtonState::E_Pressed)
 			SDL_Log("Mouse Pressed");
-		SDL_Log("Mouse position = %f, %f", m_InputSystem->GetInputState().Mouse.GetPosition().x,
-			m_InputSystem->GetInputState().Mouse.GetPosition().y);
+		if (m_InputSystem->GetInputState().Mouse.GetScrollWheel() != glm::vec2(0))
+			SDL_Log("%f, %f", m_InputSystem->GetInputState().Mouse.GetScrollWheel().x, 
+				m_InputSystem->GetInputState().Mouse.GetScrollWheel().y);
 
 	}
 	

@@ -12,11 +12,6 @@ namespace jLab
 		m_CurrentState = 0;
 	}
 	
-	glm::vec2 MouseState::GetPosition() const
-	{
-		return m_Position;
-	}
-	
 	bool MouseState::GetButtonValue(int button) const
 	{
 		return m_CurrentState & SDL_BUTTON(button);
