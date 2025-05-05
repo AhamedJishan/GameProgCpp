@@ -26,6 +26,8 @@ namespace jLab
 
 	private:
 		class Renderer* m_Renderer;
+		class InputSystem* m_InputSystem;
+
 		bool m_IsRunning;
 		int m_TicksCount;
 	};

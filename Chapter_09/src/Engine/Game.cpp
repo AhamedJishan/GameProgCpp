@@ -1,7 +1,9 @@
 #include "Game.h"
 
 #include <SDL/SDL.h>
+#include <algorithm>
 #include "Renderer.h"
+#include "InputSystem.h"
 
 namespace jLab
 {
@@ -9,6 +11,7 @@ namespace jLab
 	{
 		m_IsRunning = true;
 		m_TicksCount = 0;
+		m_InputSystem = new InputSystem();
 		m_Renderer = new Renderer(this);
 	}
 	
@@ -20,6 +23,7 @@ namespace jLab
 			return false;
 		}
 
+		m_InputSystem->Init();
 		m_Renderer->Init(SCREEN_WIDTH, SCREEN_HEIGHT);
 
 		LoadData();
@@ -47,6 +51,8 @@ namespace jLab
 	
 	void Game::ProcessInput()
 	{
+		m_InputSystem->PreUpdate();
+
 		SDL_Event event;
 		while (SDL_PollEvent(&event))
 		{
@@ -61,10 +67,21 @@ namespace jLab
 				break;
 			}
 		}
+
+		m_InputSystem->Update();
+
+		// TODO: Pass the input state to all actors
 	}
 	
 	void Game::UpdateGame()
 	{
+		float deltaTime = (SDL_GetTicks() - m_TicksCount) / 1000.0f;
+		deltaTime = std::min(0.5f, deltaTime);
+		m_TicksCount = SDL_GetTicks();
+		// FPS lock at around 60fps
+		while (SDL_GetTicks() < (m_TicksCount + 16));
+
+		// TODO: update all actors
 	}
 	
 	void Game::GenerateOutput()
