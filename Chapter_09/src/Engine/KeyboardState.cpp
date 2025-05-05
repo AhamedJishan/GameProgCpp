@@ -12,7 +12,7 @@ namespace jLab
 	
 	bool KeyboardState::GetKey(SDL_Scancode keyCode) const
 	{
-		return m_CurrentState[keyCode];
+		return (m_PreviousState[keyCode]) && (m_CurrentState[keyCode]);
 	}
 	
 	bool KeyboardState::GetKeyDown(SDL_Scancode keyCode) const

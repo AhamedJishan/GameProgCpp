@@ -63,12 +63,21 @@ namespace jLab
 				m_IsRunning = false;
 				break;
 			}
+			case SDL_MOUSEWHEEL:
+			{
+				m_InputSystem->ProcessInput(event);
+				break;
+			}
 			default:
 				break;
 			}
 		}
 
 		m_InputSystem->Update();
+
+		InputState inputState = m_InputSystem->GetState();
+
+		if (inputState.Keyboard.GetKeyUp(SDL_SCANCODE_ESCAPE)) m_IsRunning = false;
 
 		// TODO: Pass the input state to all actors
 	}

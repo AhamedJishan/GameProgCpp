@@ -1,6 +1,7 @@
 #include "InputSystem.h"
 
 #include <cstring>
+#include <glm/vec2.hpp>
 
 namespace jLab
 {
@@ -22,16 +23,52 @@ namespace jLab
 	{
 	}
 	
+	void InputSystem::ProcessInput(SDL_Event& event)
+	{
+		switch (event.type)
+		{
+		case SDL_MOUSEWHEEL:
+		{
+			m_InputState.Mouse.m_ScrollWheel = glm::vec2(static_cast<float>(event.wheel.x), static_cast<float>(event.wheel.y));
+			break;
+		}
+		default:
+			break;
+		}
+	}
+
 	void InputSystem::PreUpdate()
 	{
 		// Keyboard
 		memcpy(m_InputState.Keyboard.m_PreviousState, m_InputState.Keyboard.m_CurrentState, SDL_NUM_SCANCODES);
+
+		// Mouse
+		m_InputState.Mouse.m_PrevButtons = m_InputState.Mouse.m_CurrButtons;
+		m_InputState.Mouse.m_ScrollWheel = glm::vec2(0);
 	}
 	
 	void InputSystem::Update()
 	{
 		// Keyboard
 		m_InputState.Keyboard.m_CurrentState = SDL_GetKeyboardState(NULL);
+
+		// Mouse
+		int x = 0, y = 0;
+		if (m_InputState.Mouse.IsRelative())
+			m_InputState.Mouse.m_CurrButtons =  SDL_GetRelativeMouseState(&x, &y);
+		else
+			m_InputState.Mouse.m_CurrButtons = SDL_GetMouseState(&x, &y);
+
+		m_InputState.Mouse.m_Position.x = static_cast<float>(x);
+		m_InputState.Mouse.m_Position.y = static_cast<float>(y);
+	}
+
+	void InputSystem::SetRelativeMouseMode(bool value)
+	{
+		SDL_bool setValue = value ? SDL_TRUE : SDL_FALSE;
+		SDL_SetRelativeMouseMode(setValue);
+
+		m_InputState.Mouse.m_IsRelative = value;
 	}
 
 }
