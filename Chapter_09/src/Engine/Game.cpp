@@ -4,6 +4,7 @@
 #include <algorithm>
 #include "Renderer.h"
 #include "InputSystem.h"
+#include "Actor.h"
 
 namespace jLab
 {
@@ -11,6 +12,7 @@ namespace jLab
 	{
 		m_IsRunning = true;
 		m_TicksCount = 0;
+		m_UpdatingActors = false;
 		m_InputSystem = new InputSystem();
 		m_Renderer = new Renderer(this);
 	}
@@ -44,9 +46,38 @@ namespace jLab
 	void Game::Shutdown()
 	{
 		UnloadData();
-		m_Renderer->Shutdown();
-		delete m_Renderer;
+		if (m_Renderer)
+		{
+			m_Renderer->Shutdown();
+			delete m_Renderer;
+		}
 		SDL_Quit();
+	}
+
+	void Game::AddActor(Actor* actor)
+	{
+		if (m_UpdatingActors)
+			m_PendingActors.emplace_back(actor);
+		else
+			m_Actors.emplace_back(actor);
+	}
+
+	void Game::RemoveActor(Actor* actor)
+	{
+		auto iter = std::find(m_Actors.begin(), m_Actors.end(), actor);
+		if (iter != m_Actors.end())
+		{
+			std::iter_swap(iter, m_Actors.end() - 1);
+			m_Actors.pop_back();
+			return;
+		}
+
+		iter = std::find(m_PendingActors.begin(), m_PendingActors.end(), actor);
+		if (iter != m_PendingActors.end())
+		{
+			std::iter_swap(iter, m_PendingActors.end() - 1);
+			m_PendingActors.pop_back();
+		}
 	}
 	
 	void Game::ProcessInput()
@@ -79,7 +110,8 @@ namespace jLab
 
 		if (inputState.Keyboard.GetKeyUp(SDL_SCANCODE_ESCAPE)) m_IsRunning = false;
 
-		// TODO: Pass the input state to all actors
+		for (Actor* actor : m_Actors)
+			actor->ProcessInput(inputState);
 	}
 	
 	void Game::UpdateGame()
@@ -90,7 +122,26 @@ namespace jLab
 		// FPS lock at around 60fps
 		while (SDL_GetTicks() < (m_TicksCount + 16));
 
-		// TODO: update all actors
+		// Update all actors
+		m_UpdatingActors = true;
+		for (Actor* actor : m_Actors)
+			actor->UpdateActor(deltaTime);
+		m_UpdatingActors = true;
+
+		// Move pending to actors to m_Actors
+		for (Actor* actor : m_PendingActors)
+			m_Actors.emplace_back(actor);
+
+		// Move dead actors into a temp list, then delete them
+		std::vector<Actor*> deadActors;
+		for (Actor* actor : m_Actors)
+			if (actor->GetState() == Actor::E_Dead)
+				deadActors.emplace_back(actor);
+
+		// Destructor of actors removes itself from m_Actors
+		for (Actor* actor : deadActors)
+			delete actor;
+		deadActors.clear();
 	}
 	
 	void Game::GenerateOutput()
@@ -101,7 +152,13 @@ namespace jLab
 	void Game::LoadData()
 	{
 	}
+
 	void Game::UnloadData()
 	{
+		while (!m_Actors.empty())
+			delete m_Actors.back();
+
+		while (!m_PendingActors.empty())
+			delete m_PendingActors.back();
 	}
 }
