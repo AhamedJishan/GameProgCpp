@@ -1,6 +1,7 @@
 #include "Actor.h"
 
 #include "Game.h"
+#include "Components/Component.h"
 
 namespace jLab
 {
@@ -18,14 +19,17 @@ namespace jLab
 	Actor::~Actor()
 	{
 		m_Game->RemoveActor(this);
-		// TODO: delete all components
+
+		while (!m_Components.empty())
+			delete m_Components.back();
 	}
 	
 	void Actor::ProcessInput(InputState& inputState)
 	{
 		if (m_State == E_Active)
 		{
-			// TODO: Input for all components
+			for (Component* component : m_Components)
+				component->Input(inputState);
 			Input(inputState);
 		}
 	}
@@ -36,11 +40,29 @@ namespace jLab
 		{
 			ComputeTransform();
 
-			// TODO: Update all components
+			for (Component* component : m_Components)
+				component->Update(deltaTime);
 			Update(deltaTime);
 
 			ComputeTransform();
 		}
+	}
+
+	void Actor::AddComponent(Component* component)
+	{
+		int updateOrder = component->GetUpdateOrder();
+		auto iter = m_Components.begin();
+		for (; iter != m_Components.end(); iter++)
+			if (updateOrder < (*iter)->GetUpdateOrder())
+				break;
+		m_Components.insert(iter, component);
+	}
+
+	void Actor::RemoveComponent(Component* component)
+	{
+		auto iter = std::find(m_Components.begin(), m_Components.end(), component);
+		if (iter != m_Components.end())
+			m_Components.erase(iter);
 	}
 
 	void Actor::ComputeTransform()
@@ -53,7 +75,8 @@ namespace jLab
 			m_WorldTransform = glm::scale(m_WorldTransform, m_Scale);
 			m_WorldTransform = m_WorldTransform * glm::mat4_cast(m_Rotation);
 
-			// TODO: OnUpdateWorldTransform for all components
+			for (Component* component : m_Components)
+				component->OnWorldTranformUpdate();
 		}
 	}
 	

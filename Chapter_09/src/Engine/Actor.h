@@ -3,6 +3,7 @@
 #include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>
 #include <glm/gtc/quaternion.hpp>
+#include <vector>
 
 namespace jLab
 {
@@ -21,6 +22,9 @@ namespace jLab
 
 		void ProcessInput(struct InputState& inputState);
 		void UpdateActor(float deltaTime);
+
+		void AddComponent(class Component* component);
+		void RemoveComponent(class Component* component);
 
 		class Game* GetGame() const { return m_Game; }
 		State GetState() const { return m_State; }
@@ -58,5 +62,7 @@ namespace jLab
 
 		bool m_RecomputeTransform;
 		glm::mat4 m_WorldTransform;
+
+		std::vector<class Component*> m_Components;
 	};
 }
