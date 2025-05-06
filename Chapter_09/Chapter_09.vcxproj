@@ -18,7 +18,9 @@
     <ClCompile Include="src\Engine\KeyboardState.cpp" />
     <ClCompile Include="src\Engine\MouseState.cpp" />
     <ClCompile Include="src\Engine\Renderer.cpp" />
+    <ClCompile Include="src\Engine\Texture.cpp" />
     <ClCompile Include="src\EntryPoint.cpp" />
+    <ClCompile Include="src\stbi\stb_image.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Engine\Actor.h" />
@@ -28,6 +30,8 @@
     <ClInclude Include="src\Engine\MouseState.h" />
     <ClInclude Include="src\Engine\Renderer.h" />
     <ClInclude Include="src\Engine\Game.h" />
+    <ClInclude Include="src\Engine\Texture.h" />
+    <ClInclude Include="src\stbi\stb_image.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{943266DF-80EA-A72C-E9F1-8088D5C8421D}</ProjectGuid>
