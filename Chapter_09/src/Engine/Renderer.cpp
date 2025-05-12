@@ -1,6 +1,7 @@
 #include "Renderer.h"
 
 #include "Game.h"
+#include "Model.h"
 
 namespace jLab
 {
@@ -89,6 +90,18 @@ namespace jLab
 			m_Textures.emplace(filename, texture);
 
 		return texture;
+	}
+
+	Model* Renderer::GetModel(const std::string filename)
+	{
+		auto iter = m_Models.find(filename);
+		if (iter != m_Models.end())
+			return iter->second;
+
+		Model* model = new Model(filename, m_Game);
+		m_Models.emplace(filename, model);
+
+		return model;
 	}
 
 }

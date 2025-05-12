@@ -22,7 +22,7 @@ namespace jLab
 
 		void SetActive(int slot = 0);
 
-		TextureType GetTextureType() const { return m_Type; }
+		TextureType GetType() const { return m_Type; }
 		int GetWidth() const { return m_Width; }
 		int GetHeight() const { return m_Height; }
 

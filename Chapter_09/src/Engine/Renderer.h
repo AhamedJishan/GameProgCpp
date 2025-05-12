@@ -19,6 +19,7 @@ namespace jLab
 		void Draw();
 
 		class Texture* GetTexture(const std::string filename, Texture::TextureType type = Texture::E_Diffuse);
+		class Model* GetModel(const std::string filename);
 
 	private:
 		SDL_Window* m_Window;
@@ -30,5 +31,6 @@ namespace jLab
 		int m_Height;
 
 		std::unordered_map<std::string, Texture*> m_Textures;
+		std::unordered_map<std::string, class Model*> m_Models;
 	};
 }
