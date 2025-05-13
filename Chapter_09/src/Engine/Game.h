@@ -17,6 +17,7 @@ namespace jLab
 		void Shutdown();
 
 		class Renderer* GetRenderer() const { return m_Renderer; }
+		class Camera* GetCamera() const { return m_Camera; }
 
 		void AddActor(class Actor* actor);
 		void RemoveActor(class Actor* actor);
@@ -32,6 +33,7 @@ namespace jLab
 	private:
 		class Renderer* m_Renderer;
 		class InputSystem* m_InputSystem;
+		class Camera* m_Camera;
 
 		bool m_IsRunning;
 		int m_TicksCount;

@@ -2,6 +2,9 @@
 
 #include "Game.h"
 #include "Model.h"
+#include "Components/MeshRenderer.h"
+#include "Shader.h"
+#include "Camera.h"
 
 namespace jLab
 {
@@ -10,6 +13,7 @@ namespace jLab
 		m_Game = game;
 		m_Context = nullptr;
 		m_Window = nullptr;
+		m_MeshShader = nullptr;
 		m_Height = 0;
 		m_Width = 0;
 	}
@@ -53,6 +57,8 @@ namespace jLab
 		glGetError();
 		glViewport(0, 0, m_Width, m_Height);
 
+		m_MeshShader = new Shader("Assets/Shaders/phong.vert", "Assets/Shaders/phong.frag");
+
 		return true;
 	}
 	
@@ -65,12 +71,34 @@ namespace jLab
 	void Renderer::Draw()
 	{
 		glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
-		// TODO: clear depth buffer
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		// TODO: render the scene
+		glEnable(GL_DEPTH_TEST);
+		m_MeshShader->SetActive();
+		m_MeshShader->SetMat4("u_ViewProjection", m_Game->GetCamera()->GetViewProjMatrix());
+		m_MeshShader->SetVec3("u_CameraPos", m_Game->GetCamera()->GetPosition());
+		m_MeshShader->SetVec3("u_LightColor", glm::vec3(1.0f));
+		m_MeshShader->SetVec3("u_LightDir", glm::vec3(1, -0.5f, -1));
+		m_MeshShader->SetVec3("u_AmbientColor", glm::vec3(0.2f, 0.2f, 0.25f));
+		for (MeshRenderer* mesh : m_Meshes)
+			mesh->Draw(m_MeshShader);
+
+		glDisable(GL_DEPTH_TEST);
 
 		SDL_GL_SwapWindow(m_Window);
+	}
+
+	void Renderer::AddMeshRenderer(MeshRenderer* mesh)
+	{
+		m_Meshes.emplace_back(mesh);
+	}
+
+	void Renderer::RemoveMeshRenderer(MeshRenderer* mesh)
+	{
+		auto iter = std::find(m_Meshes.begin(), m_Meshes.end(), mesh);
+		if (iter != m_Meshes.end())
+			m_Meshes.erase(iter);
 	}
 
 	Texture* Renderer::GetTexture(const std::string filename, Texture::TextureType type)

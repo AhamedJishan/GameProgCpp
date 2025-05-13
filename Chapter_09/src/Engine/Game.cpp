@@ -5,6 +5,9 @@
 #include "Renderer.h"
 #include "InputSystem.h"
 #include "Actor.h"
+#include "Camera.h"
+
+#include "Game/SceneActor.h"
 
 namespace jLab
 {
@@ -15,6 +18,7 @@ namespace jLab
 		m_UpdatingActors = false;
 		m_InputSystem = new InputSystem();
 		m_Renderer = new Renderer(this);
+		m_Camera = new Camera(this, SCREEN_WIDTH, SCREEN_HEIGHT, 0.1f, 500.0f, 75.0f);
 	}
 	
 	bool Game::Init()
@@ -151,6 +155,8 @@ namespace jLab
 	
 	void Game::LoadData()
 	{
+		SceneActor* sa = new SceneActor(this);
+		sa->SetPosition(glm::vec3(0, -1, 0));
 	}
 
 	void Game::UnloadData()

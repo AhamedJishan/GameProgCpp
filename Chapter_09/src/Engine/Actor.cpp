@@ -9,6 +9,7 @@ namespace jLab
 		:m_Game(game),
 		m_Position(glm::vec3(0)),
 		m_Scale(glm::vec3(1)),
+		m_State(E_Active),
 		m_Rotation(glm::angleAxis(0.0f, glm::vec3(0, 1, 0))),
 		m_RecomputeTransform(true)
 	{

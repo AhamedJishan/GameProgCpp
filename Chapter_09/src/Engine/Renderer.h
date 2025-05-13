@@ -18,6 +18,9 @@ namespace jLab
 
 		void Draw();
 
+		void AddMeshRenderer(class MeshRenderer* mesh);
+		void RemoveMeshRenderer(class MeshRenderer* mesh);
+
 		class Texture* GetTexture(const std::string filename, Texture::TextureType type = Texture::E_Diffuse);
 		class Model* GetModel(const std::string filename);
 
@@ -32,5 +35,8 @@ namespace jLab
 
 		std::unordered_map<std::string, Texture*> m_Textures;
 		std::unordered_map<std::string, class Model*> m_Models;
+
+		class Shader* m_MeshShader;
+		std::vector<class MeshRenderer*> m_Meshes;
 	};
 }

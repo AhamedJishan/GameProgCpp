@@ -12,7 +12,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Actor.cpp" />
+    <ClCompile Include="src\Engine\Camera.cpp" />
     <ClCompile Include="src\Engine\Components\Component.cpp" />
+    <ClCompile Include="src\Engine\Components\MeshRenderer.cpp" />
     <ClCompile Include="src\Engine\Game.cpp" />
     <ClCompile Include="src\Engine\InputSystem.cpp" />
     <ClCompile Include="src\Engine\KeyboardState.cpp" />
@@ -27,7 +29,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Engine\Actor.h" />
+    <ClInclude Include="src\Engine\Camera.h" />
     <ClInclude Include="src\Engine\Components\Component.h" />
+    <ClInclude Include="src\Engine\Components\MeshRenderer.h" />
     <ClInclude Include="src\Engine\InputSystem.h" />
     <ClInclude Include="src\Engine\KeyboardState.h" />
     <ClInclude Include="src\Engine\Mesh.h" />
@@ -37,6 +41,7 @@
     <ClInclude Include="src\Engine\Game.h" />
     <ClInclude Include="src\Engine\Shader.h" />
     <ClInclude Include="src\Engine\Texture.h" />
+    <ClInclude Include="src\Game\SceneActor.h" />
     <ClInclude Include="src\stbi\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
