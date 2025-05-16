@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClCompile Include="src\Engine\Actor.cpp" />
     <ClCompile Include="src\Engine\Camera.cpp" />
+    <ClCompile Include="src\Engine\Components\CameraComponent.cpp" />
     <ClCompile Include="src\Engine\Components\Component.cpp" />
     <ClCompile Include="src\Engine\Components\MeshRenderer.cpp" />
     <ClCompile Include="src\Engine\Game.cpp" />
@@ -25,11 +26,13 @@
     <ClCompile Include="src\Engine\Shader.cpp" />
     <ClCompile Include="src\Engine\Texture.cpp" />
     <ClCompile Include="src\EntryPoint.cpp" />
+    <ClCompile Include="src\Game\FPSActor.cpp" />
     <ClCompile Include="src\stbi\stb_image.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Engine\Actor.h" />
     <ClInclude Include="src\Engine\Camera.h" />
+    <ClInclude Include="src\Engine\Components\CameraComponent.h" />
     <ClInclude Include="src\Engine\Components\Component.h" />
     <ClInclude Include="src\Engine\Components\MeshRenderer.h" />
     <ClInclude Include="src\Engine\InputSystem.h" />
@@ -41,6 +44,7 @@
     <ClInclude Include="src\Engine\Game.h" />
     <ClInclude Include="src\Engine\Shader.h" />
     <ClInclude Include="src\Engine\Texture.h" />
+    <ClInclude Include="src\Game\FPSActor.h" />
     <ClInclude Include="src\Game\SceneActor.h" />
     <ClInclude Include="src\stbi\stb_image.h" />
   </ItemGroup>

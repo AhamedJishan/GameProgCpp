@@ -4,6 +4,7 @@
 #include <SDL/SDL.h>
 #include <unordered_map>
 #include <string>
+#include <glm/mat4x4.hpp>
 #include "Texture.h"
 
 namespace jLab
@@ -30,13 +31,12 @@ namespace jLab
 
 		class Game* m_Game;
 
-		int m_Width;
-		int m_Height;
-
 		std::unordered_map<std::string, Texture*> m_Textures;
 		std::unordered_map<std::string, class Model*> m_Models;
 
 		class Shader* m_MeshShader;
 		std::vector<class MeshRenderer*> m_Meshes;
+
+
 	};
 }

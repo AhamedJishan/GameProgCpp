@@ -32,9 +32,9 @@ namespace jLab
 		glm::vec3 GetPosition() const { return m_Position; }
 		glm::vec3 GetScale() const { return m_Scale; }
 		glm::quat GetRotation() const { return m_Rotation; }
-		glm::vec3 GetForward() const { return (glm::vec3(0, 0, -1) * m_Rotation); }
-		glm::vec3 GetRight() const { return (glm::vec3(1, 0, 0) * m_Rotation); }
-		glm::vec3 GetUp() const { return (glm::vec3(0, 1, 0) * m_Rotation); }
+		glm::vec3 GetForward() const { return (m_Rotation * glm::vec3(0, 0, -1)); }
+		glm::vec3 GetRight() const { return (m_Rotation * glm::vec3(1, 0, 0)); }
+		glm::vec3 GetUp() const { return (m_Rotation * glm::vec3(0, 1, 0)); }
 
 		void SetPosition(const glm::vec3 position) { m_Position = position; m_RecomputeTransform = true; }
 		void SetScale(const glm::vec3 scale) { m_Scale = scale; m_RecomputeTransform = true; }

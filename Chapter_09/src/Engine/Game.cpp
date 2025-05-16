@@ -5,9 +5,10 @@
 #include "Renderer.h"
 #include "InputSystem.h"
 #include "Actor.h"
-#include "Camera.h"
+#include "Components/CameraComponent.h"
 
 #include "Game/SceneActor.h"
+#include "Game/FPSActor.h"
 
 namespace jLab
 {
@@ -18,7 +19,7 @@ namespace jLab
 		m_UpdatingActors = false;
 		m_InputSystem = new InputSystem();
 		m_Renderer = new Renderer(this);
-		m_Camera = new Camera(this, SCREEN_WIDTH, SCREEN_HEIGHT, 0.1f, 500.0f, 75.0f);
+		m_Camera = nullptr;
 	}
 	
 	bool Game::Init()
@@ -30,7 +31,11 @@ namespace jLab
 		}
 
 		m_InputSystem->Init();
+		m_InputSystem->SetRelativeMouseMode(true);
 		m_Renderer->Init(SCREEN_WIDTH, SCREEN_HEIGHT);
+
+		Actor* defaultCameraActor = new Actor(this);
+		m_Camera = new CameraComponent(defaultCameraActor, 1280, 720, 0.1f, 1000.0f, 80.0f);
 
 		LoadData();
 
@@ -155,6 +160,8 @@ namespace jLab
 	
 	void Game::LoadData()
 	{
+		FPSActor* fpsActor = new FPSActor(this);
+
 		SceneActor* sa = new SceneActor(this);
 		sa->SetPosition(glm::vec3(0, -1, 0));
 	}

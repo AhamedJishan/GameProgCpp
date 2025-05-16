@@ -3,6 +3,7 @@
 #include "Game.h"
 #include "Model.h"
 #include "Components/MeshRenderer.h"
+#include "Components/CameraComponent.h"
 #include "Shader.h"
 #include "Camera.h"
 
@@ -14,16 +15,11 @@ namespace jLab
 		m_Context = nullptr;
 		m_Window = nullptr;
 		m_MeshShader = nullptr;
-		m_Height = 0;
-		m_Width = 0;
 	}
 	
 	bool Renderer::Init(int screenWidth, int screenHeight)
 	{
-		m_Width = screenWidth;
-		m_Height = screenHeight;
-
-		m_Window = SDL_CreateWindow("Chapter_09: Cameras", 200, 40, m_Width, m_Height, SDL_WINDOW_OPENGL);
+		m_Window = SDL_CreateWindow("Chapter_09: Cameras", 200, 40, screenWidth, screenHeight, SDL_WINDOW_OPENGL);
 		if (!m_Window)
 		{
 			SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to create Window: %s", SDL_GetError());
@@ -55,7 +51,7 @@ namespace jLab
 			return false;
 		}
 		glGetError();
-		glViewport(0, 0, m_Width, m_Height);
+		glViewport(0, 0, screenWidth, screenHeight);
 
 		m_MeshShader = new Shader("Assets/Shaders/phong.vert", "Assets/Shaders/phong.frag");
 
@@ -75,9 +71,12 @@ namespace jLab
 
 		// TODO: render the scene
 		glEnable(GL_DEPTH_TEST);
+		CameraComponent* camera = m_Game->GetActiveCamera();
+		glm::mat4 viewProjectionMatrix = camera->GetProjectionMatrix() * camera->GetViewMatrix();
+
 		m_MeshShader->SetActive();
-		m_MeshShader->SetMat4("u_ViewProjection", m_Game->GetCamera()->GetViewProjMatrix());
-		m_MeshShader->SetVec3("u_CameraPos", m_Game->GetCamera()->GetPosition());
+		m_MeshShader->SetMat4("u_ViewProjection", viewProjectionMatrix);
+		m_MeshShader->SetVec3("u_CameraPos", camera->GetOwner()->GetPosition());
 		m_MeshShader->SetVec3("u_LightColor", glm::vec3(1.0f));
 		m_MeshShader->SetVec3("u_LightDir", glm::vec3(1, -0.5f, -1));
 		m_MeshShader->SetVec3("u_AmbientColor", glm::vec3(0.2f, 0.2f, 0.25f));
