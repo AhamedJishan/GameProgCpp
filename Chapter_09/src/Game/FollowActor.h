@@ -4,25 +4,22 @@
 
 namespace jLab
 {
-	class FPSActor : public Actor
+	class FollowActor : public Actor
 	{
 	public:
-		FPSActor(class Game* game);
+		FollowActor(class Game* game);
 
 		void Input(struct InputState& inputState) override;
 		void Update(float deltaTime) override;
 
 	private:
+		class FollowCamera* m_Camera;
 		class MoveComponent* m_MoveComp;
-		class Actor* m_FpsModel;
-		class FPSCamera* m_Camera;
 
 		const float m_Speed = 5.0f;
 		glm::vec3 m_MoveDir;
 
-		const float m_MaxAngularSpeed = 8.0f * 3.14f;
+		const float m_MaxAngularSpeed = 3.14f / 2.0f;
 		float m_AngularSpeed;
-
-		const float m_MaxPitchSpeed = 3.14f * 8.0f;
 	};
 }

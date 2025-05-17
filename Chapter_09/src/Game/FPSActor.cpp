@@ -6,12 +6,14 @@
 #include "Engine/InputSystem.h"
 #include "Engine/Components/FPSCamera.h"
 #include "Engine/Components/MeshRenderer.h"
+#include "Engine/Components/MoveComponent.h"
 
 namespace jLab
 {
 	FPSActor::FPSActor(Game* game)
 		:Actor(game)
 	{
+		m_MoveComp = new MoveComponent(this);
 		m_MoveDir = glm::vec3(0);
 		m_Camera = new FPSCamera(this);
 
@@ -47,6 +49,9 @@ namespace jLab
 		if (deltaMouse.y != 0)
 			pitchSpeed = (deltaMouse.y / maxMouseSpeed) * m_MaxPitchSpeed;
 		m_Camera->SetPitchSpeed(-pitchSpeed);
+
+		m_MoveComp->SetVelocity(m_MoveDir * m_Speed);
+		m_MoveComp->SetAngularSpeed(-m_AngularSpeed);
 	}
 	
 	void FPSActor::Update(float deltaTime)
@@ -62,16 +67,5 @@ namespace jLab
 		glm::quat actorRot = GetRotation();
 		glm::quat cameraRot = glm::angleAxis(m_Camera->GetPitch(), GetRight());
 		m_FpsModel->SetRotation(cameraRot * actorRot);
-
-		// Move FPSActor 
-		if (glm::length(m_MoveDir) > 0.1f)
-		{
-			glm::vec3 worldMoveDir = GetForward() * m_MoveDir.z + GetRight() * m_MoveDir.x;
-			SetPosition(GetPosition() + (worldMoveDir * m_Speed * deltaTime));
-		}
-
-		// Rotate FPSActor 
-		if (m_AngularSpeed != 0.0f)
-			Rotate(-m_AngularSpeed, glm::vec3(0, 1, 0));
 	}
 }

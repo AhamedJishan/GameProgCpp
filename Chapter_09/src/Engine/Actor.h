@@ -41,7 +41,7 @@ namespace jLab
 		void SetRotation(const glm::quat rotation) { m_Rotation = rotation; m_RecomputeTransform = true; }
 		void Rotate(float angle, glm::vec3 axis)
 		{
-			glm::quat rot = glm::angleAxis(glm::radians(angle), axis);
+			glm::quat rot = glm::angleAxis(angle, axis);
 			m_Rotation = glm::normalize(m_Rotation * rot);
 			m_RecomputeTransform = true;
 		}
