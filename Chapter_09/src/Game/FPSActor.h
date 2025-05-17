@@ -13,12 +13,14 @@ namespace jLab
 		void Update(float deltaTime) override;
 
 	private:
-		class CameraComponent* m_Camera;
+		class FPSCamera* m_Camera;
 
 		const float m_Speed = 5.0f;
 		glm::vec3 m_MoveDir;
+
 		const float m_MaxAngularSpeed = 8.0f * 3.14f;
-;
 		float m_AngularSpeed;
+
+		const float m_MaxPitchSpeed = 3.14f * 8.0f;
 	};
 }

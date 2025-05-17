@@ -25,6 +25,11 @@ namespace jLab
 		class Texture* GetTexture(const std::string filename, Texture::TextureType type = Texture::E_Diffuse);
 		class Model* GetModel(const std::string filename);
 
+		void SetViewMatrix(const glm::mat4 view) { m_View = view; }
+
+	private:
+		void SetShaderUniforms();
+
 	private:
 		SDL_Window* m_Window;
 		SDL_GLContext m_Context;
@@ -37,6 +42,7 @@ namespace jLab
 		class Shader* m_MeshShader;
 		std::vector<class MeshRenderer*> m_Meshes;
 
-
+		glm::mat4 m_View;
+		glm::mat4 m_Projection;
 	};
 }

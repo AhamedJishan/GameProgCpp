@@ -2,10 +2,10 @@
 
 #include "Game.h"
 #include "Model.h"
+#include "Actor.h"
 #include "Components/MeshRenderer.h"
 #include "Components/CameraComponent.h"
 #include "Shader.h"
-#include "Camera.h"
 
 namespace jLab
 {
@@ -55,6 +55,9 @@ namespace jLab
 
 		m_MeshShader = new Shader("Assets/Shaders/phong.vert", "Assets/Shaders/phong.frag");
 
+		m_Projection = glm::perspective(glm::radians(80.0f), ((float)screenWidth / (float)screenHeight), 0.1f, 1000.0f);
+		m_View = glm::lookAt(glm::vec3(0), glm::vec3(0, 0, -1), glm::vec3(0, 1, 0));
+
 		return true;
 	}
 	
@@ -71,15 +74,8 @@ namespace jLab
 
 		// TODO: render the scene
 		glEnable(GL_DEPTH_TEST);
-		CameraComponent* camera = m_Game->GetActiveCamera();
-		glm::mat4 viewProjectionMatrix = camera->GetProjectionMatrix() * camera->GetViewMatrix();
-
-		m_MeshShader->SetActive();
-		m_MeshShader->SetMat4("u_ViewProjection", viewProjectionMatrix);
-		m_MeshShader->SetVec3("u_CameraPos", camera->GetOwner()->GetPosition());
-		m_MeshShader->SetVec3("u_LightColor", glm::vec3(1.0f));
-		m_MeshShader->SetVec3("u_LightDir", glm::vec3(1, -0.5f, -1));
-		m_MeshShader->SetVec3("u_AmbientColor", glm::vec3(0.2f, 0.2f, 0.25f));
+		
+		SetShaderUniforms();
 		for (MeshRenderer* mesh : m_Meshes)
 			mesh->Draw(m_MeshShader);
 
@@ -131,4 +127,22 @@ namespace jLab
 		return model;
 	}
 
+	void Renderer::SetShaderUniforms()
+	{
+		glm::mat4 viewProjectionMatrix = m_Projection * m_View;
+
+		// Extract rotation matrix (upper-left 3x3)
+		glm::mat3 R = glm::mat3(m_View);
+		// Extract translation vector (4th column)
+		glm::vec3 t = glm::vec3(m_View[3]);
+		// Calculate camera position
+		glm::vec3 cameraPos = -glm::transpose(R) * t;
+
+		m_MeshShader->SetActive();
+		m_MeshShader->SetMat4("u_ViewProjection", viewProjectionMatrix);
+		m_MeshShader->SetVec3("u_CameraPos", cameraPos);
+		m_MeshShader->SetVec3("u_LightColor", glm::vec3(1.0f));
+		m_MeshShader->SetVec3("u_LightDir", glm::vec3(1, -0.5f, -1));
+		m_MeshShader->SetVec3("u_AmbientColor", glm::vec3(0.2f, 0.2f, 0.25f));
+	}
 }

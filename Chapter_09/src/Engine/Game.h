@@ -18,9 +18,6 @@ namespace jLab
 
 		class Renderer* GetRenderer() const { return m_Renderer; }
 		class InputSystem* GetInputSystem() const { return m_InputSystem; }
-		class CameraComponent* GetActiveCamera() const { return m_Camera; }
-
-		void SetActiveCamera(class CameraComponent* camera) { m_Camera = camera; }
 
 		void AddActor(class Actor* actor);
 		void RemoveActor(class Actor* actor);
@@ -36,7 +33,6 @@ namespace jLab
 	private:
 		class Renderer* m_Renderer;
 		class InputSystem* m_InputSystem;
-		class CameraComponent* m_Camera;
 
 		bool m_IsRunning;
 		int m_TicksCount;
