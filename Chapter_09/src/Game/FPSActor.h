@@ -13,6 +13,7 @@ namespace jLab
 		void Update(float deltaTime) override;
 
 	private:
+		class Actor* m_FpsModel;
 		class FPSCamera* m_Camera;
 
 		const float m_Speed = 5.0f;

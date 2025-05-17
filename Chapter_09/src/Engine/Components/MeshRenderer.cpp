@@ -12,7 +12,7 @@ namespace jLab
 		:Component(owner, drawOrder),
 		m_Model(nullptr),
 		m_SpecularColor(glm::vec3(0)),
-		m_SpecularPower(0)
+		m_SpecularPower(32)
 	{
 		m_Owner->GetGame()->GetRenderer()->AddMeshRenderer(this);
 	}

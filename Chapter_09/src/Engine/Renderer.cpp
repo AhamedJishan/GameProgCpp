@@ -55,7 +55,7 @@ namespace jLab
 
 		m_MeshShader = new Shader("Assets/Shaders/phong.vert", "Assets/Shaders/phong.frag");
 
-		m_Projection = glm::perspective(glm::radians(80.0f), ((float)screenWidth / (float)screenHeight), 0.1f, 1000.0f);
+		m_Projection = glm::perspective(glm::radians(80.0f), ((float)screenWidth / (float)screenHeight), 0.01f, 1000.0f);
 		m_View = glm::lookAt(glm::vec3(0), glm::vec3(0, 0, -1), glm::vec3(0, 1, 0));
 
 		return true;
@@ -143,6 +143,6 @@ namespace jLab
 		m_MeshShader->SetVec3("u_CameraPos", cameraPos);
 		m_MeshShader->SetVec3("u_LightColor", glm::vec3(1.0f));
 		m_MeshShader->SetVec3("u_LightDir", glm::vec3(1, -0.5f, -1));
-		m_MeshShader->SetVec3("u_AmbientColor", glm::vec3(0.2f, 0.2f, 0.25f));
+		m_MeshShader->SetVec3("u_AmbientColor", glm::vec3(0.3f, 0.3f, 0.3f));
 	}
 }

@@ -1,8 +1,11 @@
 #include "FPSActor.h"
 
 #include "Engine/Game.h"
+#include "Engine/Renderer.h"
+#include "Engine/Model.h"
 #include "Engine/InputSystem.h"
 #include "Engine/Components/FPSCamera.h"
+#include "Engine/Components/MeshRenderer.h"
 
 namespace jLab
 {
@@ -11,6 +14,11 @@ namespace jLab
 	{
 		m_MoveDir = glm::vec3(0);
 		m_Camera = new FPSCamera(this);
+
+		m_FpsModel = new Actor(m_Game);
+		MeshRenderer* mr = new MeshRenderer(m_FpsModel);
+		mr->SetMesh(m_Game->GetRenderer()->GetModel("Assets/Models/gun/gun.obj"));
+		mr->SetSpecular(glm::vec3(0.5f), 32.0f);
 	}
 	
 	void FPSActor::Input(InputState& inputState)
@@ -43,12 +51,26 @@ namespace jLab
 	
 	void FPSActor::Update(float deltaTime)
 	{
+		// Making the fps Model follow fpsactor
+		const glm::vec3 modelOffset = glm::vec3(0.1, -0.1, 0.1);
+		glm::vec3 modelPos = GetPosition();
+		modelPos += GetForward() * modelOffset.z;
+		modelPos += GetRight() * modelOffset.x;
+		modelPos += GetUp() * modelOffset.y;
+		m_FpsModel->SetPosition(modelPos);
+
+		glm::quat actorRot = GetRotation();
+		glm::quat cameraRot = glm::angleAxis(m_Camera->GetPitch(), GetRight());
+		m_FpsModel->SetRotation(cameraRot * actorRot);
+
+		// Move FPSActor 
 		if (glm::length(m_MoveDir) > 0.1f)
 		{
 			glm::vec3 worldMoveDir = GetForward() * m_MoveDir.z + GetRight() * m_MoveDir.x;
 			SetPosition(GetPosition() + (worldMoveDir * m_Speed * deltaTime));
 		}
 
+		// Rotate FPSActor 
 		if (m_AngularSpeed != 0.0f)
 			Rotate(-m_AngularSpeed, glm::vec3(0, 1, 0));
 	}

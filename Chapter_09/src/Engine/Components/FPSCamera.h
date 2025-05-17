@@ -13,6 +13,8 @@ namespace jLab
 
 		void SetPitchSpeed(float pitchSpeed) { m_PitchSpeed = pitchSpeed; }
 
+		float GetPitch() const { return m_Pitch; }
+
 	private:
 		const float m_MaxPitch = glm::radians(60.0f);
 		float m_PitchSpeed;
