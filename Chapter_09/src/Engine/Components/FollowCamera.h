@@ -12,17 +12,18 @@ namespace jLab
 
 		void Update(float deltaTime) override;
 
-		void ComputeCameraPosition();
-		//glm::vec3 GetCameraPosition() { return m_Position; }
 		glm::vec3 GetCameraPosition();
+		void SnapToIdeal();
 
-		void SetOffset(const glm::vec3 offset) { m_Offset = offset; }
+		void SetOffset(const glm::vec3& offset) { m_Offset = offset; }
 		void SetTargetDistance(const float targetDistance) { m_TargetDistance = targetDistance; }
 
 	private:
 		glm::vec3 m_Offset;
 		float m_TargetDistance;
 
-		glm::vec3 m_Position;
+		glm::vec3 m_ActualPosition;
+		glm::vec3 m_Velocity;
+		float m_SpringConstant;
 	};
 }

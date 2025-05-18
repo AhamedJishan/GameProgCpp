@@ -9,6 +9,7 @@
 #include "Game/SceneActor.h"
 #include "Game/FPSActor.h"
 #include "Game/FollowActor.h"
+#include "Engine/Components/FollowCamera.h"
 
 namespace jLab
 {
@@ -122,7 +123,7 @@ namespace jLab
 	void Game::UpdateGame()
 	{
 		float deltaTime = (SDL_GetTicks() - m_TicksCount) / 1000.0f;
-		deltaTime = std::min(0.5f, deltaTime);
+		deltaTime = std::min(0.05f, deltaTime);
 		m_TicksCount = SDL_GetTicks();
 		// FPS lock at around 60fps
 		while (SDL_GetTicks() < (m_TicksCount + 16));
@@ -161,6 +162,7 @@ namespace jLab
 
 		FollowActor* followActor = new FollowActor(this);
 		followActor->SetPosition(glm::vec3(0, -1, 0));
+		followActor->GetFollowCamera()->SnapToIdeal();
 
 		SceneActor* sa = new SceneActor(this);
 		sa->SetPosition(glm::vec3(0, -1, 0));

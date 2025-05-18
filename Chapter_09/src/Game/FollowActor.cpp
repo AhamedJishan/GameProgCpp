@@ -17,8 +17,8 @@ namespace jLab
 		MeshRenderer* mr = new MeshRenderer(this);
 		mr->SetMesh(m_Game->GetRenderer()->GetModel("Assets/Models/car/car.obj"));
 
-		m_Camera = new FollowCamera(this);
 		m_MoveComp = new MoveComponent(this);
+		m_Camera = new FollowCamera(this);
 	}
 	
 	void FollowActor::Input(InputState& inputState)
