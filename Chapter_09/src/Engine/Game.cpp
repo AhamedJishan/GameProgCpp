@@ -10,6 +10,7 @@
 #include "Game/FPSActor.h"
 #include "Game/FollowActor.h"
 #include "Engine/Components/FollowCamera.h"
+#include "Game/OrbitActor.h"
 
 namespace jLab
 {
@@ -158,11 +159,13 @@ namespace jLab
 	void Game::LoadData()
 	{
 		//FPSActor* fpsActor = new FPSActor(this);
-		//fpsActor->SetPosition(glm::vec3(0, 0, 0));
 
-		FollowActor* followActor = new FollowActor(this);
-		followActor->SetPosition(glm::vec3(0, -1, 0));
-		followActor->GetFollowCamera()->SnapToIdeal();
+		//FollowActor* followActor = new FollowActor(this);
+		//followActor->SetPosition(glm::vec3(0, -1, 0));
+		//followActor->GetFollowCamera()->SnapToIdeal();
+
+		OrbitActor* orbitActor = new OrbitActor(this);
+		orbitActor->SetPosition(glm::vec3(0, -1, 0));
 
 		SceneActor* sa = new SceneActor(this);
 		sa->SetPosition(glm::vec3(0, -1, 0));
