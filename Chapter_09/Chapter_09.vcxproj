@@ -19,6 +19,7 @@
     <ClCompile Include="src\Engine\Components\MeshRenderer.cpp" />
     <ClCompile Include="src\Engine\Components\MoveComponent.cpp" />
     <ClCompile Include="src\Engine\Components\OrbitCamera.cpp" />
+    <ClCompile Include="src\Engine\Components\SplineCamera.cpp" />
     <ClCompile Include="src\Engine\Game.cpp" />
     <ClCompile Include="src\Engine\InputSystem.cpp" />
     <ClCompile Include="src\Engine\KeyboardState.cpp" />
@@ -43,6 +44,7 @@
     <ClInclude Include="src\Engine\Components\MeshRenderer.h" />
     <ClInclude Include="src\Engine\Components\MoveComponent.h" />
     <ClInclude Include="src\Engine\Components\OrbitCamera.h" />
+    <ClInclude Include="src\Engine\Components\SplineCamera.h" />
     <ClInclude Include="src\Engine\InputSystem.h" />
     <ClInclude Include="src\Engine\KeyboardState.h" />
     <ClInclude Include="src\Engine\Mesh.h" />
@@ -56,6 +58,7 @@
     <ClInclude Include="src\Game\FPSActor.h" />
     <ClInclude Include="src\Game\OrbitActor.h" />
     <ClInclude Include="src\Game\SceneActor.h" />
+    <ClInclude Include="src\Game\SplineActor.h" />
     <ClInclude Include="src\stbi\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
