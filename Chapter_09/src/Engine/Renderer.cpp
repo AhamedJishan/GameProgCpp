@@ -84,6 +84,32 @@ namespace jLab
 		SDL_GL_SwapWindow(m_Window);
 	}
 
+	glm::vec3 Renderer::ScreenToWorldPos(const glm::vec3& screenPosition)
+	{
+		glm::vec3 ndc = screenPosition;
+		ndc.x /= (SCREEN_WIDTH * 0.5f);
+		ndc.y /= (SCREEN_HEIGHT* 0.5f);
+
+		glm::mat4 unprojection = glm::inverse(m_Projection * m_View);
+
+		glm::vec4 pos = unprojection * glm::vec4(ndc, 1.0f);
+		pos /= pos.w;
+
+		return glm::vec3(pos);
+	}
+
+	void Renderer::ScreenToWorldDir(glm::vec3& outStart, glm::vec3& outDir)
+	{
+		glm::vec3 pos = glm::vec3(0);
+
+		outStart = ScreenToWorldPos(pos);
+
+		pos.z = 0.9f;
+		glm::vec3 end = ScreenToWorldPos(pos);
+
+		outDir = glm::normalize(end - outStart);
+	}
+
 	void Renderer::AddMeshRenderer(MeshRenderer* mesh)
 	{
 		m_Meshes.emplace_back(mesh);

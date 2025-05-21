@@ -12,7 +12,8 @@ namespace jLab
 		:Component(owner, drawOrder),
 		m_Model(nullptr),
 		m_SpecularColor(glm::vec3(0)),
-		m_SpecularPower(32)
+		m_SpecularPower(32),
+		m_Visible(true)
 	{
 		m_Owner->GetGame()->GetRenderer()->AddMeshRenderer(this);
 	}
@@ -24,7 +25,7 @@ namespace jLab
 
 	void MeshRenderer::Draw(const Shader* shader)
 	{
-		if (m_Model)
+		if (m_Model && m_Visible)
 		{
 			shader->SetMat4("u_WorldTransform", m_Owner->GetWorldTransform());
 			shader->SetFloat("u_SpecularPower", m_SpecularPower);

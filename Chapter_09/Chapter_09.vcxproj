@@ -30,6 +30,8 @@
     <ClCompile Include="src\Engine\Shader.cpp" />
     <ClCompile Include="src\Engine\Texture.cpp" />
     <ClCompile Include="src\EntryPoint.cpp" />
+    <ClCompile Include="src\Game\ProjectionArrowActor.cpp" />
+    <ClCompile Include="src\Game\ProjectionArrowActor.h" />
     <ClCompile Include="src\Game\FollowActor.cpp" />
     <ClCompile Include="src\Game\FPSActor.cpp" />
     <ClCompile Include="src\Game\OrbitActor.cpp" />

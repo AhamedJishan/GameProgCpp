@@ -15,11 +15,13 @@ namespace jLab
 
 		void SetMesh(class Model* model) { m_Model = model; }
 		void SetSpecular(glm::vec3 color, float power) { m_SpecularColor = color; m_SpecularPower = power; }
+		void SetVisible(const bool visible) { m_Visible = visible; }
 
 	private:
 		class Model* m_Model;
 
 		glm::vec3 m_SpecularColor;
 		float m_SpecularPower;
+		bool m_Visible;
 	};
 }

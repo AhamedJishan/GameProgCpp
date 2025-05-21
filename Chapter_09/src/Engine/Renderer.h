@@ -18,6 +18,8 @@ namespace jLab
 		void Shutdown();
 
 		void Draw();
+		glm::vec3 ScreenToWorldPos(const glm::vec3& screenPosition);
+		void ScreenToWorldDir(glm::vec3& outStart, glm::vec3& outDir);
 
 		void AddMeshRenderer(class MeshRenderer* mesh);
 		void RemoveMeshRenderer(class MeshRenderer* mesh);
