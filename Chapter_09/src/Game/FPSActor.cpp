@@ -16,11 +16,12 @@ namespace jLab
 		m_MoveComp = new MoveComponent(this);
 		m_MoveDir = glm::vec3(0);
 		m_Camera = new FPSCamera(this);
+		m_AngularSpeed = 0.0f;
 
 		m_FpsModel = new Actor(m_Game);
-		MeshRenderer* mr = new MeshRenderer(m_FpsModel);
-		mr->SetMesh(m_Game->GetRenderer()->GetModel("Assets/Models/gun/gun.obj"));
-		mr->SetSpecular(glm::vec3(0.5f), 32.0f);
+		m_Mesh = new MeshRenderer(m_FpsModel);
+		m_Mesh->SetMesh(m_Game->GetRenderer()->GetModel("Assets/Models/gun/gun.obj"));
+		m_Mesh->SetSpecular(glm::vec3(0.5f), 32.0f);
 	}
 	
 	void FPSActor::Input(InputState& inputState)
@@ -67,5 +68,10 @@ namespace jLab
 		glm::quat actorRot = GetRotation();
 		glm::quat cameraRot = glm::angleAxis(m_Camera->GetPitch(), GetRight());
 		m_FpsModel->SetRotation(cameraRot * actorRot);
+	}
+
+	void FPSActor::SetVisible(bool visible)
+	{
+		m_Mesh->SetVisible(visible);
 	}
 }

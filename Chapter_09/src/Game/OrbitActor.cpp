@@ -16,8 +16,8 @@ namespace jLab
 		m_PitchInput = 0.0f;
 		m_YawInput = 0.0f;
 
-		MeshRenderer* mr = new MeshRenderer(this);
-		mr->SetMesh(m_Game->GetRenderer()->GetModel("Assets/Models/car/car.obj"));
+		m_Mesh = new MeshRenderer(this);
+		m_Mesh->SetMesh(m_Game->GetRenderer()->GetModel("Assets/Models/car/car.obj"));
 	}
 	
 	void OrbitActor::Input(InputState& inputState)
@@ -35,5 +35,10 @@ namespace jLab
 	{
 		m_Camera->AddYawSpeed(m_YawInput * deltaTime);
 		m_Camera->AddPitchSpeed(m_PitchInput * deltaTime);
+	}
+
+	void OrbitActor::SetVisible(bool visible)
+	{
+		m_Mesh->SetVisible(visible);
 	}
 }

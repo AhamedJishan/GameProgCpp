@@ -10,7 +10,6 @@ namespace jLab
 		ProjectionArrowActor(class Game* game);
 
 		void Input(struct InputState& inputState) override;
-		void Update(float deltaTime) override;
 
 	private:
 		class MeshRenderer* m_Mesh;

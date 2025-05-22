@@ -36,6 +36,7 @@ namespace jLab
 		glm::vec3 GetRight() const { return (m_Rotation * glm::vec3(1, 0, 0)); }
 		glm::vec3 GetUp() const { return (m_Rotation * glm::vec3(0, 1, 0)); }
 
+		void SetState(const State state) { m_State = state; }
 		void SetPosition(const glm::vec3 position) { m_Position = position; m_RecomputeTransform = true; }
 		void SetScale(const glm::vec3 scale) { m_Scale = scale; m_RecomputeTransform = true; }
 		void SetRotation(const glm::quat rotation) { m_Rotation = rotation; m_RecomputeTransform = true; }

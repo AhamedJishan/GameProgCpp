@@ -22,6 +22,9 @@ namespace jLab
 		void AddActor(class Actor* actor);
 		void RemoveActor(class Actor* actor);
 
+		// Game specific code
+		void HandleKeyPress(struct InputState& inputState);
+
 	private:
 		void ProcessInput();
 		void UpdateGame();
@@ -40,5 +43,11 @@ namespace jLab
 		bool m_UpdatingActors;
 		std::vector<class Actor*> m_Actors;
 		std::vector<class Actor*> m_PendingActors;
+
+		// Game specifi members;
+		class FollowActor* m_FollowActor;
+		class FPSActor* m_FPSActor;
+		class OrbitActor* m_OrbitActor;
+		class SplineActor* m_SplineActor;
 	};
 }

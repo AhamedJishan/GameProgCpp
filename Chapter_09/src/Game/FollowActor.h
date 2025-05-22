@@ -10,13 +10,15 @@ namespace jLab
 		FollowActor(class Game* game);
 
 		void Input(struct InputState& inputState) override;
-		void Update(float deltaTime) override;
 
 		class FollowCamera* GetFollowCamera() const { return m_Camera; }
+
+		void SetVisible(bool visible);
 
 	private:
 		class FollowCamera* m_Camera;
 		class MoveComponent* m_MoveComp;
+		class MeshRenderer* m_Mesh;
 
 		const float m_Speed = 10.0f;
 		glm::vec3 m_MoveDir;

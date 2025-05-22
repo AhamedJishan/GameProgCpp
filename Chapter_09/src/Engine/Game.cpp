@@ -88,6 +88,54 @@ namespace jLab
 			m_PendingActors.pop_back();
 		}
 	}
+
+	void Game::HandleKeyPress(InputState& inputState)
+	{
+		if (inputState.Keyboard.GetKeyDown(SDL_SCANCODE_1))
+		{
+			m_FPSActor->SetState(Actor::E_Active);
+			m_FPSActor->SetVisible(true);
+
+			m_FollowActor->SetState(Actor::E_Paused);
+			m_FollowActor->SetVisible(false);
+			m_OrbitActor->SetState(Actor::E_Paused);
+			m_OrbitActor->SetVisible(false);
+			m_SplineActor->SetState(Actor::E_Paused);
+		}
+		else if (inputState.Keyboard.GetKeyDown(SDL_SCANCODE_2))
+		{
+			m_FollowActor->SetState(Actor::E_Active);
+			m_FollowActor->SetVisible(true);
+
+			m_FPSActor->SetState(Actor::E_Paused);
+			m_FPSActor->SetVisible(false);
+			m_OrbitActor->SetState(Actor::E_Paused);
+			m_OrbitActor->SetVisible(false);
+			m_SplineActor->SetState(Actor::E_Paused);
+		}
+		else if (inputState.Keyboard.GetKeyDown(SDL_SCANCODE_3))
+		{
+			m_OrbitActor->SetState(Actor::E_Active);
+			m_OrbitActor->SetVisible(true);
+
+			m_FPSActor->SetState(Actor::E_Paused);
+			m_FPSActor->SetVisible(false);
+			m_FollowActor->SetState(Actor::E_Paused);
+			m_FollowActor->SetVisible(false);
+			m_SplineActor->SetState(Actor::E_Paused);
+		}
+		else if (inputState.Keyboard.GetKeyDown(SDL_SCANCODE_4))
+		{
+			m_SplineActor->SetState(Actor::E_Active);
+
+			m_FPSActor->SetState(Actor::E_Paused);
+			m_FPSActor->SetVisible(false);
+			m_FollowActor->SetState(Actor::E_Paused);
+			m_FollowActor->SetVisible(false);
+			m_OrbitActor->SetState(Actor::E_Paused);
+			m_OrbitActor->SetVisible(false);
+		}
+	}
 	
 	void Game::ProcessInput()
 	{
@@ -119,6 +167,7 @@ namespace jLab
 
 		if (inputState.Keyboard.GetKeyUp(SDL_SCANCODE_ESCAPE)) m_IsRunning = false;
 
+		HandleKeyPress(inputState);
 		for (Actor* actor : m_Actors)
 			actor->ProcessInput(inputState);
 	}
@@ -160,19 +209,25 @@ namespace jLab
 	
 	void Game::LoadData()
 	{
-		FPSActor* fpsActor = new FPSActor(this);
+		m_FPSActor = new FPSActor(this);
 		   
-		// FollowActor* followActor = new FollowActor(this);
-		// followActor->SetPosition(glm::vec3(0, -1, 0));
-		// followActor->GetFollowCamera()->SnapToIdeal();
+		m_FollowActor = new FollowActor(this);
+		m_FollowActor->SetPosition(glm::vec3(0, -1, 0));
+		m_FollowActor->GetFollowCamera()->SnapToIdeal();
 		   
-		// OrbitActor* orbitActor = new OrbitActor(this);
-		// orbitActor->SetPosition(glm::vec3(0, -1, 0));
+		m_OrbitActor = new OrbitActor(this);
+		m_OrbitActor->SetPosition(glm::vec3(0, -1, 0));
 
-		//SplineActor* splineActor = new SplineActor(this);
+		m_SplineActor = new SplineActor(this);
 
 		ProjectionArrowActor* projectionArrowActor = new ProjectionArrowActor(this);
 		projectionArrowActor->SetPosition(glm::vec3(0, -5, 0));
+
+		m_FollowActor->SetState(Actor::E_Paused);
+		m_FollowActor->SetVisible(false);
+		m_OrbitActor->SetState(Actor::E_Paused);
+		m_OrbitActor->SetVisible(false);
+		m_SplineActor->SetState(Actor::E_Paused);
 
 		SceneActor* sa = new SceneActor(this);
 		sa->SetPosition(glm::vec3(0, -1, 0));

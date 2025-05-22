@@ -14,8 +14,8 @@ namespace jLab
 	FollowActor::FollowActor(Game* game)
 		:Actor(game)
 	{
-		MeshRenderer* mr = new MeshRenderer(this);
-		mr->SetMesh(m_Game->GetRenderer()->GetModel("Assets/Models/car/car.obj"));
+		m_Mesh = new MeshRenderer(this);
+		m_Mesh->SetMesh(m_Game->GetRenderer()->GetModel("Assets/Models/car/car.obj"));
 
 		m_MoveComp = new MoveComponent(this);
 		m_Camera = new FollowCamera(this);
@@ -38,9 +38,9 @@ namespace jLab
 		m_MoveComp->SetVelocity(m_MoveDir * m_Speed);
 		m_MoveComp->SetAngularSpeed(-m_AngularSpeed);
 	}
-	
-	void FollowActor::Update(float deltaTime)
+
+	void FollowActor::SetVisible(bool visible)
 	{
-		//m_Camera->ComputeCameraPosition();
+		m_Mesh->SetVisible(visible);
 	}
 }

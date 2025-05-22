@@ -29,8 +29,4 @@ namespace jLab
 		SetPosition(pos + forward * 1.5f);
 		SetRotation(glm::rotation(glm::vec3(0, 0, -1), forward));
 	}
-
-	void ProjectionArrowActor::Update(float deltaTime)
-	{
-	}
 }
