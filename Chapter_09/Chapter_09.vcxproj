@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Actor.cpp" />
+    <ClCompile Include="src\Engine\AudioSystem.cpp" />
     <ClCompile Include="src\Engine\Components\CameraComponent.cpp" />
     <ClCompile Include="src\Engine\Components\Component.cpp" />
     <ClCompile Include="src\Engine\Components\FollowCamera.cpp" />
@@ -28,6 +29,7 @@
     <ClCompile Include="src\Engine\MouseState.cpp" />
     <ClCompile Include="src\Engine\Renderer.cpp" />
     <ClCompile Include="src\Engine\Shader.cpp" />
+    <ClCompile Include="src\Engine\SoundEvent.cpp" />
     <ClCompile Include="src\Engine\Texture.cpp" />
     <ClCompile Include="src\EntryPoint.cpp" />
     <ClCompile Include="src\Game\ProjectionArrowActor.cpp" />
@@ -39,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Engine\Actor.h" />
+    <ClInclude Include="src\Engine\AudioSystem.h" />
     <ClInclude Include="src\Engine\Components\CameraComponent.h" />
     <ClInclude Include="src\Engine\Components\Component.h" />
     <ClInclude Include="src\Engine\Components\FollowCamera.h" />
@@ -55,6 +58,7 @@
     <ClInclude Include="src\Engine\Renderer.h" />
     <ClInclude Include="src\Engine\Game.h" />
     <ClInclude Include="src\Engine\Shader.h" />
+    <ClInclude Include="src\Engine\SoundEvent.h" />
     <ClInclude Include="src\Engine\Texture.h" />
     <ClInclude Include="src\Game\FollowActor.h" />
     <ClInclude Include="src\Game\FPSActor.h" />
