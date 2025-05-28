@@ -18,6 +18,7 @@ namespace jLab
 
 		class Renderer* GetRenderer() const { return m_Renderer; }
 		class InputSystem* GetInputSystem() const { return m_InputSystem; }
+		class AudioSystem* GetAudioSystem() const { return m_AudioSystem; }
 
 		void AddActor(class Actor* actor);
 		void RemoveActor(class Actor* actor);
@@ -36,6 +37,7 @@ namespace jLab
 	private:
 		class Renderer* m_Renderer;
 		class InputSystem* m_InputSystem;
+		class AudioSystem* m_AudioSystem;
 
 		bool m_IsRunning;
 		int m_TicksCount;

@@ -4,6 +4,7 @@
 #include <algorithm>
 #include "Renderer.h"
 #include "InputSystem.h"
+#include "AudioSystem.h"
 #include "Actor.h"
 
 #include "Game/SceneActor.h"
@@ -23,6 +24,7 @@ namespace jLab
 		m_UpdatingActors = false;
 		m_InputSystem = new InputSystem();
 		m_Renderer = new Renderer(this);
+		m_AudioSystem = new AudioSystem(this);
 	}
 	
 	bool Game::Init()
@@ -36,6 +38,7 @@ namespace jLab
 		m_InputSystem->Init();
 		m_InputSystem->SetRelativeMouseMode(true);
 		m_Renderer->Init(SCREEN_WIDTH, SCREEN_HEIGHT);
+		m_AudioSystem->Init();
 
 		LoadData();
 
@@ -55,11 +58,12 @@ namespace jLab
 	void Game::Shutdown()
 	{
 		UnloadData();
-		if (m_Renderer)
-		{
-			m_Renderer->Shutdown();
-			delete m_Renderer;
-		}
+		m_InputSystem->Shutdown();
+		m_Renderer->Shutdown();
+		m_AudioSystem->Shutdown();
+		if (m_InputSystem)	delete m_InputSystem;
+		if (m_Renderer)		delete m_Renderer;
+		if (m_AudioSystem)	delete m_AudioSystem;
 		SDL_Quit();
 	}
 
@@ -200,6 +204,8 @@ namespace jLab
 		for (Actor* actor : deadActors)
 			delete actor;
 		deadActors.clear();
+
+		m_AudioSystem->Update(deltaTime);
 	}
 	
 	void Game::GenerateOutput()
@@ -232,6 +238,8 @@ namespace jLab
 		SceneActor* sa = new SceneActor(this);
 		sa->SetPosition(glm::vec3(0, -1, 0));
 		sa->SetScale(glm::vec3(2));
+
+		m_AudioSystem->PlayEvent("event:/Music");
 	}
 
 	void Game::UnloadData()
