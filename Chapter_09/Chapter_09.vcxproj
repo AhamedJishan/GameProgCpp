@@ -33,6 +33,7 @@
     <ClCompile Include="src\Engine\SoundEvent.cpp" />
     <ClCompile Include="src\Engine\Texture.cpp" />
     <ClCompile Include="src\EntryPoint.cpp" />
+    <ClCompile Include="src\Game\BoxActor.cpp" />
     <ClCompile Include="src\Game\ProjectionArrowActor.cpp" />
     <ClCompile Include="src\Game\ProjectionArrowActor.h" />
     <ClCompile Include="src\Game\FollowActor.cpp" />
@@ -62,6 +63,7 @@
     <ClInclude Include="src\Engine\Shader.h" />
     <ClInclude Include="src\Engine\SoundEvent.h" />
     <ClInclude Include="src\Engine\Texture.h" />
+    <ClInclude Include="src\Game\BoxActor.h" />
     <ClInclude Include="src\Game\FollowActor.h" />
     <ClInclude Include="src\Game\FPSActor.h" />
     <ClInclude Include="src\Game\OrbitActor.h" />

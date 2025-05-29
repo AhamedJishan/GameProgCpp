@@ -14,6 +14,7 @@
 #include "Game/OrbitActor.h"
 #include "Game/SplineActor.h"
 #include "Game/ProjectionArrowActor.h"
+#include "Game/BoxActor.h"
 
 namespace jLab
 {
@@ -238,6 +239,9 @@ namespace jLab
 		SceneActor* sa = new SceneActor(this);
 		sa->SetPosition(glm::vec3(0, -1, 0));
 		sa->SetScale(glm::vec3(2));
+
+		BoxActor* ba = new BoxActor(this);
+		ba->SetPosition(glm::vec3(2, 0, -5));
 
 		m_AudioSystem->PlayEvent("event:/Music");
 	}

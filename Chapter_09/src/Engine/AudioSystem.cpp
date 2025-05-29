@@ -225,7 +225,7 @@ namespace jLab
 
 		FMOD_3D_ATTRIBUTES listener;
 		listener.position = VecToFMOD(glm::vec3(invView[3]));
-		listener.forward = VecToFMOD(-glm::vec3(invView[2]));
+		listener.forward = VecToFMOD(glm::vec3(invView[2]));
 		listener.up = VecToFMOD(glm::vec3(invView[1]));
 		listener.velocity = VecToFMOD(glm::vec3(0));
 

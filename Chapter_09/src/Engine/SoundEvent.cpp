@@ -137,6 +137,8 @@ namespace jLab
 			attrib.position = VecToFMOD(pos);
 			attrib.forward = VecToFMOD(forward);
 			attrib.up = VecToFMOD(up);
+			attrib.velocity = { 0 ,0 ,0 };
+
 			event->set3DAttributes(&attrib);
 		}
 	}
