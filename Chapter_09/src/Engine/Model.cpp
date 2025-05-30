@@ -19,7 +19,10 @@ namespace jLab
 	Model::~Model()
 	{
 		while (!m_Meshes.empty())
+		{
 			delete m_Meshes.back();
+			m_Meshes.pop_back();
+		}
 	}
 
 	void Model::Draw(const Shader* shader)

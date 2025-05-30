@@ -15,6 +15,7 @@
 #include "Game/SplineActor.h"
 #include "Game/ProjectionArrowActor.h"
 #include "Game/BoxActor.h"
+#include "Game/RadarActor.h"
 
 namespace jLab
 {
@@ -170,7 +171,10 @@ namespace jLab
 
 		InputState inputState = m_InputSystem->GetState();
 
-		if (inputState.Keyboard.GetKeyUp(SDL_SCANCODE_ESCAPE)) m_IsRunning = false;
+		if (inputState.Keyboard.GetKeyUp(SDL_SCANCODE_ESCAPE)) 
+		{
+			m_IsRunning = false;
+		}
 
 		HandleKeyPress(inputState);
 		for (Actor* actor : m_Actors)
@@ -242,6 +246,10 @@ namespace jLab
 
 		BoxActor* ba = new BoxActor(this);
 		ba->SetPosition(glm::vec3(2, 0, -5));
+
+		RadarActor* ra = new RadarActor(this);
+		ra->SetScale(glm::vec3(0.75f));
+		ra->SetPosition(glm::vec3(-512, -232, 0));
 
 		m_AudioSystem->PlayEvent("event:/Music");
 	}

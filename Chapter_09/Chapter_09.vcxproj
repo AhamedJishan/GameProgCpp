@@ -22,6 +22,7 @@
     <ClCompile Include="src\Engine\Components\MoveComponent.cpp" />
     <ClCompile Include="src\Engine\Components\OrbitCamera.cpp" />
     <ClCompile Include="src\Engine\Components\SplineCamera.cpp" />
+    <ClCompile Include="src\Engine\Components\SpriteComponent.cpp" />
     <ClCompile Include="src\Engine\Game.cpp" />
     <ClCompile Include="src\Engine\InputSystem.cpp" />
     <ClCompile Include="src\Engine\KeyboardState.cpp" />
@@ -34,6 +35,7 @@
     <ClCompile Include="src\Engine\Texture.cpp" />
     <ClCompile Include="src\EntryPoint.cpp" />
     <ClCompile Include="src\Game\BoxActor.cpp" />
+    <ClCompile Include="src\Game\RadarActor.cpp" />
     <ClCompile Include="src\Game\ProjectionArrowActor.cpp" />
     <ClCompile Include="src\Game\ProjectionArrowActor.h" />
     <ClCompile Include="src\Game\FollowActor.cpp" />
@@ -53,6 +55,7 @@
     <ClInclude Include="src\Engine\Components\MoveComponent.h" />
     <ClInclude Include="src\Engine\Components\OrbitCamera.h" />
     <ClInclude Include="src\Engine\Components\SplineCamera.h" />
+    <ClInclude Include="src\Engine\Components\SpriteComponent.h" />
     <ClInclude Include="src\Engine\InputSystem.h" />
     <ClInclude Include="src\Engine\KeyboardState.h" />
     <ClInclude Include="src\Engine\Mesh.h" />
@@ -64,6 +67,7 @@
     <ClInclude Include="src\Engine\SoundEvent.h" />
     <ClInclude Include="src\Engine\Texture.h" />
     <ClInclude Include="src\Game\BoxActor.h" />
+    <ClInclude Include="src\Game\RadarActor.h" />
     <ClInclude Include="src\Game\FollowActor.h" />
     <ClInclude Include="src\Game\FPSActor.h" />
     <ClInclude Include="src\Game\OrbitActor.h" />
@@ -74,6 +78,11 @@
   <ItemGroup>
     <None Include="Assets\Shaders\phong.frag" />
     <None Include="Assets\Shaders\phong.vert" />
+    <None Include="Assets\Shaders\sprite.frag" />
+    <None Include="Assets\Shaders\sprite.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\Textures\Radar.png" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{943266DF-80EA-A72C-E9F1-8088D5C8421D}</ProjectGuid>
