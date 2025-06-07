@@ -37,4 +37,28 @@ namespace jLab
 		return distance;
 	}
 	//------------------------------------------------------
+
+
+	//------------------------Plane----------------------------
+	Plane::Plane(glm::vec3 a, glm::vec3 b, glm::vec3 c)
+	{
+		glm::vec3 ab = b - a;
+		glm::vec3 ac = c - a;
+
+		m_Normal = glm::normalize(glm::cross(ab, ac));
+		m_D = glm::dot(a, m_Normal);
+	}
+
+	Plane::Plane(glm::vec3 normal, float signedDistance)
+		: m_Normal(normal)
+		, m_D(signedDistance)
+	{
+	}
+
+	float Plane::SignedDist(const glm::vec3& point)
+	{
+		return glm::dot(point, m_Normal) - m_D;
+	}
+	//---------------------------------------------------------
+
 }
