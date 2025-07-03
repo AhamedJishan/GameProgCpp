@@ -1,6 +1,7 @@
 #include "Collision.h"
 
 #include <array>
+#include <algorithm>
 
 namespace jLab
 {
@@ -73,8 +74,12 @@ namespace jLab
 
 	void AABB::UpdateMinMax(const glm::vec3& point)
 	{
-		m_Min = glm::min(m_Min, point);
-		m_Max = glm::max(m_Max, point);
+		m_Min.x = std::min(m_Min.x, point.x);
+		m_Min.y = std::min(m_Min.y, point.y);
+		m_Min.z = std::min(m_Min.z, point.z);
+		m_Max.x = std::min(m_Max.x, point.x);
+		m_Max.y = std::min(m_Max.y, point.y);
+		m_Max.z = std::min(m_Max.z, point.z);
 	}
 
 	void AABB::Rotate(const glm::quat& rotation)

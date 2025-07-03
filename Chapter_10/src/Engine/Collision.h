@@ -30,6 +30,7 @@ namespace jLab
 		float m_D;
 	};
 
+
 	struct Sphere
 	{
 		Sphere(const glm::vec3& center, float radius);
@@ -37,6 +38,7 @@ namespace jLab
 		glm::vec3 m_Center;
 		float m_Radius;
 	};
+
 
 	struct AABB
 	{
@@ -50,5 +52,20 @@ namespace jLab
 	private:
 		const glm::vec3 m_OriginalMin;
 		const glm::vec3 m_OriginalMax;
+	};
+
+
+	struct OBB
+	{
+		glm::vec3 m_Center;
+		glm::quat m_Rotation;
+		glm::vec3 m_Extents;
+	};
+
+
+	struct Capsule
+	{
+		LineSegment m_Segment;
+		float m_Radius;
 	};
 }
