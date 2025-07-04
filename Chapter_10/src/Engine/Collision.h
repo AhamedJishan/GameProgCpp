@@ -3,6 +3,7 @@
 #include <glm/glm.hpp>
 #include <glm/vec3.hpp>
 #include <glm/gtc/quaternion.hpp>
+#include <vector>
 
 namespace jLab
 {
@@ -13,6 +14,7 @@ namespace jLab
 		glm::vec3 PointOnSegment(float t);
 		float MinDist(const glm::vec3& point);
 
+	public:
 		glm::vec3 m_Start;
 		glm::vec3 m_End;
 	};
@@ -25,6 +27,7 @@ namespace jLab
 
 		float SignedDist(const glm::vec3& point);
 
+	public:
 		glm::vec3 m_Normal;
 		// signed minimal distance between the plane and the origin
 		float m_D;
@@ -35,6 +38,9 @@ namespace jLab
 	{
 		Sphere(const glm::vec3& center, float radius);
 
+		bool Contains(const glm::vec3& point);
+
+	public:
 		glm::vec3 m_Center;
 		float m_Radius;
 	};
@@ -46,7 +52,9 @@ namespace jLab
 
 		void UpdateMinMax(const glm::vec3& point);
 		void Rotate(const glm::quat& rotation);
+		bool Contains(const glm::vec3& point);
 
+	public:
 		glm::vec3 m_Min;
 		glm::vec3 m_Max;
 	private:
@@ -65,7 +73,21 @@ namespace jLab
 
 	struct Capsule
 	{
+		Capsule(const glm::vec3& start, const glm::vec3& end, float radius);
+
+		bool Contains(const glm::vec3& point);
+
+	public:
 		LineSegment m_Segment;
 		float m_Radius;
+	};
+
+
+	struct ConvexPolygon
+	{
+		bool Contains(const glm::vec2& point);
+
+	public:
+		std::vector<glm::vec2> m_Vertices;
 	};
 }

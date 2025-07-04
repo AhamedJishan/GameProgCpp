@@ -65,6 +65,12 @@ namespace jLab
 	{
 	}
 
+	bool Sphere::Contains(const glm::vec3& point)
+	{
+		float distance = glm::length(point - m_Center);
+		return (distance <= m_Radius);
+	}
+
 
 	AABB::AABB(const glm::vec3& min, const glm::vec3& max)
 		: m_Min(min), m_OriginalMin(min)
@@ -110,6 +116,48 @@ namespace jLab
 			p = rotationMat * points[i];
 			UpdateMinMax(p);
 		}
+	}
+
+	bool AABB::Contains(const glm::vec3& point)
+	{
+		bool outside =
+			point.x < m_Min.x ||
+			point.y < m_Min.y ||
+			point.z < m_Min.z ||
+			point.x < m_Max.x ||
+			point.y < m_Max.y ||
+			point.z < m_Max.z;
+
+		return !outside;
+	}
+
+	Capsule::Capsule(const glm::vec3& start, const glm::vec3& end, float radius)
+		:m_Segment(LineSegment(start, end))
+		,m_Radius(radius)
+	{
+	}
+
+	bool Capsule::Contains(const glm::vec3& point)
+	{
+		float distance = m_Segment.MinDist(point);
+		return distance < m_Radius;
+	}
+
+	bool ConvexPolygon::Contains(const glm::vec2& point)
+	{
+		if (m_Vertices.size() < 3) return false;
+
+		float sum = 0.0f;
+
+		for (int i = 0; i < m_Vertices.size(); i++)
+		{
+			glm::vec2 a = glm::normalize(m_Vertices[i] - point);
+			glm::vec2 b = glm::normalize(m_Vertices[(i + 1) % m_Vertices.size()] - point);
+
+			sum += glm::acos(glm::dot(a, b));
+		}
+
+		return glm::epsilonEqual(sum, glm::two_pi<float>(), 0.1f);
 	}
 
 }
