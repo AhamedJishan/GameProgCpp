@@ -131,6 +131,19 @@ namespace jLab
 		return !outside;
 	}
 
+	float AABB::MinDist(const glm::vec3& point) const
+	{
+		float dx = std::max(m_Min.x - point.x, 0.0f);
+		dx = std::max(dx, point.x - m_Max.x);
+		float dy = std::max(m_Min.y - point.y, 0.0f);
+		dy = std::max(dy, point.y - m_Max.y);
+		float dz = std::max(m_Min.z - point.z, 0.0f);
+		dz = std::max(dz, point.z - m_Max.z);
+
+		float distance = std::sqrt(dx * dx + dy * dy + dz * dz);
+		return distance;
+	}
+
 	Capsule::Capsule(const glm::vec3& start, const glm::vec3& end, float radius)
 		:m_Segment(LineSegment(start, end))
 		,m_Radius(radius)
@@ -158,6 +171,34 @@ namespace jLab
 		}
 
 		return glm::epsilonEqual(sum, glm::two_pi<float>(), 0.1f);
+	}
+
+
+
+	bool Intersects(const Sphere& a, const Sphere& b)
+	{
+		float distance = glm::length(a.m_Center - b.m_Center);
+		float radiiSum = a.m_Radius + b.m_Radius;
+		return distance <= radiiSum;
+	}
+
+	bool Intersects(const AABB& a, const AABB& b)
+	{
+		bool notIntersecting =
+			a.m_Max.x < b.m_Min.x ||
+			a.m_Max.y < b.m_Min.y ||
+			a.m_Max.z < b.m_Min.z ||
+			a.m_Min.x > b.m_Max.x ||
+			a.m_Min.y > b.m_Max.y ||
+			a.m_Min.z > b.m_Max.z;
+
+		return !notIntersecting;
+	}
+
+	bool Intersects(const Sphere& sphere, const AABB& box)
+	{
+		float distance = box.MinDist(sphere.m_Center);
+		return (distance <= sphere.m_Radius);
 	}
 
 }

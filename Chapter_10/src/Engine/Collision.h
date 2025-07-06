@@ -48,11 +48,13 @@ namespace jLab
 
 	struct AABB
 	{
+	public:
 		AABB(const glm::vec3& min, const glm::vec3& max);
 
 		void UpdateMinMax(const glm::vec3& point);
 		void Rotate(const glm::quat& rotation);
 		bool Contains(const glm::vec3& point);
+		float MinDist(const glm::vec3& point) const;
 
 	public:
 		glm::vec3 m_Min;
@@ -90,4 +92,10 @@ namespace jLab
 	public:
 		std::vector<glm::vec2> m_Vertices;
 	};
+
+
+	// INTERSECTION FUNCTIONS
+	bool Intersects(const Sphere& a, const Sphere& b);
+	bool Intersects(const AABB& a, const AABB& b);
+	bool Intersects(const Sphere& sphere, const AABB& box);
 }
