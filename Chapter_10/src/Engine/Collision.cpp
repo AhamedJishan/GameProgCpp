@@ -305,4 +305,38 @@ namespace jLab
 		}
 	}
 
+	bool Intersects(const LineSegment& line, const Sphere& sphere, float& outT)
+	{
+		// Compute X, Y, a, b, c as per equations
+		glm::vec3 X = line.m_Start - sphere.m_Center;
+		glm::vec3 Y = line.m_End - line.m_Start;
+		float a = glm::dot(Y, Y);
+		float b = 2.0f * glm::dot(X, Y);
+		float c = glm::dot(X, X) - sphere.m_Radius * sphere.m_Radius;
+		// Compute discriminant
+		float discriminant = b * b - 4.0f * a * c;
+		if (discriminant < 0.0f)
+			return false;
+		else
+		{
+			discriminant = std::sqrt(discriminant);
+			// Compute min and max solutions of t
+			float tMin = (-b - discriminant) / (2.0f * a);
+			float tMax = (-b + discriminant) / (2.0f * a);
+			// Check whether either t is within bounds of segment
+			if (tMin >= 0.0f && tMin <= 1.0f)
+			{
+				outT = tMin;
+				return true;
+			}
+			else if (tMax >= 0.0f && tMax <= 1.0f)
+			{
+				outT = tMax;
+				return true;
+			}
+			else
+				return false;
+		}
+	}
+
 }

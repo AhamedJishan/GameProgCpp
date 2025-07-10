@@ -102,4 +102,5 @@ namespace jLab
 	bool Intersects(const Sphere& sphere, const AABB& box);
 	bool Intersects(const Capsule& a, const Capsule& b);
 	bool Intersects(const LineSegment& line, const Plane& plane, float& outT);
+	bool Intersects(const LineSegment& line, const Sphere& sphere, float& outT);
 }
