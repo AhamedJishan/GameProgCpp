@@ -37,6 +37,76 @@ namespace jLab
 		return distance;
 	}
 
+	float LineSegment::MinDist(const LineSegment& s1, const LineSegment& s2)
+	{
+		glm::vec3   u = s1.m_End - s1.m_Start;
+		glm::vec3   v = s2.m_End - s2.m_Start;
+		glm::vec3   w = s1.m_Start - s2.m_Start;
+		float    a = glm::dot(u, u);         // always >= 0
+		float    b = glm::dot(u, v);
+		float    c = glm::dot(v, v);         // always >= 0
+		float    d = glm::dot(u, w);
+		float    e = glm::dot(v, w);
+		float    D = a * c - b * b;        // always >= 0
+		float    sc, sN, sD = D;       // sc = sN / sD, default sD = D >= 0
+		float    tc, tN, tD = D;       // tc = tN / tD, default tD = D >= 0
+
+		// compute the line parameters of the two closest points
+		if (glm::epsilonEqual(D, 0.0f, 0.01f)) { // the lines are almost parallel
+			sN = 0.0;         // force using point P0 on segment S1
+			sD = 1.0;         // to prevent possible division by 0.0 later
+			tN = e;
+			tD = c;
+		}
+		else {                 // get the closest points on the infinite lines
+			sN = (b * e - c * d);
+			tN = (a * e - b * d);
+			if (sN < 0.0) {        // sc < 0 => the s=0 edge is visible
+				sN = 0.0;
+				tN = e;
+				tD = c;
+			}
+			else if (sN > sD) {  // sc > 1  => the s=1 edge is visible
+				sN = sD;
+				tN = e + b;
+				tD = c;
+			}
+		}
+
+		if (tN < 0.0) {            // tc < 0 => the t=0 edge is visible
+			tN = 0.0;
+			// recompute sc for this edge
+			if (-d < 0.0)
+				sN = 0.0;
+			else if (-d > a)
+				sN = sD;
+			else {
+				sN = -d;
+				sD = a;
+			}
+		}
+		else if (tN > tD) {      // tc > 1  => the t=1 edge is visible
+			tN = tD;
+			// recompute sc for this edge
+			if ((-d + b) < 0.0)
+				sN = 0;
+			else if ((-d + b) > a)
+				sN = sD;
+			else {
+				sN = (-d + b);
+				sD = a;
+			}
+		}
+		// finally do the division to get sc and tc
+		sc = (glm::epsilonEqual(sN, 0.0f, 0.01f) ? 0.0f : sN / sD);
+		tc = (glm::epsilonEqual(tN, 0.0f, 0.01f) ? 0.0f : tN / tD);
+
+		// get the difference of the two closest points
+		glm::vec3   dP = w + (sc * u) - (tc * v);  // =  S1(sc) - S2(tc)
+
+		return glm::length(dP);   // return the closest distance
+	}
+
 
 	Plane::Plane(const glm::vec3& a, const glm::vec3& b, const glm::vec3& c)
 	{
@@ -44,7 +114,7 @@ namespace jLab
 		glm::vec3 ac = c - a;
 
 		m_Normal = glm::normalize(glm::cross(ab, ac));
-		m_D = glm::dot(a, m_Normal);
+		m_D = -glm::dot(a, m_Normal);
 	}
 
 	Plane::Plane(const glm::vec3& normal, float signedDistance)
@@ -55,7 +125,7 @@ namespace jLab
 
 	float Plane::SignedDist(const glm::vec3& point)
 	{
-		return glm::dot(point, m_Normal) - m_D;
+		return glm::dot(point, m_Normal) + m_D;
 	}
 
 
@@ -199,6 +269,40 @@ namespace jLab
 	{
 		float distance = box.MinDist(sphere.m_Center);
 		return (distance <= sphere.m_Radius);
+	}
+
+	bool Intersects(const Capsule& a, const Capsule& b)
+	{
+		float distance = LineSegment::MinDist(a.m_Segment, b.m_Segment);
+		float radiiSum = a.m_Radius + b.m_Radius;
+		return distance <= radiiSum;
+	}
+
+	bool Intersects(const LineSegment& line, const Plane& plane, float& outT)
+	{
+		float denominator = glm::dot((line.m_End - line.m_Start), plane.m_Normal);
+		// if denominator is 0, then the line is paraller to the plane
+		if (glm::epsilonEqual(denominator, 0.0f, 0.01f))
+		{
+			// check if line is on the plane
+			if (glm::epsilonEqual((glm::dot(line.m_Start, plane.m_Normal) + plane.m_D), 0.0f, 0.01f))
+			{
+				outT = 0.0f;
+				return true;
+			}
+			else
+				return false;
+		}
+		else
+		{
+			float numerator = - glm::dot(line.m_Start, plane.m_Normal) - plane.m_D;
+			outT = numerator / denominator;
+			
+			if (outT >= 0.0f && outT <= 1.0f)
+				return true;
+			else
+				return false;
+		}
 	}
 
 }

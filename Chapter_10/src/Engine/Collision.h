@@ -13,6 +13,8 @@ namespace jLab
 
 		glm::vec3 PointOnSegment(float t);
 		float MinDist(const glm::vec3& point);
+		// Don't know how this function works
+		static float MinDist(const LineSegment& s1, const LineSegment& s2);
 
 	public:
 		glm::vec3 m_Start;
@@ -98,4 +100,6 @@ namespace jLab
 	bool Intersects(const Sphere& a, const Sphere& b);
 	bool Intersects(const AABB& a, const AABB& b);
 	bool Intersects(const Sphere& sphere, const AABB& box);
+	bool Intersects(const Capsule& a, const Capsule& b);
+	bool Intersects(const LineSegment& line, const Plane& plane, float& outT);
 }
