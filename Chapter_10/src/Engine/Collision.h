@@ -11,7 +11,7 @@ namespace jLab
 	{
 		LineSegment(const glm::vec3& start, const glm::vec3& end);
 
-		glm::vec3 PointOnSegment(float t);
+		glm::vec3 PointOnSegment(float t) const;
 		float MinDist(const glm::vec3& point);
 		// Don't know how this function works
 		static float MinDist(const LineSegment& s1, const LineSegment& s2);
@@ -55,7 +55,7 @@ namespace jLab
 
 		void UpdateMinMax(const glm::vec3& point);
 		void Rotate(const glm::quat& rotation);
-		bool Contains(const glm::vec3& point);
+		bool Contains(const glm::vec3& point) const;
 		float MinDist(const glm::vec3& point) const;
 
 	public:
@@ -103,4 +103,8 @@ namespace jLab
 	bool Intersects(const Capsule& a, const Capsule& b);
 	bool Intersects(const LineSegment& line, const Plane& plane, float& outT);
 	bool Intersects(const LineSegment& line, const Sphere& sphere, float& outT);
+	bool Intersects(const LineSegment& line, const AABB& aabb, float& outT);
+
+	// Helper function
+	bool TestSidePlane(float start, float end, float negD, std::vector<float>& out);
 }

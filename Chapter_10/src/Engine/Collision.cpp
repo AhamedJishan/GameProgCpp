@@ -11,7 +11,7 @@ namespace jLab
 	{
 	}
 
-	glm::vec3 LineSegment::PointOnSegment(float t)
+	glm::vec3 LineSegment::PointOnSegment(float t) const
 	{
 		return m_Start + (m_End - m_Start) * t;
 	}
@@ -188,7 +188,7 @@ namespace jLab
 		}
 	}
 
-	bool AABB::Contains(const glm::vec3& point)
+	bool AABB::Contains(const glm::vec3& point) const
 	{
 		bool outside =
 			point.x < m_Min.x ||
@@ -332,6 +332,59 @@ namespace jLab
 			else if (tMax >= 0.0f && tMax <= 1.0f)
 			{
 				outT = tMax;
+				return true;
+			}
+			else
+				return false;
+		}
+	}
+
+	bool Intersects(const LineSegment& line, const AABB& aabb, float& outT)
+	{
+		// vector to store all the t values
+		std::vector<float> tValues;
+
+		//Test the x plane
+		TestSidePlane(line.m_Start.x, line.m_End.x, aabb.m_Min.x, tValues);
+		TestSidePlane(line.m_Start.x, line.m_End.x, aabb.m_Max.x, tValues);
+		//Test the y plane
+		TestSidePlane(line.m_Start.y, line.m_End.y, aabb.m_Min.y, tValues);
+		TestSidePlane(line.m_Start.y, line.m_End.y, aabb.m_Max.y, tValues);
+		//Test the z plane
+		TestSidePlane(line.m_Start.z, line.m_End.z, aabb.m_Min.z, tValues);
+		TestSidePlane(line.m_Start.z, line.m_End.z, aabb.m_Max.z, tValues);
+
+		// sort the tValues in ascending order
+		std::sort(tValues.begin(), tValues.end());
+
+		// test if the box contains any of these tValues
+		glm::vec3 point;
+		for (float t : tValues)
+		{
+			point = line.PointOnSegment(t);
+			if (aabb.Contains(point))
+			{
+				outT = t;
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	bool TestSidePlane(float start, float end, float negD, std::vector<float>& out)
+	{
+		float denominator = end - start;
+		if (glm::epsilonEqual(denominator, 0.0f, 0.01f))
+			return false;
+		else
+		{
+			float numerator = -start + negD;
+			float t = numerator / denominator;
+			// Test t within bounds
+			if (t >= 0.0f && t <= 1.0f)
+			{
+				out.emplace_back(t);
 				return true;
 			}
 			else
