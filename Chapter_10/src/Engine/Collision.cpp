@@ -392,4 +392,30 @@ namespace jLab
 		}
 	}
 
+	bool SweptSphere(const Sphere& P0, const Sphere& P1, const Sphere& Q0, const Sphere& Q1, float& outT)
+	{
+		// Compute X, Y, a, b and c
+		glm::vec3 X = P0.m_Center - Q0.m_Center;
+		glm::vec3 Y = P1.m_Center - P0.m_Center - (Q1.m_Center - Q0.m_Center);
+		float a = glm::dot(Y, Y);
+		float b = 2.0f * glm::dot(X, Y);
+		float sumRadii = P0.m_Radius + Q0.m_Radius;
+		float c = glm::dot(X, X) - sumRadii * sumRadii;
+
+		// Solve discriminant
+		float disc = 4.0f * a * c;
+		if (disc < 0.0f)
+			return false;
+		else
+		{
+			disc = std::sqrt(disc);
+			// we only care about the smaller solution
+			outT = (-b - disc) / (2.0f * a);
+			if (outT >= 0.0f && outT <= 1.0f)
+				return true;
+			else
+				return false;
+		}
+	}
+
 }
