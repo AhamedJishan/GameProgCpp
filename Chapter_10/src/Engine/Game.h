@@ -22,6 +22,8 @@ namespace jLab
 		void UnloadData();
 
 	private:
+		class Renderer* m_Renderer;
+
 		bool m_IsRunning;
 		Uint32 m_TicksCount;
 	};

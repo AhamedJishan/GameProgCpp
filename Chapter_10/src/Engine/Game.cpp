@@ -1,5 +1,7 @@
 #include "Game.h"
 
+#include "Renderer.h"
+
 namespace jLab
 {
 	Game::Game()
@@ -15,7 +17,15 @@ namespace jLab
 			return false;
 		}
 
-		// TODO: Init Renderer
+		m_Renderer = new Renderer(this);
+		if (!m_Renderer->Init(1280, 720))
+		{
+			SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to initialize Renderer");
+			delete m_Renderer;
+			m_Renderer = nullptr;
+			return false;
+		}
+
 		// TODO: Init AudioSystem
 
 		m_TicksCount = SDL_GetTicks();
@@ -61,6 +71,7 @@ namespace jLab
 	
 	void Game::GenerateOutput()
 	{
+		m_Renderer->Draw();
 	}
 	
 	void Game::LoadData()
