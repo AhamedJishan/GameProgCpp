@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <vector>
 #include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>
 #include <glm/gtc/quaternion.hpp>
@@ -29,6 +30,9 @@ namespace jLab
 		virtual void ActorInput(const uint8_t* keyState);
 
 		void ComputeWorldTransform();
+
+		void AddComponent(class Component* component);
+		void RemoveComponent(class Component* component);
 
 		class Game* GetGame() const { return m_Game; }
 		State GetState() const { return m_State; }
@@ -61,5 +65,7 @@ namespace jLab
 
 		glm::mat4 m_WorldTransform;
 		bool m_RecomputeWorldTransform;
+
+		std::vector<class Component*> m_Components;
 	};
 }

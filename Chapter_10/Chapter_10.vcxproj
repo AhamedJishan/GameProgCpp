@@ -96,6 +96,7 @@
   <ItemGroup>
     <ClInclude Include="src\Engine\Actor.h" />
     <ClInclude Include="src\Engine\Collision.h" />
+    <ClInclude Include="src\Engine\Component\Component.h" />
     <ClInclude Include="src\Engine\Game.h" />
     <ClInclude Include="src\Engine\Renderer.h" />
     <ClInclude Include="src\stbi\stb_image.h" />
@@ -103,6 +104,7 @@
   <ItemGroup>
     <ClCompile Include="src\Engine\Actor.cpp" />
     <ClCompile Include="src\Engine\Collision.cpp" />
+    <ClCompile Include="src\Engine\Component\Component.cpp" />
     <ClCompile Include="src\Engine\Game.cpp" />
     <ClCompile Include="src\Engine\Renderer.cpp" />
     <ClCompile Include="src\EntryPoint.cpp" />
