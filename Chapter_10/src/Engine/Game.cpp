@@ -1,6 +1,8 @@
 #include "Game.h"
 
 #include "Renderer.h"
+#include "Actor.h"
+#include <algorithm>
 
 namespace jLab
 {
@@ -39,6 +41,31 @@ namespace jLab
 		UnloadData();
 
 		SDL_Quit();
+	}
+
+	void Game::AddActor(Actor* actor)
+	{
+		if (m_UpdatingActors)
+			m_PendingActors.push_back(actor);
+		else
+			m_Actors.push_back(actor);
+	}
+
+	void Game::RemoveActor(Actor* actor)
+	{
+		auto iter = std::find(m_Actors.begin(), m_Actors.end(), actor);
+		if (iter != m_Actors.end())
+		{
+			std::iter_swap(iter, m_Actors.end() - 1);
+			m_Actors.pop_back();
+		}
+
+		iter = std::find(m_PendingActors.begin(), m_PendingActors.end(), actor);
+		if (iter != m_PendingActors.end())
+		{
+			std::iter_swap(iter, m_PendingActors.end() - 1);
+			m_PendingActors.pop_back();
+		}
 	}
 
 	void Game::Run()
