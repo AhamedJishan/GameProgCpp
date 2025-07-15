@@ -53,6 +53,23 @@ namespace jLab
 	
 	void Game::ProcessInput()
 	{
+		SDL_Event event;
+		while (SDL_PollEvent(&event))
+		{
+			switch (event.type)
+			{
+			case SDL_QUIT:
+				m_IsRunning = false;
+				break;
+			default:
+				break;
+			}
+		}
+
+		const Uint8* state = SDL_GetKeyboardState(NULL);
+
+		if (state[SDL_SCANCODE_ESCAPE])
+			m_IsRunning = false;
 	}
 	
 	void Game::UpdateGame()
