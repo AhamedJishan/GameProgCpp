@@ -64,4 +64,23 @@ namespace jLab
 
 		SDL_GL_SwapWindow(m_Window);
 	}
+	Texture* Renderer::GetTexture(const std::string& filename, Texture::TextureType textureType)
+	{
+		auto iter = m_Textures.find(filename);
+		if (iter != m_Textures.end())
+			return iter->second;
+
+		Texture* texture = new Texture();
+		
+		if (!texture->Load(filename, textureType))
+		{
+			delete texture;
+			texture = nullptr;
+			SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to load texture '%s'", filename.c_str());
+		}
+		else
+			m_Textures.emplace(filename, texture);
+
+		return texture;
+	}
 }
