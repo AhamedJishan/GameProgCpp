@@ -28,6 +28,9 @@ namespace jLab
 
 		void SetViewMatrix(const glm::mat4 view) { m_View = view; }
 
+		glm::vec3 ScreenToWorldPos(const glm::vec3& screenPosition);
+		void ScreenToWorldDir(glm::vec3& outStart, glm::vec3& outDirection);
+
 	private:
 		void SetShaderUniforms();
 
