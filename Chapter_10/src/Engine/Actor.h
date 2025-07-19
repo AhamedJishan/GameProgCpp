@@ -52,7 +52,7 @@ namespace jLab
 		}
 
 	protected:
-		virtual void UpdateActor(float deltaTime);
+		virtual void ActorUpdate(float deltaTime);
 		virtual void ActorInput(struct InputState& inputState);
 
 		void ComputeWorldTransform();

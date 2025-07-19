@@ -96,7 +96,9 @@
   <ItemGroup>
     <ClInclude Include="src\Engine\Actor.h" />
     <ClInclude Include="src\Engine\Collision.h" />
+    <ClInclude Include="src\Engine\Component\CameraComponent.h" />
     <ClInclude Include="src\Engine\Component\Component.h" />
+    <ClInclude Include="src\Engine\Component\FPSCameraComponent.h" />
     <ClInclude Include="src\Engine\Component\MeshRenderer.h" />
     <ClInclude Include="src\Engine\Component\MoveComponent.h" />
     <ClInclude Include="src\Engine\Game.h" />
@@ -108,13 +110,16 @@
     <ClInclude Include="src\Engine\Renderer.h" />
     <ClInclude Include="src\Engine\Shader.h" />
     <ClInclude Include="src\Engine\Texture.h" />
+    <ClInclude Include="src\Game\FPSActor.h" />
     <ClInclude Include="src\Game\TestActor.h" />
     <ClInclude Include="src\stbi\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Actor.cpp" />
     <ClCompile Include="src\Engine\Collision.cpp" />
+    <ClCompile Include="src\Engine\Component\CameraComponent.cpp" />
     <ClCompile Include="src\Engine\Component\Component.cpp" />
+    <ClCompile Include="src\Engine\Component\FPSCameraComponent.cpp" />
     <ClCompile Include="src\Engine\Component\MeshRenderer.cpp" />
     <ClCompile Include="src\Engine\Component\MoveComponent.cpp" />
     <ClCompile Include="src\Engine\Game.cpp" />
@@ -127,6 +132,7 @@
     <ClCompile Include="src\Engine\Shader.cpp" />
     <ClCompile Include="src\Engine\Texture.cpp" />
     <ClCompile Include="src\EntryPoint.cpp" />
+    <ClCompile Include="src\Game\FPSActor.cpp" />
     <ClCompile Include="src\stbi\stb_image.cpp" />
   </ItemGroup>
   <ItemGroup>

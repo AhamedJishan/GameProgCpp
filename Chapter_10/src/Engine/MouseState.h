@@ -12,9 +12,9 @@ namespace jLab
 
 		MouseState();
 
-		bool GetButton(int button);
-		bool GetButtonDown(int button);
-		bool GetButtonUp(int button);
+		bool GetButton(int button) const;
+		bool GetButtonDown(int button) const;
+		bool GetButtonUp(int button) const;
 		bool IsRelative() const { return m_IsRelative; }
 
 		glm::vec2 GetPosition() const { return m_Position; }

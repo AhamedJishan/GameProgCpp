@@ -22,7 +22,7 @@ namespace jLab
 			m_Owner->SetPosition(position);
 		}
 
-		if (glm::epsilonEqual(m_AngularVelocity, 0.0f, 0.1f))
-			m_Owner->Rotate(m_AngularVelocity, m_Owner->GetRight());
+		if (m_AngularVelocity != 0.0f)
+			m_Owner->Rotate(m_AngularVelocity * deltaTime, glm::vec3(0, 1, 0));
 	}
 }

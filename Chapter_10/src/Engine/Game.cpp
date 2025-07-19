@@ -6,6 +6,7 @@
 #include "Actor.h"
 
 #include "Game/TestActor.h"
+#include "Game/FPSActor.h"
 
 namespace jLab
 {
@@ -162,6 +163,7 @@ namespace jLab
 	void Game::LoadData()
 	{
 		TestActor* ta = new TestActor(this);
+		FPSActor* fpsActor = new FPSActor(this);
 	}
 	
 	void Game::UnloadData()

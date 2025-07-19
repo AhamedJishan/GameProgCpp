@@ -11,18 +11,18 @@ namespace jLab
         m_IsRelative = false;
     }
     
-    bool MouseState::GetButton(int button)
+    bool MouseState::GetButton(int button) const
     {
-        return (m_CurrentState & SDL_BUTTON(button)) && (m_PreviousState & SDL_BUTTON(button));
+        return (m_PreviousState & SDL_BUTTON(button)) && (m_CurrentState& SDL_BUTTON(button));
     }
     
-    bool MouseState::GetButtonDown(int button)
+    bool MouseState::GetButtonDown(int button) const
     {
-        return !(m_CurrentState & SDL_BUTTON(button)) && (m_PreviousState & SDL_BUTTON(button));
+        return !(m_PreviousState & SDL_BUTTON(button)) && (m_CurrentState & SDL_BUTTON(button));
     }
     
-    bool MouseState::GetButtonUp(int button)
+    bool MouseState::GetButtonUp(int button) const
     {
-        return (m_CurrentState & SDL_BUTTON(button)) && !(m_PreviousState & SDL_BUTTON(button));
+        return (m_PreviousState & SDL_BUTTON(button)) && !(m_CurrentState & SDL_BUTTON(button));
     }
 }

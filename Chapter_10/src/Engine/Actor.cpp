@@ -32,7 +32,7 @@ namespace jLab
 		{
 			ComputeWorldTransform();
 
-			UpdateActor(deltaTime);
+			ActorUpdate(deltaTime);
 			for (Component* component : m_Components)
 				component->Update(deltaTime);
 
@@ -85,7 +85,7 @@ namespace jLab
 			m_Components.erase(iter);
 	}
 
-	void Actor::UpdateActor(float deltaTime)
+	void Actor::ActorUpdate(float deltaTime)
 	{
 	}
 	

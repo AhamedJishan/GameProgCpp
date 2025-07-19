@@ -3,6 +3,8 @@
 #include <SDL/SDL.h>
 #include <cstring>
 
+#include <iostream>
+
 namespace jLab
 {
 	InputSystem::InputSystem()
@@ -49,13 +51,14 @@ namespace jLab
 		m_InputState.Keyboard.m_CurrentState = SDL_GetKeyboardState(NULL);
 
 		// Mouse
-		int x, y;
+		int x = 0, y = 0;
 		if (m_InputState.Mouse.IsRelative())
 			m_InputState.Mouse.m_CurrentState = SDL_GetRelativeMouseState(&x, &y);
 		else
 			m_InputState.Mouse.m_CurrentState = SDL_GetMouseState(&x, &y);
 
-		m_InputState.Mouse.m_Position = glm::vec2(static_cast<float>(x), static_cast<float>(y));
+		m_InputState.Mouse.m_Position.x = static_cast<float>(x);
+		m_InputState.Mouse.m_Position.y = static_cast<float>(y);
 	}
 
 	void InputSystem::SetRelativeMouseMode(bool value)
