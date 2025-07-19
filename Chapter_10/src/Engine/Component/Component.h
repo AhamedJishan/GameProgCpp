@@ -11,14 +11,14 @@ namespace jLab
 		virtual ~Component();
 
 		virtual void Update(float deltaTime);
-		virtual void Input(const uint8_t* keyState);
+		virtual void Input(struct InputState& inputState);
 
 		virtual void OnUpdateWorldTransform();
 
 		class Actor* GetOwner() const { return m_Owner; }
 		int GetUpdateOrder() const { return m_UpdateOrder; }
 
-	private:
+	protected:
 		int m_UpdateOrder;
 		class Actor* m_Owner;
 	};

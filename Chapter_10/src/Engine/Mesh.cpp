@@ -49,6 +49,11 @@ namespace jLab
 			m_Textures[i]->SetActive(i);
 		}
 
+		if (specularNr != 0)
+			shader->SetBool("u_HasSpecular", true);
+		else
+			shader->SetBool("u_HasSpecular", false);
+
 		glBindVertexArray(m_Id);
 		glDrawElements(GL_TRIANGLES, m_Indices.size(), GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);

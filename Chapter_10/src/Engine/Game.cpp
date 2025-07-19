@@ -1,14 +1,21 @@
 #include "Game.h"
 
-#include "Renderer.h"
-#include "Actor.h"
 #include <algorithm>
+#include "Renderer.h"
+#include "InputSystem.h"
+#include "Actor.h"
+
+#include "Game/TestActor.h"
 
 namespace jLab
 {
 	Game::Game()
-		:m_IsRunning(true)
 	{
+		m_TicksCount = 0;
+		m_IsRunning = true;
+		m_UpdatingActors = false;
+		m_InputSystem = new InputSystem();
+		m_Renderer = new Renderer(this);
 	}
 
 	bool Game::Init()
@@ -19,7 +26,6 @@ namespace jLab
 			return false;
 		}
 
-		m_Renderer = new Renderer(this);
 		if (!m_Renderer->Init(1280, 720))
 		{
 			SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to initialize Renderer");
@@ -28,9 +34,11 @@ namespace jLab
 			return false;
 		}
 
+		m_InputSystem->Init();
+		m_InputSystem->SetRelativeMouseMode(true);
+
 		// TODO: Init AudioSystem
 
-		m_TicksCount = SDL_GetTicks();
 		LoadData();
 
 		return true;
@@ -39,7 +47,8 @@ namespace jLab
 	void Game::Shutdown()
 	{
 		UnloadData();
-
+		m_InputSystem->Shutdown();
+		m_Renderer->Shutdown();
 		SDL_Quit();
 	}
 
@@ -80,6 +89,8 @@ namespace jLab
 	
 	void Game::ProcessInput()
 	{
+		m_InputSystem->PreUpdate();
+
 		SDL_Event event;
 		while (SDL_PollEvent(&event))
 		{
@@ -88,15 +99,25 @@ namespace jLab
 			case SDL_QUIT:
 				m_IsRunning = false;
 				break;
+			case SDL_MOUSEWHEEL:
+				m_InputSystem->ProcessInput(event);
+				break;
 			default:
 				break;
 			}
 		}
 
-		const Uint8* state = SDL_GetKeyboardState(NULL);
+		m_InputSystem->Update();
 
-		if (state[SDL_SCANCODE_ESCAPE])
+		InputState inputState = m_InputSystem->GetState();
+
+		if (inputState.Keyboard.GetKeyUp(SDL_SCANCODE_ESCAPE))
+		{
 			m_IsRunning = false;
+		}
+
+		for (Actor* actor : m_Actors)
+			actor->ProcessInput(inputState);
 	}
 	
 	void Game::UpdateGame()
@@ -110,7 +131,27 @@ namespace jLab
 
 		m_TicksCount = SDL_GetTicks();
 
+		// Update all actors
+		m_UpdatingActors = true;
+		for (Actor* actor : m_Actors)
+			actor->Update(deltaTime);
+		m_UpdatingActors = false;
 
+		// Move pending to actors to m_Actors
+		for (Actor* actor : m_PendingActors)
+			m_Actors.emplace_back(actor);
+		m_PendingActors.clear();
+
+		// Move dead actors into a temp list, then delete them
+		std::vector<Actor*> deadActors;
+		for (Actor* actor : m_Actors)
+			if (actor->GetState() == Actor::E_Dead)
+				deadActors.emplace_back(actor);
+
+		// Destructor of actors removes itself from m_Actors
+		for (Actor* actor : deadActors)
+			delete actor;
+		deadActors.clear();
 	}
 	
 	void Game::GenerateOutput()
@@ -120,6 +161,7 @@ namespace jLab
 	
 	void Game::LoadData()
 	{
+		TestActor* ta = new TestActor(this);
 	}
 	
 	void Game::UnloadData()

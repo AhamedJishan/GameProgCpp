@@ -4,6 +4,7 @@
 #include <SDL/SDL.h>
 #include <string>
 #include <unordered_map>
+#include <glm/mat4x4.hpp>
 #include "Texture.h"
 
 namespace jLab
@@ -20,6 +21,15 @@ namespace jLab
 		void Draw();
 
 		class Texture* GetTexture(const std::string& filename, Texture::TextureType textureType);
+		class Model* GetModel(const std::string& filename);
+
+		void AddMeshRenderer(class MeshRenderer* mesh);
+		void RemoveMeshRenderer(class MeshRenderer* mesh);
+
+		void SetViewMatrix(const glm::mat4 view) { m_View = view; }
+
+	private:
+		void SetShaderUniforms();
 
 	private:
 		class Game* m_Game;
@@ -31,5 +41,14 @@ namespace jLab
 		SDL_GLContext m_Context;
 
 		std::unordered_map<std::string, Texture*> m_Textures;
+		std::unordered_map<std::string, class Model*> m_Models;
+
+		std::vector<class MeshRenderer*> m_Meshes;
+
+		glm::mat4 m_Projection;
+		glm::mat4 m_View;
+		glm::mat4 m_Ortho;
+
+		class Shader* m_MeshShader;
 	};
 }

@@ -193,7 +193,7 @@ namespace jLab
 		m_UpdatingActors = true;
 		for (Actor* actor : m_Actors)
 			actor->UpdateActor(deltaTime);
-		m_UpdatingActors = true;
+		m_UpdatingActors = false;
 
 		// Move pending to actors to m_Actors
 		for (Actor* actor : m_PendingActors)

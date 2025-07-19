@@ -92,7 +92,7 @@ namespace jLab
 	bool Shader::IsProgramValid()
 	{
 		GLint status;
-		glGetProgramiv(m_Id, GL_COMPILE_STATUS, &status);
+		glGetProgramiv(m_Id, GL_LINK_STATUS, &status);
 		if (status != GL_TRUE)
 		{
 			char buffer[512];

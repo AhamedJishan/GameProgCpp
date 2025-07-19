@@ -2,17 +2,20 @@
 
 #include "Game.h"
 #include "Component/Component.h"
+#include "InputSystem.h"
 
 namespace jLab
 {
 	Actor::Actor(Game* game)
-		: m_Game(game)
-		, m_Position(0, 0, 0)
-		, m_Scale (1, 1, 1)
-		, m_Rotation(glm::angleAxis(0.0f, glm::vec3(1, 0, 0)))
-		, m_RecomputeWorldTransform(true)
+		:m_Game(game),
+		m_Position(glm::vec3(0)),
+		m_Scale(glm::vec3(1)),
+		m_State(E_Active),
+		m_Rotation(glm::angleAxis(0.0f, glm::vec3(0, 1, 0))),
+		m_RecomputeWorldTransform(true)
 	{
 		m_Game->AddActor(this);
+		ComputeWorldTransform();
 	}
 	
 	Actor::~Actor()
@@ -37,14 +40,14 @@ namespace jLab
 		}
 	}
 	
-	void Actor::ProcessInput(const uint8_t* keyState)
+	void Actor::ProcessInput(InputState& inputState)
 	{
 		if (m_State == E_Active)
 		{
-			ActorInput(keyState);
+			ActorInput(inputState);
 
 			for (Component* component : m_Components)
-				component->Input(keyState);
+				component->Input(inputState);
 		}
 	}
 	
@@ -86,7 +89,7 @@ namespace jLab
 	{
 	}
 	
-	void Actor::ActorInput(const uint8_t* keyState)
+	void Actor::ActorInput(InputState& inputState)
 	{
 	}
 }

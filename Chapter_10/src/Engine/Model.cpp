@@ -87,7 +87,7 @@ namespace jLab
 		for (int i = 0; i < mesh->mNumFaces; i++)
 		{
 			aiFace face = mesh->mFaces[i];
-			for (int j = 0; j < face.mNumIndices; i++)
+			for (int j = 0; j < face.mNumIndices; j++)
 				indices.emplace_back(face.mIndices[j]);
 		}
 

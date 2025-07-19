@@ -15,21 +15,17 @@ namespace jLab
 		enum State
 		{
 			E_Active,
-			EPaused,
-			EDead
+			E_Paused,
+			E_Dead
 		};
 
 		Actor(class Game* game);
 		virtual ~Actor();
 
 		void Update(float deltaTime);
-		void ProcessInput(const uint8_t* keyState);
+		void ProcessInput(struct InputState& inputState);
 		
 		// TODO: UpdateComponent
-		virtual void UpdateActor(float deltaTime);
-		virtual void ActorInput(const uint8_t* keyState);
-
-		void ComputeWorldTransform();
 
 		void AddComponent(class Component* component);
 		void RemoveComponent(class Component* component);
@@ -45,9 +41,9 @@ namespace jLab
 		glm::vec3 GetUp() const { return m_Rotation * glm::vec3(0, 1, 0); }
 
 		void SetState(const State state) { m_State = state; }
-		void SetPosition(const glm::vec3 position) { m_Position = position; }
-		void SetScale(const glm::vec3 scale) { m_Scale = scale; }
-		void SetRotation(const glm::quat rotation) { m_Rotation = rotation; }
+		void SetPosition(const glm::vec3 position) { m_Position = position; m_RecomputeWorldTransform = true; }
+		void SetScale(const glm::vec3 scale) { m_Scale = scale; m_RecomputeWorldTransform = true; }
+		void SetRotation(const glm::quat rotation) { m_Rotation = rotation; m_RecomputeWorldTransform = true; }
 		void Rotate(float angle, const glm::vec3 axis)
 		{
 			glm::quat rot = glm::angleAxis(angle, glm::normalize(axis));
@@ -55,7 +51,13 @@ namespace jLab
 			m_RecomputeWorldTransform = true;
 		}
 
-	private:
+	protected:
+		virtual void UpdateActor(float deltaTime);
+		virtual void ActorInput(struct InputState& inputState);
+
+		void ComputeWorldTransform();
+
+	protected:
 		class Game* m_Game;
 		State m_State;
 
