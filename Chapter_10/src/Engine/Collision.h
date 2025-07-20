@@ -61,9 +61,6 @@ namespace jLab
 	public:
 		glm::vec3 m_Min;
 		glm::vec3 m_Max;
-	private:
-		const glm::vec3 m_OriginalMin;
-		const glm::vec3 m_OriginalMax;
 	};
 
 

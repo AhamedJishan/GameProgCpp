@@ -10,10 +10,12 @@
 namespace jLab
 {
 	Model::Model(const std::string& filename, Game* game)
+		:m_Game(game),
+		m_AABB(glm::vec3(std::numeric_limits<float>::infinity()), glm::vec3(-std::numeric_limits<float>::infinity()))
 	{
-		m_Game = game;
 		m_Directory = filename.substr(0, filename.find_last_of('/') + 1);
 		Load(filename);
+		GenerateAABB();
 	}
 	
 	Model::~Model()
@@ -139,5 +141,15 @@ namespace jLab
 		}
 
 		return textures;
+	}
+
+	void Model::GenerateAABB()
+	{
+		for (Mesh* mesh : m_Meshes)
+		{
+			std::vector<Vertex> vertices = mesh->GetVertices();
+			for (Vertex vertex : vertices)
+				m_AABB.UpdateMinMax(vertex.Position);
+		}
 	}
 }

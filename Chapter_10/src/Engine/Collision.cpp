@@ -143,8 +143,8 @@ namespace jLab
 
 
 	AABB::AABB(const glm::vec3& min, const glm::vec3& max)
-		: m_Min(min), m_OriginalMin(min)
-		, m_Max(max), m_OriginalMax(max)
+		: m_Min(min)
+		, m_Max(max)
 	{
 	}
 
@@ -164,19 +164,19 @@ namespace jLab
 		std::array<glm::vec3, 8> points;
 
 		// Min point is always the corner
-		points[0] = m_OriginalMin;
+		points[0] = m_Min;
 		// Permutation with 2 min and 1 max
-		points[1] = glm::vec3(m_OriginalMax.x, m_OriginalMin.y, m_OriginalMin.z);
-		points[2] = glm::vec3(m_OriginalMin.x, m_OriginalMax.y, m_OriginalMin.z);
-		points[3] = glm::vec3(m_OriginalMin.x, m_OriginalMin.y, m_OriginalMax.z);
+		points[1] = glm::vec3(m_Max.x, m_Min.y, m_Min.z);
+		points[2] = glm::vec3(m_Min.x, m_Max.y, m_Min.z);
+		points[3] = glm::vec3(m_Min.x, m_Min.y, m_Max.z);
 		// Permutation with 1 min and 2 max
-		points[4] = glm::vec3(m_OriginalMin.x, m_OriginalMax.y, m_OriginalMax.z);
-		points[5] = glm::vec3(m_OriginalMax.x, m_OriginalMin.y, m_OriginalMax.z);
-		points[6] = glm::vec3(m_OriginalMax.x, m_OriginalMax.y, m_OriginalMin.z);
+		points[4] = glm::vec3(m_Min.x, m_Max.y, m_Max.z);
+		points[5] = glm::vec3(m_Max.x, m_Min.y, m_Max.z);
+		points[6] = glm::vec3(m_Max.x, m_Max.y, m_Min.z);
 		// Max point is also a corner
-		points[7] = m_OriginalMax;
+		points[7] = m_Max;
 
-		glm::vec3 p = rotationMat * m_OriginalMin;
+		glm::vec3 p = rotationMat * m_Min;
 
 		m_Min = p;
 		m_Max = p;

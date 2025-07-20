@@ -21,6 +21,8 @@ namespace jLab
 
 		void Draw(const class Shader* shader) const;
 
+		std::vector<Vertex> GetVertices() const { return m_Vertices; }
+
 	private:
 		void SetupMesh();
 
