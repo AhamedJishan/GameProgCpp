@@ -4,6 +4,7 @@
 #include "Renderer.h"
 #include "InputSystem.h"
 #include "Actor.h"
+#include "PhysWorld.h"
 
 #include "Game/TestActor.h"
 #include "Game/FPSActor.h"
@@ -17,6 +18,7 @@ namespace jLab
 		m_UpdatingActors = false;
 		m_InputSystem = new InputSystem();
 		m_Renderer = new Renderer(this);
+		m_PhysWorld = new PhysWorld(this);
 	}
 
 	bool Game::Init()

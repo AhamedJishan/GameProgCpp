@@ -18,6 +18,7 @@ namespace jLab
 		void RemoveActor(class Actor* actor);
 
 		class Renderer* GetRenderer() const { return m_Renderer; }
+		class PhysWorld* GetPhysWorld() const { return m_PhysWorld; }
 
 	private:
 		void ProcessInput();
@@ -30,6 +31,7 @@ namespace jLab
 	private:
 		class Renderer* m_Renderer;
 		class InputSystem* m_InputSystem;
+		class PhysWorld* m_PhysWorld;
 
 		bool m_IsRunning;
 		Uint32 m_TicksCount;
