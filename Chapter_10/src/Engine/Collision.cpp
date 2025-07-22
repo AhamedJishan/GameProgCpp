@@ -339,32 +339,37 @@ namespace jLab
 		}
 	}
 
-	bool Intersects(const LineSegment& line, const AABB& aabb, float& outT)
+	bool Intersects(const LineSegment& line, const AABB& aabb, float& outT, glm::vec3& outNormal)
 	{
 		// vector to store all the t values
-		std::vector<float> tValues;
+		std::vector<std::pair<float, glm::vec3>> tValues;
 
 		//Test the x plane
-		TestSidePlane(line.m_Start.x, line.m_End.x, aabb.m_Min.x, tValues);
-		TestSidePlane(line.m_Start.x, line.m_End.x, aabb.m_Max.x, tValues);
+		TestSidePlane(line.m_Start.x, line.m_End.x, aabb.m_Min.x, glm::vec3(-1, 0, 0), tValues);
+		TestSidePlane(line.m_Start.x, line.m_End.x, aabb.m_Max.x, glm::vec3( 1, 0, 0), tValues);
 		//Test the y plane
-		TestSidePlane(line.m_Start.y, line.m_End.y, aabb.m_Min.y, tValues);
-		TestSidePlane(line.m_Start.y, line.m_End.y, aabb.m_Max.y, tValues);
+		TestSidePlane(line.m_Start.y, line.m_End.y, aabb.m_Min.y, glm::vec3( 0, -1, 0), tValues);
+		TestSidePlane(line.m_Start.y, line.m_End.y, aabb.m_Max.y, glm::vec3( 0,  1, 0), tValues);
 		//Test the z plane
-		TestSidePlane(line.m_Start.z, line.m_End.z, aabb.m_Min.z, tValues);
-		TestSidePlane(line.m_Start.z, line.m_End.z, aabb.m_Max.z, tValues);
+		TestSidePlane(line.m_Start.z, line.m_End.z, aabb.m_Min.z, glm::vec3( 0, 0, -1), tValues);
+		TestSidePlane(line.m_Start.z, line.m_End.z, aabb.m_Max.z, glm::vec3( 0, 0,  1), tValues);
 
 		// sort the tValues in ascending order
-		std::sort(tValues.begin(), tValues.end());
+		std::sort(tValues.begin(), tValues.end(),
+			[](const std::pair<float, glm::vec3>& a, const std::pair<float, glm::vec3>& b)
+			{
+				return a.first < b.first;
+			});
 
 		// test if the box contains any of these tValues
 		glm::vec3 point;
-		for (float t : tValues)
+		for (std::pair<float, glm::vec3> t : tValues)
 		{
-			point = line.PointOnSegment(t);
+			point = line.PointOnSegment(t.first);
 			if (aabb.Contains(point))
 			{
-				outT = t;
+				outT = t.first;
+				outNormal = t.second;
 				return true;
 			}
 		}
@@ -372,7 +377,7 @@ namespace jLab
 		return false;
 	}
 
-	bool TestSidePlane(float start, float end, float negD, std::vector<float>& out)
+	bool TestSidePlane(float start, float end, float negD, glm::vec3 normal, std::vector<std::pair<float, glm::vec3>>& out)
 	{
 		float denominator = end - start;
 		if (glm::epsilonEqual(denominator, 0.0f, 0.01f))
@@ -384,7 +389,7 @@ namespace jLab
 			// Test t within bounds
 			if (t >= 0.0f && t <= 1.0f)
 			{
-				out.emplace_back(t);
+				out.emplace_back(t, normal);
 				return true;
 			}
 			else

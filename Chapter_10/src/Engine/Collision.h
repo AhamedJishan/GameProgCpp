@@ -100,10 +100,10 @@ namespace jLab
 	bool Intersects(const Capsule& a, const Capsule& b);
 	bool Intersects(const LineSegment& line, const Plane& plane, float& outT);
 	bool Intersects(const LineSegment& line, const Sphere& sphere, float& outT);
-	bool Intersects(const LineSegment& line, const AABB& aabb, float& outT);
+	bool Intersects(const LineSegment& line, const AABB& aabb, float& outT, glm::vec3& outNormal);
 
 	// Helper function
-	bool TestSidePlane(float start, float end, float negD, std::vector<float>& out);
+	bool TestSidePlane(float start, float end, float negD, glm::vec3 normal, std::vector<std::pair<float, glm::vec3>>& out);
 
 	bool SweptSphere(const Sphere& P0, const Sphere& P1, const Sphere& Q0, const Sphere& Q1, float& outT);
 }
