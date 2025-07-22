@@ -51,6 +51,8 @@ namespace jLab
 			m_RecomputeWorldTransform = true;
 		}
 
+		void LookAt(const glm::vec3& direction);
+
 	protected:
 		virtual void ActorUpdate(float deltaTime);
 		virtual void ActorInput(struct InputState& inputState);

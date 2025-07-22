@@ -85,6 +85,22 @@ namespace jLab
 			m_Components.erase(iter);
 	}
 
+	void Actor::LookAt(const glm::vec3& direction)
+	{
+		glm::vec3 dir = glm::normalize(direction);
+		float dot = glm::dot(dir, glm::vec3(0, 0, -1));
+		float angle = glm::acos(dot);
+
+		if (dot > 0.9999f) SetRotation(glm::angleAxis(0.0f, glm::vec3(0, 1, 0)));
+		else if (dot < -0.9999f) SetRotation(glm::angleAxis(glm::radians(180.0f), glm::vec3(0, 1, 0)));
+		else
+		{
+			glm::vec3 axisOfRotation = glm::cross(glm::vec3(0, 0, -1), dir);
+			axisOfRotation = glm::normalize(axisOfRotation);
+			SetRotation(glm::angleAxis(angle, axisOfRotation));
+		}
+	}
+
 	void Actor::ActorUpdate(float deltaTime)
 	{
 	}
