@@ -51,7 +51,7 @@ namespace jLab
 		return collided;
 	}
 
-	void PhysWorld::TestPairWise(std::function<void(class Actor*, class Actor*)> func)
+	void PhysWorld::TestPairWise(std::function<void(Actor*, Actor*)> func)
 	{
 		for (int i = 0; i < m_Boxes.size(); i++)
 		{
@@ -59,6 +59,32 @@ namespace jLab
 			{
 				BoxComponent* a = m_Boxes[i];
 				BoxComponent* b = m_Boxes[j];
+				if (Intersects(a->GetWorldBox(), b->GetWorldBox()))
+					func(a->GetOwner(), b->GetOwner());
+			}
+		}
+	}
+
+	void PhysWorld::TestSweepAndPrune(std::function<void(Actor*, Actor*)> func)
+	{
+		std::sort(m_Boxes.begin(), m_Boxes.end(),
+			[](BoxComponent* a, BoxComponent* b)
+			{
+				return a->GetWorldBox().m_Min.z < b->GetWorldBox().m_Max.z;
+			});
+
+		for (int i = 0; i < m_Boxes.size(); i++)
+		{
+			BoxComponent* a = m_Boxes[i];
+			float max = a->GetWorldBox().m_Max.z;
+
+			for (int j = i + 1; j < m_Boxes.size(); j++)
+			{
+				BoxComponent* b = m_Boxes[j];
+				float min = b->GetWorldBox().m_Min.z;
+
+				if (min > max) break;
+
 				if (Intersects(a->GetWorldBox(), b->GetWorldBox()))
 					func(a->GetOwner(), b->GetOwner());
 			}

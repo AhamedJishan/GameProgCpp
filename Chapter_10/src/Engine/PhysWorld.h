@@ -30,6 +30,7 @@ namespace jLab
 		bool SegmentCast(const LineSegment& line, CollisionInfo& outInfo);
 
 		void TestPairWise(std::function<void(class Actor*, class Actor*)> func);
+		void TestSweepAndPrune(std::function<void(class Actor*, class Actor*)> func);
 
 	private:
 		class Game* m_Game;
