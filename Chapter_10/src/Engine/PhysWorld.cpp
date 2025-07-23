@@ -50,4 +50,18 @@ namespace jLab
 
 		return collided;
 	}
+
+	void PhysWorld::TestPairWise(std::function<void(class Actor*, class Actor*)> func)
+	{
+		for (int i = 0; i < m_Boxes.size(); i++)
+		{
+			for (int j = i + 1; j < m_Boxes.size(); j++)
+			{
+				BoxComponent* a = m_Boxes[i];
+				BoxComponent* b = m_Boxes[j];
+				if (Intersects(a->GetWorldBox(), b->GetWorldBox()))
+					func(a->GetOwner(), b->GetOwner());
+			}
+		}
+	}
 }

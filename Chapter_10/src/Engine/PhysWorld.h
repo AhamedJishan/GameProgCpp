@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <glm/vec3.hpp>
+#include <functional>
 #include "Collision.h"
 
 namespace jLab
@@ -27,6 +28,8 @@ namespace jLab
 		void RemoveBox(class BoxComponent* box);
 
 		bool SegmentCast(const LineSegment& line, CollisionInfo& outInfo);
+
+		void TestPairWise(std::function<void(class Actor*, class Actor*)> func);
 
 	private:
 		class Game* m_Game;
