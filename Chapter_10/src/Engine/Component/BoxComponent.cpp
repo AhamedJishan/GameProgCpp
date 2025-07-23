@@ -18,7 +18,8 @@ namespace jLab
 	
 	void BoxComponent::OnUpdateWorldTransform()
 	{
-
+		// Reset to object box
+		m_WorldBox = m_ObjectBox;
 		// SCALE
 		m_WorldBox.m_Min.x *= m_Owner->GetScale().x;
 		m_WorldBox.m_Min.y *= m_Owner->GetScale().y;

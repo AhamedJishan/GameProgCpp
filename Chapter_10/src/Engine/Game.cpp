@@ -6,6 +6,7 @@
 #include "Actor.h"
 #include "PhysWorld.h"
 
+#include "Game/WallActor.h"
 #include "Game/TestActor.h"
 #include "Game/FPSActor.h"
 
@@ -164,8 +165,28 @@ namespace jLab
 	
 	void Game::LoadData()
 	{
-		TestActor* ta = new TestActor(this);
 		FPSActor* fpsActor = new FPSActor(this);
+		fpsActor->SetPosition(glm::vec3(0, 1, 0));
+
+		TestActor* ta = new TestActor(this);
+
+		WallActor* wa1 = new WallActor(this);
+		WallActor* wa2 = new WallActor(this);
+		WallActor* wa3 = new WallActor(this);
+		WallActor* wa4 = new WallActor(this);
+
+		wa1->SetPosition(glm::vec3(10, 0, 0));
+		wa2->SetPosition(glm::vec3(-10, 0, 0));
+		wa3->SetPosition(glm::vec3(0, 0, 10));
+		wa4->SetPosition(glm::vec3(0, 0, -10));
+
+		wa3->SetRotation(glm::angleAxis(glm::radians(90.0f), glm::vec3(0, 1, 0)));
+		wa4->SetRotation(glm::angleAxis(glm::radians(90.0f), glm::vec3(0, 1, 0)));
+
+		m_WallPlanes.emplace_back(wa1);
+		m_WallPlanes.emplace_back(wa2);
+		m_WallPlanes.emplace_back(wa3);
+		m_WallPlanes.emplace_back(wa4);
 	}
 	
 	void Game::UnloadData()

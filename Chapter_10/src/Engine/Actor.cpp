@@ -57,9 +57,9 @@ namespace jLab
 		{
 			m_RecomputeWorldTransform = false;
 
-			m_WorldTransform = glm::translate(glm::mat4(1), m_Position);
+			m_WorldTransform = glm::scale(glm::mat4(1), m_Scale);
 			m_WorldTransform = glm::mat4_cast(m_Rotation) * m_WorldTransform;
-			m_WorldTransform = glm::scale(m_WorldTransform, m_Scale);
+			m_WorldTransform = glm::translate(glm::mat4(1), m_Position) * m_WorldTransform;
 
 			for (Component* component : m_Components)
 				component->OnUpdateWorldTransform();

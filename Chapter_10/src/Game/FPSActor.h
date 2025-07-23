@@ -13,7 +13,10 @@ namespace jLab
 		void ActorInput(struct InputState& inputState) override;
 		void ActorUpdate(float deltaTime) override;
 
+		void FixCollisions();
+
 	private:
+		class BoxComponent* m_BoxComponent;
 		class MoveComponent* m_MoveComponent;
 		class FPSCameraComponent* m_FPSCameraComponent;
 

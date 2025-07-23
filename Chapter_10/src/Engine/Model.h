@@ -17,6 +17,8 @@ namespace jLab
 
 		void Draw(const class Shader* shader);
 
+		const AABB& GetBox() { return m_AABB; }
+
 	private:
 		void Load(const std::string& filename);
 		void ProcessNode(const aiNode* node, const aiScene* scene);

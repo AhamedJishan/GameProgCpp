@@ -148,7 +148,7 @@ namespace jLab
 		for (Mesh* mesh : m_Meshes)
 		{
 			std::vector<Vertex> vertices = mesh->GetVertices();
-			for (Vertex vertex : vertices)
+			for (Vertex& vertex : vertices)
 				m_AABB.UpdateMinMax(vertex.Position);
 		}
 	}

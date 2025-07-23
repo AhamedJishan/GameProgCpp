@@ -20,6 +20,8 @@ namespace jLab
 		class Renderer* GetRenderer() const { return m_Renderer; }
 		class PhysWorld* GetPhysWorld() const { return m_PhysWorld; }
 
+		std::vector<class WallActor*>& GetWallPlanes() { return m_WallPlanes; }
+
 	private:
 		void ProcessInput();
 		void UpdateGame();
@@ -39,5 +41,8 @@ namespace jLab
 		bool m_UpdatingActors;
 		std::vector<class Actor*> m_Actors;
 		std::vector<class Actor*> m_PendingActors;
+
+		// GAME SPECIFIC
+		std::vector<class WallActor*> m_WallPlanes;
 	};
 }

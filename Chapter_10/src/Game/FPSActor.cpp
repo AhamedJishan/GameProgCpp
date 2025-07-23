@@ -1,10 +1,14 @@
 #include "FPSActor.h"
 
-#include "Engine/Component/MoveComponent.h"
-#include "Engine/Component/FPSCameraComponent.h"
-#include "Engine/InputSystem.h"
 #include <SDL/SDL.h>
 #include <glm/vec2.hpp>
+#include "WallActor.h"
+#include "Engine/Game.h"
+#include "Engine/Collision.h"
+#include "Engine/InputSystem.h"
+#include "Engine/Component/BoxComponent.h"
+#include "Engine/Component/MoveComponent.h"
+#include "Engine/Component/FPSCameraComponent.h"
 
 namespace jLab
 {
@@ -15,6 +19,11 @@ namespace jLab
 
 		m_MoveComponent = new MoveComponent(this);
 		m_FPSCameraComponent = new FPSCameraComponent(this);
+
+		m_BoxComponent = new BoxComponent(this);
+		AABB boxAABB(glm::vec3(-0.25f, 0.0f, -0.25f), glm::vec3(0.25f, 1.0f, 0.25f));
+		m_BoxComponent->SetObjectBox(boxAABB);
+		m_BoxComponent->SetShouldRotate(false);
 	}
 
 	void FPSActor::ActorInput(InputState& inputState)
@@ -48,5 +57,45 @@ namespace jLab
 	
 	void FPSActor::ActorUpdate(float deltaTime)
 	{
+		FixCollisions();
+	}
+
+	void FPSActor::FixCollisions()
+	{
+		ComputeWorldTransform();
+
+		const AABB& playerBox = m_BoxComponent->GetWorldBox();
+		glm::vec3 pos = GetPosition();
+
+		const std::vector<WallActor*>& planes = GetGame()->GetWallPlanes();
+
+		for (WallActor* plane : planes)
+		{
+			plane->GetBox()->OnUpdateWorldTransform();
+			const AABB& planeBox = plane->GetBox()->GetWorldBox();
+			if (Intersects(playerBox, planeBox))
+			{
+				float dx1 = planeBox.m_Min.x - playerBox.m_Max.x;
+				float dx2 = planeBox.m_Max.x - playerBox.m_Min.x;
+				float dy1 = planeBox.m_Min.y - playerBox.m_Max.y;
+				float dy2 = planeBox.m_Max.y - playerBox.m_Min.y;
+				float dz1 = planeBox.m_Min.z - playerBox.m_Max.z;
+				float dz2 = planeBox.m_Max.z - playerBox.m_Min.z;
+
+				float dx = glm::abs(dx1) < glm::abs(dx2) ? dx1 : dx2;
+				float dy = glm::abs(dy1) < glm::abs(dy2) ? dy1 : dy2;
+				float dz = glm::abs(dz1) < glm::abs(dz2) ? dz1 : dz2;
+
+				if (glm::abs(dx) <= std::abs(dy) && glm::abs(dx) <= glm::abs(dz))
+					pos.x += dx;
+				else if (glm::abs(dy) <= std::abs(dx) && glm::abs(dy) <= glm::abs(dz))
+					pos.y += dy;
+				else
+					pos.z += dz;
+
+				SetPosition(pos);
+				m_BoxComponent->OnUpdateWorldTransform();
+			}
+		}
 	}
 }
