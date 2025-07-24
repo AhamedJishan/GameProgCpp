@@ -120,8 +120,10 @@ namespace jLab
 			m_IsRunning = false;
 		}
 
+		m_UpdatingActors = true;
 		for (Actor* actor : m_Actors)
 			actor->ProcessInput(inputState);
+		m_UpdatingActors = false;
 	}
 	
 	void Game::UpdateGame()

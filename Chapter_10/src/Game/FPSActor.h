@@ -14,6 +14,7 @@ namespace jLab
 		void ActorUpdate(float deltaTime) override;
 
 		void FixCollisions();
+		void Shoot();
 
 	private:
 		class BoxComponent* m_BoxComponent;

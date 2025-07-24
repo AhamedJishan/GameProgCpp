@@ -10,6 +10,8 @@
 #include "Engine/Component/MoveComponent.h"
 #include "Engine/Component/FPSCameraComponent.h"
 
+#include "BallActor.h"
+
 namespace jLab
 {
 	FPSActor::FPSActor(Game* game)
@@ -53,6 +55,8 @@ namespace jLab
 		m_MoveComponent->SetVelocity(m_MoveDir * m_Speed);
 		m_MoveComponent->SetAngularVelocity(-yaw);
 		m_FPSCameraComponent->SetPitchSpeed(-pitch);
+
+		if (inputState.Mouse.GetButtonDown(SDL_BUTTON_LEFT)) Shoot();
 	}
 	
 	void FPSActor::ActorUpdate(float deltaTime)
@@ -97,5 +101,21 @@ namespace jLab
 				m_BoxComponent->OnUpdateWorldTransform();
 			}
 		}
+	}
+
+	void FPSActor::Shoot()
+	{
+		float offset = 0.025f;
+		glm::vec3 screenPoint(0.0f);
+		glm::vec3 start = GetGame()->GetRenderer()->ScreenToWorldPos(screenPoint);
+		screenPoint.z = 0.9f;
+		glm::vec3 end = GetGame()->GetRenderer()->ScreenToWorldPos(screenPoint);
+		glm::vec3 dir = end - start;
+		dir = glm::normalize(dir);
+
+		BallActor* ba = new BallActor(GetGame());
+		ba->SetPlayer(this);
+		ba->SetPosition(start + dir * offset);
+		ba->LookAt(dir);
 	}
 }

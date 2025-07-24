@@ -1,6 +1,8 @@
 #include "BoxComponent.h"
 
 #include "Engine/Actor.h"
+#include "Engine/Game.h"
+#include "Engine/PhysWorld.h"
 
 namespace jLab
 {
@@ -10,10 +12,12 @@ namespace jLab
 		, m_WorldBox(glm::vec3(0), glm::vec3(0))
 		, m_ShouldRotate(true)
 	{
+		m_Owner->GetGame()->GetPhysWorld()->AddBox(this);
 	}
 
 	BoxComponent::~BoxComponent()
 	{
+		m_Owner->GetGame()->GetPhysWorld()->RemoveBox(this);
 	}
 	
 	void BoxComponent::OnUpdateWorldTransform()

@@ -31,13 +31,13 @@ void main()
 	phong += diffuseFactor * baseColor.rgb;
 
 	// Specular
-	if (u_HasSpecular == true)
-	{
-		vec3 reflectedDir = reflect(normalize(u_LightDir), normal);
-		vec3 viewDir = normalize(u_CameraPos - FragPos);
-		float SpecularFactor = pow(max(dot(reflectedDir, viewDir), 0), u_SpecularPower);
-		phong += SpecularFactor * u_SpecularColor * texture(texture_specular1, TexCoord).r;
-	}
+	vec3 reflectedDir = reflect(normalize(u_LightDir), normal);
+	vec3 viewDir = normalize(u_CameraPos - FragPos);
+	float specularFactor = pow(max(dot(viewDir, reflectedDir), 0.0), u_SpecularPower);
+	vec3 specularColor = u_SpecularColor * specularFactor;
+	
+	if (u_HasSpecular == true) phong += specularColor * texture(texture_specular1, TexCoord).r;
+	else phong += specularColor;
 
 	OutColor = vec4(phong, baseColor.a);
 }

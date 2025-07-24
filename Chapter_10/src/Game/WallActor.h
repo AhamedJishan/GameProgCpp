@@ -19,6 +19,7 @@ namespace jLab
 			MeshRenderer* mr = new MeshRenderer(this);
 			Model* model = GetGame()->GetRenderer()->GetModel("Assets/Models/scene/Wall.obj");
 			mr->SetMesh(model);
+			mr->SetSpecularColor(glm::vec3(0.3f), 16.0f);
 
 			m_Box = new BoxComponent(this);
 			m_Box->SetObjectBox(model->GetBox());

@@ -17,6 +17,7 @@ namespace jLab
 		{
 			MeshRenderer* mr = new MeshRenderer(this);
 			mr->SetMesh(m_Game->GetRenderer()->GetModel("Assets/Models/scene/GroundPlane.obj"));
+			mr->SetSpecularColor(glm::vec3(0.3f), 16);
 		}
 	};
 }

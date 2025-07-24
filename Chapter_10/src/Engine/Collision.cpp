@@ -194,9 +194,9 @@ namespace jLab
 			point.x < m_Min.x ||
 			point.y < m_Min.y ||
 			point.z < m_Min.z ||
-			point.x < m_Max.x ||
-			point.y < m_Max.y ||
-			point.z < m_Max.z;
+			point.x > m_Max.x ||
+			point.y > m_Max.y ||
+			point.z > m_Max.z;
 
 		return !outside;
 	}
@@ -377,10 +377,10 @@ namespace jLab
 		return false;
 	}
 
-	bool TestSidePlane(float start, float end, float negD, glm::vec3 normal, std::vector<std::pair<float, glm::vec3>>& out)
+	bool TestSidePlane(float start, float end, float negD, glm::vec3& normal, std::vector<std::pair<float, glm::vec3>>& out)
 	{
 		float denominator = end - start;
-		if (glm::epsilonEqual(denominator, 0.0f, 0.01f))
+		if (glm::epsilonEqual(denominator, 0.0f, 0.0001f))
 			return false;
 		else
 		{
