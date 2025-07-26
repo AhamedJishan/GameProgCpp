@@ -13,7 +13,7 @@ namespace jLab
 
 		void OnUpdateWorldTransform() override;
 
-		void SetObjectBox(const AABB& model) { m_ObjectBox = model; }
+		void SetObjectBox(const AABB& model) { m_ObjectBox = model; OnUpdateWorldTransform(); }
 		const AABB& GetWorldBox() const { return m_WorldBox; }
 
 		void SetShouldRotate(bool shouldRotate) { m_ShouldRotate = shouldRotate; }

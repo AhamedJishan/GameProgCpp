@@ -7,7 +7,7 @@
 #include "PhysWorld.h"
 
 #include "Game/WallActor.h"
-#include "Game/TestActor.h"
+#include "Game/GroundActor.h"
 #include "Game/FPSActor.h"
 
 namespace jLab
@@ -170,7 +170,7 @@ namespace jLab
 		FPSActor* fpsActor = new FPSActor(this);
 		fpsActor->SetPosition(glm::vec3(0, 1, 0));
 
-		TestActor* ta = new TestActor(this);
+		GroundActor* ga = new GroundActor(this);
 
 		WallActor* wa1 = new WallActor(this);
 		WallActor* wa2 = new WallActor(this);

@@ -10,7 +10,7 @@ namespace jLab
 {
 	BallActor::BallActor(Game* game)
 		:Actor(game)
-		,m_LifeSpan(3.0f)
+		,m_LifeSpan(5.0f)
 	{
 		m_MeshRenderer = new MeshRenderer(this);
 		m_MeshRenderer->SetMesh(GetGame()->GetRenderer()->GetModel("Assets/Models/ball/ball.obj"));

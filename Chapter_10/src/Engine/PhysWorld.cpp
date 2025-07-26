@@ -31,7 +31,7 @@ namespace jLab
 		float closestT = std::numeric_limits<float>::infinity();
 		glm::vec3 normal;
 
-		for (BoxComponent* box : m_Boxes)
+ 		for (BoxComponent* box : m_Boxes)
 		{
 			float t;
 			if (Intersects(line, box->GetWorldBox(), t, normal))
