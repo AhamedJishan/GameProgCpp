@@ -3,6 +3,7 @@
 #include "Game.h"
 #include "Model.h"
 #include "Component/MeshRenderer.h"
+#include "Component/SpriteRenderer.h"
 #include "Shader.h"
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -12,6 +13,7 @@ namespace jLab
 		:m_Game(game)
 	{
 		m_MeshShader = nullptr;
+		m_SpriteShader = nullptr;
 	}
 	
 	Renderer::~Renderer()
@@ -52,9 +54,12 @@ namespace jLab
 		glGetError();
 
 		m_MeshShader = new Shader("Assets/Shaders/Phong.vert", "Assets/Shaders/Phong.frag");
+		m_SpriteShader = new Shader("Assets/Shaders/Sprite.vert", "Assets/Shaders/Sprite.frag");;
 		m_Projection = glm::perspective(glm::radians(80.0f), ((float)m_ScreenWidth / (float)m_ScreenHeight), 0.1f, 1000.0f);
 		m_View = glm::lookAt(glm::vec3(0), glm::vec3(0, 0, -1), glm::vec3(0, 1, 0));
 		m_Ortho = glm::ortho(-m_ScreenWidth / 2.0f, m_ScreenWidth / 2.0f, -m_ScreenHeight / 2.0f, m_ScreenHeight / 2.0f);
+
+		CreateSpriteVerts();
 
 		return true;
 	}
@@ -71,13 +76,21 @@ namespace jLab
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glEnable(GL_DEPTH_TEST);
-		glDisable(GL_BLEND);
 
 		SetShaderUniforms();
 		for (MeshRenderer* mesh : m_Meshes)
 			mesh->Draw(m_MeshShader);
 
 		glDisable(GL_DEPTH_TEST);
+		glEnable(GL_BLEND);
+		glBlendEquationSeparate(GL_FUNC_ADD, GL_FUNC_ADD);
+		glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ZERO);
+
+		UseSpriteVerts();
+		for (SpriteRenderer* sprite : m_Sprites)
+			sprite->Draw(m_SpriteShader);
+
+		glDisable(GL_BLEND);
 
 		SDL_GL_SwapWindow(m_Window);
 	}
@@ -125,6 +138,23 @@ namespace jLab
 			m_Meshes.erase(iter);
 	}
 
+	void Renderer::AddSpriteRenderer(SpriteRenderer* sprite)
+	{
+		int drawOrder = sprite->GetDrawOrder();
+		auto iter = m_Sprites.begin();
+		for (; iter != m_Sprites.end(); iter++)
+			if (drawOrder < (*iter)->GetDrawOrder())
+				break;
+		m_Sprites.insert(iter, sprite);
+	}
+
+	void Renderer::RemoveSpriteRenderer(SpriteRenderer* sprite)
+	{
+		auto iter = std::find(m_Sprites.begin(), m_Sprites.end(), sprite);
+		if (iter != m_Sprites.end())
+			m_Sprites.erase(iter);
+	}
+
 	glm::vec3 Renderer::ScreenToWorldPos(const glm::vec3& screenPosition)
 	{
 		glm::vec3 ndc = screenPosition;
@@ -161,5 +191,47 @@ namespace jLab
 		m_MeshShader->SetVec3("u_LightColor", glm::vec3(1.0f));
 		m_MeshShader->SetVec3("u_LightDir", glm::vec3(1, -0.5f, -1));
 		m_MeshShader->SetVec3("u_AmbientColor", glm::vec3(0.3f, 0.3f, 0.3f));
+	}
+
+	void Renderer::CreateSpriteVerts()
+	{
+		float vertices[] = {
+			-0.5f,  0.5f, 0.f, 0.f, 0.f, 0.0f, 0.f, 0.f, // top left
+			 0.5f,  0.5f, 0.f, 0.f, 0.f, 0.0f, 1.f, 0.f, // top right
+			 0.5f, -0.5f, 0.f, 0.f, 0.f, 0.0f, 1.f, 1.f, // bottom right
+			-0.5f, -0.5f, 0.f, 0.f, 0.f, 0.0f, 0.f, 1.f  // bottom left
+		};
+
+		unsigned int indices[] = {
+			0, 1, 2,
+			2, 3, 0
+		};
+
+		glGenVertexArrays(1, &m_SpriteVAO);
+		glGenBuffers(1, &m_SpriteVBO);
+		glGenBuffers(1, &m_SpriteEBO);
+
+		glBindVertexArray(m_SpriteVAO);
+
+		glBindBuffer(GL_ARRAY_BUFFER, m_SpriteVBO);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_SpriteEBO);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), 0);
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+		glEnableVertexAttribArray(2);
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+
+		glBindVertexArray(0);
+	}
+
+	void Renderer::UseSpriteVerts()
+	{
+		glBindVertexArray(m_SpriteVAO);
+		m_SpriteShader->SetActive();
+		m_SpriteShader->SetMat4("u_ViewProjection", m_Ortho);
 	}
 }

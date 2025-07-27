@@ -20,11 +20,13 @@ namespace jLab
 
 		void Draw();
 
-		class Texture* GetTexture(const std::string& filename, Texture::TextureType textureType);
+		class Texture* GetTexture(const std::string& filename, Texture::TextureType textureType = Texture::E_Diffuse);
 		class Model* GetModel(const std::string& filename);
 
 		void AddMeshRenderer(class MeshRenderer* mesh);
 		void RemoveMeshRenderer(class MeshRenderer* mesh);
+		void AddSpriteRenderer(class SpriteRenderer* sprite);
+		void RemoveSpriteRenderer(class SpriteRenderer* sprite);
 
 		void SetViewMatrix(const glm::mat4 view) { m_View = view; }
 
@@ -33,6 +35,8 @@ namespace jLab
 
 	private:
 		void SetShaderUniforms();
+		void CreateSpriteVerts();
+		void UseSpriteVerts();
 
 	private:
 		class Game* m_Game;
@@ -43,15 +47,18 @@ namespace jLab
 		SDL_Window* m_Window;
 		SDL_GLContext m_Context;
 
-		std::unordered_map<std::string, Texture*> m_Textures;
-		std::unordered_map<std::string, class Model*> m_Models;
-
-		std::vector<class MeshRenderer*> m_Meshes;
-
 		glm::mat4 m_Projection;
 		glm::mat4 m_View;
 		glm::mat4 m_Ortho;
 
+		std::unordered_map<std::string, Texture*> m_Textures;
+		std::unordered_map<std::string, class Model*> m_Models;
+
+		std::vector<class MeshRenderer*> m_Meshes;
+		std::vector<class SpriteRenderer*> m_Sprites;
+
 		class Shader* m_MeshShader;
+		class Shader* m_SpriteShader;
+		unsigned int m_SpriteVAO, m_SpriteVBO, m_SpriteEBO;
 	};
 }

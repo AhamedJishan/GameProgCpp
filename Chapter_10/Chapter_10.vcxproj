@@ -103,6 +103,7 @@
     <ClInclude Include="src\Engine\Component\FPSCameraComponent.h" />
     <ClInclude Include="src\Engine\Component\MeshRenderer.h" />
     <ClInclude Include="src\Engine\Component\MoveComponent.h" />
+    <ClInclude Include="src\Engine\Component\SpriteRenderer.h" />
     <ClInclude Include="src\Engine\Game.h" />
     <ClInclude Include="src\Engine\InputSystem.h" />
     <ClInclude Include="src\Engine\KeyboardState.h" />
@@ -114,6 +115,8 @@
     <ClInclude Include="src\Engine\Shader.h" />
     <ClInclude Include="src\Engine\Texture.h" />
     <ClInclude Include="src\Game\BallActor.h" />
+    <ClInclude Include="src\Game\RadarActor.h" />
+    <ClInclude Include="src\Game\CrosshairActor.h" />
     <ClInclude Include="src\Game\FPSActor.h" />
     <ClInclude Include="src\Game\GroundActor.h" />
     <ClInclude Include="src\Game\WallActor.h" />
@@ -129,6 +132,7 @@
     <ClCompile Include="src\Engine\Component\FPSCameraComponent.cpp" />
     <ClCompile Include="src\Engine\Component\MeshRenderer.cpp" />
     <ClCompile Include="src\Engine\Component\MoveComponent.cpp" />
+    <ClCompile Include="src\Engine\Component\SpriteRenderer.cpp" />
     <ClCompile Include="src\Engine\Game.cpp" />
     <ClCompile Include="src\Engine\InputSystem.cpp" />
     <ClCompile Include="src\Engine\KeyboardState.cpp" />
@@ -147,6 +151,8 @@
   <ItemGroup>
     <None Include="Assets\Shaders\Phong.frag" />
     <None Include="Assets\Shaders\phong.vert" />
+    <None Include="Assets\Shaders\Sprite.frag" />
+    <None Include="Assets\Shaders\Sprite.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
