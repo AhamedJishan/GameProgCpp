@@ -95,6 +95,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\Engine\Actor.h" />
+    <ClInclude Include="src\Engine\AudioSystem.h" />
     <ClInclude Include="src\Engine\Collision.h" />
     <ClInclude Include="src\Engine\Component\BallMoveComponent.h" />
     <ClInclude Include="src\Engine\Component\BoxComponent.h" />
@@ -113,6 +114,7 @@
     <ClInclude Include="src\Engine\PhysWorld.h" />
     <ClInclude Include="src\Engine\Renderer.h" />
     <ClInclude Include="src\Engine\Shader.h" />
+    <ClInclude Include="src\Engine\SoundEvent.h" />
     <ClInclude Include="src\Engine\Texture.h" />
     <ClInclude Include="src\Game\BallActor.h" />
     <ClInclude Include="src\Game\RadarActor.h" />
@@ -124,6 +126,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Actor.cpp" />
+    <ClCompile Include="src\Engine\AudioSystem.cpp" />
     <ClCompile Include="src\Engine\Collision.cpp" />
     <ClCompile Include="src\Engine\Component\BallMoveComponent.cpp" />
     <ClCompile Include="src\Engine\Component\BoxComponent.cpp" />
@@ -142,6 +145,7 @@
     <ClCompile Include="src\Engine\PhysWorld.cpp" />
     <ClCompile Include="src\Engine\Renderer.cpp" />
     <ClCompile Include="src\Engine\Shader.cpp" />
+    <ClCompile Include="src\Engine\SoundEvent.cpp" />
     <ClCompile Include="src\Engine\Texture.cpp" />
     <ClCompile Include="src\EntryPoint.cpp" />
     <ClCompile Include="src\Game\BallActor.cpp" />
