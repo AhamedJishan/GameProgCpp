@@ -9,6 +9,8 @@
 #include "Engine/Component/BoxComponent.h"
 #include "Engine/Component/MoveComponent.h"
 #include "Engine/Component/FPSCameraComponent.h"
+#include "Engine/Component/AudioComponent.h"
+#include "Engine/AudioSystem.h"
 
 #include "BallActor.h"
 
@@ -21,6 +23,11 @@ namespace jLab
 
 		m_MoveComponent = new MoveComponent(this);
 		m_FPSCameraComponent = new FPSCameraComponent(this);
+
+		m_AudioComponent = new AudioComponent(this);
+		m_Footstep = m_AudioComponent->PlayEvent("event:/Footstep");
+		m_Footstep.SetPaused(true);
+		m_LastFootstep = 0.0f;
 
 		m_BoxComponent = new BoxComponent(this);
 		AABB boxAABB(glm::vec3(-0.25f, 0.0f, -0.25f), glm::vec3(0.25f, 1.0f, 0.25f));
@@ -62,6 +69,15 @@ namespace jLab
 	void FPSActor::ActorUpdate(float deltaTime)
 	{
 		FixCollisions();
+
+		m_LastFootstep -= deltaTime;
+		float velocityMagnitude = glm::length(m_MoveComponent->GetVelocity());
+		if (glm::epsilonNotEqual(velocityMagnitude, 0.0f, 0.001f) && m_LastFootstep < 0.0f)
+		{
+			m_Footstep.SetPaused(false);
+			m_Footstep.Restart();
+			m_LastFootstep = 0.5f;
+		}
 	}
 
 	void FPSActor::FixCollisions()
@@ -105,6 +121,8 @@ namespace jLab
 
 	void FPSActor::Shoot()
 	{
+		m_AudioComponent->PlayEvent("event:/Shot");
+
 		float offset = 0.025f;
 		glm::vec3 screenPoint(0.0f);
 		glm::vec3 start = GetGame()->GetRenderer()->ScreenToWorldPos(screenPoint);

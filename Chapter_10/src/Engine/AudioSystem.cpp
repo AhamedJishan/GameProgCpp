@@ -282,6 +282,6 @@ namespace jLab
 		if (iter != m_EventInstances.end())
 			event = iter->second;
 
-		return nullptr;
+		return event;
 	}
 }
