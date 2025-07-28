@@ -3,6 +3,7 @@
 #include <algorithm>
 #include "Renderer.h"
 #include "InputSystem.h"
+#include "AudioSystem.h"
 #include "Actor.h"
 #include "PhysWorld.h"
 
@@ -20,6 +21,7 @@ namespace jLab
 		m_IsRunning = true;
 		m_UpdatingActors = false;
 		m_InputSystem = new InputSystem();
+		m_AudioSystem = new AudioSystem(this);
 		m_Renderer = new Renderer(this);
 		m_PhysWorld = new PhysWorld(this);
 	}
@@ -41,6 +43,7 @@ namespace jLab
 		}
 
 		m_InputSystem->Init();
+		m_AudioSystem->Init();
 		m_InputSystem->SetRelativeMouseMode(true);
 
 		// TODO: Init AudioSystem
@@ -54,6 +57,7 @@ namespace jLab
 	{
 		UnloadData();
 		m_InputSystem->Shutdown();
+		m_AudioSystem->Shutdown();
 		m_Renderer->Shutdown();
 		SDL_Quit();
 	}
@@ -160,6 +164,9 @@ namespace jLab
 		for (Actor* actor : deadActors)
 			delete actor;
 		deadActors.clear();
+
+		// Update AudioSystem
+		m_AudioSystem->Update();
 	}
 	
 	void Game::GenerateOutput()

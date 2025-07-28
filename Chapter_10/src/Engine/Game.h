@@ -18,6 +18,7 @@ namespace jLab
 		void RemoveActor(class Actor* actor);
 
 		class Renderer* GetRenderer() const { return m_Renderer; }
+		class AudioSystem* GetAudioSystem() const { return m_AudioSystem; }
 		class PhysWorld* GetPhysWorld() const { return m_PhysWorld; }
 
 		std::vector<class WallActor*>& GetWallPlanes() { return m_WallPlanes; }
@@ -33,6 +34,7 @@ namespace jLab
 	private:
 		class Renderer* m_Renderer;
 		class InputSystem* m_InputSystem;
+		class AudioSystem* m_AudioSystem;
 		class PhysWorld* m_PhysWorld;
 
 		bool m_IsRunning;
