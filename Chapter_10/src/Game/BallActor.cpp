@@ -1,6 +1,7 @@
 #include "BallActor.h"
 
 #include "Engine/Component/BallMoveComponent.h"
+#include "Engine/Component/AudioComponent.h"
 #include "Engine/Component/MeshRenderer.h"
 #include "Engine/Model.h"
 #include "Engine/Game.h"
@@ -18,6 +19,8 @@ namespace jLab
 
 		m_BallMove = new BallMoveComponent(this);
 		m_BallMove->SetVelocity(glm::vec3(0, 0, 10.0f));
+
+		m_AudioComponent = new AudioComponent(this);
 	}
 	
 	void BallActor::ActorUpdate(float deltaTime)
@@ -30,5 +33,10 @@ namespace jLab
 	void BallActor::SetPlayer(Actor* player)
 	{
 		m_BallMove->SetPlayer(player);
+	}
+
+	void BallActor::HitTarget()
+	{
+		m_AudioComponent->PlayEvent("event:/Ding");
 	}
 }

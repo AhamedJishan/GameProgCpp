@@ -12,9 +12,12 @@ namespace jLab
 		void ActorUpdate(float deltaTime) override;
 		void SetPlayer(Actor* player);
 
+		void HitTarget();
+
 	private:
 		class MeshRenderer* m_MeshRenderer;
 		class BallMoveComponent* m_BallMove;
+		class AudioComponent* m_AudioComponent;
 		float m_LifeSpan;
 	};
 }

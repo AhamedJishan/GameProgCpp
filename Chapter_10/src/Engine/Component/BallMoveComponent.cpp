@@ -5,6 +5,8 @@
 #include "Engine/Game.h"
 #include "Engine/Collision.h"
 #include "Engine/PhysWorld.h"
+#include "Game/TargetActor.h"
+#include "Game/BallActor.h"
 
 namespace jLab
 {
@@ -29,6 +31,10 @@ namespace jLab
 		{
 			dir = glm::reflect(m_Owner->GetForward(), info.m_Normal);
 			m_Owner->LookAt(dir);
+
+			TargetActor* target = dynamic_cast<TargetActor*>(info.m_Actor);
+			if (target)
+				static_cast<BallActor*>(m_Owner)->HitTarget();
 		}
 
 		MoveComponent::Update(deltaTime);

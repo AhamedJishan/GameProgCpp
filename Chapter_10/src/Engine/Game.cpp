@@ -12,6 +12,7 @@
 #include "Game/FPSActor.h"
 #include "Game/CrosshairActor.h"
 #include "Game/RadarActor.h"
+#include "Game/TargetActor.h"
 
 namespace jLab
 {
@@ -183,6 +184,15 @@ namespace jLab
 		RadarActor* ra = new RadarActor(this);
 		ra->SetScale(glm::vec3(0.75f, 0.75f, 1.0f));
 		ra->SetPosition(glm::vec3(-540.0f, 260.0f, 0.0f));
+
+		TargetActor* ta1 = new TargetActor(this);
+		TargetActor* ta2 = new TargetActor(this);
+		TargetActor* ta3 = new TargetActor(this);
+		TargetActor* ta4 = new TargetActor(this);
+		ta1->SetPosition(glm::vec3(0, 1.2f, -9.5f));
+		ta2->SetPosition(glm::vec3(0, 3.0f, -9.5f));
+		ta3->SetPosition(glm::vec3(-1.5f, 2.1f, -9.5f));
+		ta4->SetPosition(glm::vec3(1.5f, 2.1f, -9.5f));
 
 		GroundActor* ga = new GroundActor(this);
 
