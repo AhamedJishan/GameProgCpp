@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <unordered_map>
+#include <SDL/SDL.h>
 
 namespace jLab
 {
@@ -16,6 +17,14 @@ namespace jLab
 		void Shutdown();
 
 	private:
+		void ProcessInput();
+		void UpdateGame();
+		void GenerateOutput();
 
+	private:
+		bool m_IsRunning;
+		Uint32 m_TicksCount;
+
+		class Renderer* m_Renderer;
 	};
 }
