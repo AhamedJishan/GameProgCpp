@@ -26,5 +26,6 @@ namespace jLab
 		Uint32 m_TicksCount;
 
 		class Renderer* m_Renderer;
+		class InputSystem* m_InputSystem;
 	};
 }

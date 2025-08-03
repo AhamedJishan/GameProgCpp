@@ -1,6 +1,8 @@
 #include "Game.h"
 
 #include "Renderer.h"
+#include "InputSystem.h"
+#include <iostream>
 
 namespace jLab
 {
@@ -9,6 +11,7 @@ namespace jLab
 		m_IsRunning = true;
 		m_TicksCount = SDL_GetTicks();
 		m_Renderer = new Renderer(this);
+		m_InputSystem = new InputSystem();
 	}
 	
 	Game::~Game()
@@ -31,6 +34,8 @@ namespace jLab
 			return false;
 		}
 
+		m_InputSystem->Init();
+
 		return true;
 	}
 	
@@ -51,6 +56,8 @@ namespace jLab
 	
 	void Game::ProcessInput()
 	{
+		m_InputSystem->PreUpdate();
+
 		SDL_Event event;
 		while (SDL_PollEvent(&event))
 		{
@@ -59,10 +66,15 @@ namespace jLab
 			case SDL_QUIT:
 				m_IsRunning = false;
 				break;
+			case SDL_MOUSEWHEEL:
+				m_InputSystem->ProcessEvent(event);
+				break;
 			default:
 				break;
 			}
 		}
+
+		m_InputSystem->Update();
 
 		const Uint8* keyBoardState = SDL_GetKeyboardState(NULL);
 

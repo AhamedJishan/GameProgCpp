@@ -16,6 +16,9 @@
       <Filter>stbi</Filter>
     </ClInclude>
     <ClInclude Include="src\Engine\Renderer.h" />
+    <ClInclude Include="src\Engine\InputSystem.h" />
+    <ClInclude Include="src\Engine\KeyboardState.h" />
+    <ClInclude Include="src\Engine\MouseState.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Game.cpp">
@@ -26,5 +29,8 @@
       <Filter>stbi</Filter>
     </ClCompile>
     <ClCompile Include="src\Engine\Renderer.cpp" />
+    <ClCompile Include="src\Engine\InputSystem.cpp" />
+    <ClCompile Include="src\Engine\KeyboardState.cpp" />
+    <ClCompile Include="src\Engine\MouseState.cpp" />
   </ItemGroup>
 </Project>
