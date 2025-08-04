@@ -97,6 +97,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Engine\Actor.h" />
     <ClInclude Include="src\Engine\Game.h" />
     <ClInclude Include="src\Engine\InputSystem.h" />
     <ClInclude Include="src\Engine\KeyboardState.h" />
@@ -105,6 +106,7 @@
     <ClInclude Include="src\stbi\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Engine\Actor.cpp" />
     <ClCompile Include="src\Engine\Game.cpp" />
     <ClCompile Include="src\Engine\InputSystem.cpp" />
     <ClCompile Include="src\Engine\KeyboardState.cpp" />

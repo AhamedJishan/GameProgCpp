@@ -2,7 +2,6 @@
 
 #include "Renderer.h"
 #include "InputSystem.h"
-#include <iostream>
 
 namespace jLab
 {
@@ -51,6 +50,7 @@ namespace jLab
 	
 	void Game::Shutdown()
 	{
+		m_Renderer->Shutdown();
 		SDL_Quit();
 	}
 	
@@ -84,6 +84,12 @@ namespace jLab
 	
 	void Game::UpdateGame()
 	{
+		// Frame cap at 60fps
+		while (!SDL_TICKS_PASSED(SDL_GetTicks(), m_TicksCount + 16));
+		// Get deltaTime
+		float deltaTime = (SDL_GetTicks() - m_TicksCount) / 1000.0f;
+		deltaTime = deltaTime > 0.05f ? 0.05f : deltaTime;
+		m_TicksCount = SDL_GetTicks();
 	}
 	
 	void Game::GenerateOutput()
