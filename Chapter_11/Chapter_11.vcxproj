@@ -102,8 +102,10 @@
     <ClInclude Include="src\Engine\Game.h" />
     <ClInclude Include="src\Engine\InputSystem.h" />
     <ClInclude Include="src\Engine\KeyboardState.h" />
+    <ClInclude Include="src\Engine\Mesh.h" />
     <ClInclude Include="src\Engine\MouseState.h" />
     <ClInclude Include="src\Engine\Renderer.h" />
+    <ClInclude Include="src\Engine\Shader.h" />
     <ClInclude Include="src\Engine\Texture.h" />
     <ClInclude Include="src\stbi\stb_image.h" />
   </ItemGroup>
@@ -113,8 +115,10 @@
     <ClCompile Include="src\Engine\Game.cpp" />
     <ClCompile Include="src\Engine\InputSystem.cpp" />
     <ClCompile Include="src\Engine\KeyboardState.cpp" />
+    <ClCompile Include="src\Engine\Mesh.cpp" />
     <ClCompile Include="src\Engine\MouseState.cpp" />
     <ClCompile Include="src\Engine\Renderer.cpp" />
+    <ClCompile Include="src\Engine\Shader.cpp" />
     <ClCompile Include="src\Engine\Texture.cpp" />
     <ClCompile Include="src\EntryPoint.cpp" />
     <ClCompile Include="src\stbi\stb_image.cpp" />
