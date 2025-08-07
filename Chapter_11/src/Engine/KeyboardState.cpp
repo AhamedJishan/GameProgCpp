@@ -9,19 +9,19 @@ namespace jLab
 		m_CurrentState = nullptr;
 		memset(m_PreviousState, 0, SDL_NUM_SCANCODES);
 	}
-	
-	bool KeyboardState::GetKey(SDL_Scancode key) const
+
+	bool KeyboardState::GetKey(SDL_Scancode keyCode) const
 	{
-		return (m_PreviousState[key] && m_CurrentState[key]);
+		return (m_PreviousState[keyCode]) && (m_CurrentState[keyCode]);
 	}
-	
-	bool KeyboardState::GetKeyDown(SDL_Scancode key) const
+
+	bool KeyboardState::GetKeyDown(SDL_Scancode keyCode) const
 	{
-		return (!m_PreviousState[key] && m_CurrentState[key]);
+		return (!m_PreviousState[keyCode]) && (m_CurrentState[keyCode]);
 	}
-	
-	bool KeyboardState::GetKeyUp(SDL_Scancode key) const
+
+	bool KeyboardState::GetKeyUp(SDL_Scancode keyCode) const
 	{
-		return (m_PreviousState[key] && !m_CurrentState[key]);
+		return (m_PreviousState[keyCode]) && (!m_CurrentState[keyCode]);
 	}
 }

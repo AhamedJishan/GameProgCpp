@@ -1,6 +1,7 @@
 #include "Component.h"
 
 #include "Engine/Actor.h"
+#include "Engine/InputSystem.h"
 
 namespace jLab
 {
@@ -10,7 +11,7 @@ namespace jLab
 	{
 		m_Owner->AddComponent(this);
 	}
-
+	
 	Component::~Component()
 	{
 		m_Owner->RemoveComponent(this);
@@ -20,7 +21,7 @@ namespace jLab
 	{
 	}
 	
-	void Component::Input(const InputState& inputState)
+	void Component::Input(InputState& inputState)
 	{
 	}
 	

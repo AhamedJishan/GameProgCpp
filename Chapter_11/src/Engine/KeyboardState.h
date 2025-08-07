@@ -11,9 +11,9 @@ namespace jLab
 
 		KeyboardState();
 
-		bool GetKey(SDL_Scancode key) const;
-		bool GetKeyDown(SDL_Scancode key) const;
-		bool GetKeyUp(SDL_Scancode key) const;
+		bool GetKey(SDL_Scancode scanCode) const;
+		bool GetKeyDown(SDL_Scancode scanCode) const;
+		bool GetKeyUp(SDL_Scancode scanCode) const;
 
 	private:
 		const Uint8* m_CurrentState;

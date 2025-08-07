@@ -98,29 +98,64 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\Engine\Actor.h" />
+    <ClInclude Include="src\Engine\AudioSystem.h" />
+    <ClInclude Include="src\Engine\Collision.h" />
+    <ClInclude Include="src\Engine\Component\AudioComponent.h" />
+    <ClInclude Include="src\Engine\Component\BallMoveComponent.h" />
+    <ClInclude Include="src\Engine\Component\BoxComponent.h" />
+    <ClInclude Include="src\Engine\Component\CameraComponent.h" />
     <ClInclude Include="src\Engine\Component\Component.h" />
+    <ClInclude Include="src\Engine\Component\FPSCameraComponent.h" />
+    <ClInclude Include="src\Engine\Component\MeshRenderer.h" />
+    <ClInclude Include="src\Engine\Component\MoveComponent.h" />
+    <ClInclude Include="src\Engine\Component\SpriteRenderer.h" />
     <ClInclude Include="src\Engine\Game.h" />
     <ClInclude Include="src\Engine\InputSystem.h" />
     <ClInclude Include="src\Engine\KeyboardState.h" />
     <ClInclude Include="src\Engine\Mesh.h" />
+    <ClInclude Include="src\Engine\Model.h" />
     <ClInclude Include="src\Engine\MouseState.h" />
+    <ClInclude Include="src\Engine\PhysWorld.h" />
     <ClInclude Include="src\Engine\Renderer.h" />
     <ClInclude Include="src\Engine\Shader.h" />
+    <ClInclude Include="src\Engine\SoundEvent.h" />
     <ClInclude Include="src\Engine\Texture.h" />
+    <ClInclude Include="src\Game\BallActor.h" />
+    <ClInclude Include="src\Game\CrosshairActor.h" />
+    <ClInclude Include="src\Game\FPSActor.h" />
+    <ClInclude Include="src\Game\GroundActor.h" />
+    <ClInclude Include="src\Game\RadarActor.h" />
+    <ClInclude Include="src\Game\TargetActor.h" />
+    <ClInclude Include="src\Game\WallActor.h" />
     <ClInclude Include="src\stbi\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Actor.cpp" />
+    <ClCompile Include="src\Engine\AudioSystem.cpp" />
+    <ClCompile Include="src\Engine\Collision.cpp" />
+    <ClCompile Include="src\Engine\Component\AudioComponent.cpp" />
+    <ClCompile Include="src\Engine\Component\BallMoveComponent.cpp" />
+    <ClCompile Include="src\Engine\Component\BoxComponent.cpp" />
+    <ClCompile Include="src\Engine\Component\CameraComponent.cpp" />
     <ClCompile Include="src\Engine\Component\Component.cpp" />
+    <ClCompile Include="src\Engine\Component\FPSCameraComponent.cpp" />
+    <ClCompile Include="src\Engine\Component\MeshRenderer.cpp" />
+    <ClCompile Include="src\Engine\Component\MoveComponent.cpp" />
+    <ClCompile Include="src\Engine\Component\SpriteRenderer.cpp" />
     <ClCompile Include="src\Engine\Game.cpp" />
     <ClCompile Include="src\Engine\InputSystem.cpp" />
     <ClCompile Include="src\Engine\KeyboardState.cpp" />
     <ClCompile Include="src\Engine\Mesh.cpp" />
+    <ClCompile Include="src\Engine\Model.cpp" />
     <ClCompile Include="src\Engine\MouseState.cpp" />
+    <ClCompile Include="src\Engine\PhysWorld.cpp" />
     <ClCompile Include="src\Engine\Renderer.cpp" />
     <ClCompile Include="src\Engine\Shader.cpp" />
+    <ClCompile Include="src\Engine\SoundEvent.cpp" />
     <ClCompile Include="src\Engine\Texture.cpp" />
     <ClCompile Include="src\EntryPoint.cpp" />
+    <ClCompile Include="src\Game\BallActor.cpp" />
+    <ClCompile Include="src\Game\FPSActor.cpp" />
     <ClCompile Include="src\stbi\stb_image.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

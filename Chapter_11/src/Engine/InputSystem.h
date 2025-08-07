@@ -1,6 +1,5 @@
 #pragma once
 
-#include "SDL/SDL.h"
 #include "KeyboardState.h"
 #include "MouseState.h"
 
@@ -16,16 +15,15 @@ namespace jLab
 	{
 	public:
 		InputSystem();
-		
+
 		bool Init();
 		void Shutdown();
 
+		void ProcessInput(SDL_Event& event);
 		void PreUpdate();
 		void Update();
 
-		void ProcessEvent(SDL_Event& event);
-
-		const InputState& GetInputState() const { return m_InputState; }
+		InputState& GetState() { return m_InputState; }
 
 		void SetRelativeMouseMode(bool value);
 

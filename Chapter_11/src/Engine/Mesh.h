@@ -1,9 +1,8 @@
 #pragma once
 
+#include <vector>
 #include <glm/vec3.hpp>
 #include <glm/vec2.hpp>
-#include <string>
-#include <vector>
 
 namespace jLab
 {
@@ -20,9 +19,9 @@ namespace jLab
 		Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<class Texture*> textures);
 		~Mesh();
 
-		// TODO: void Draw(const class Shader& shader);
+		void Draw(const class Shader* shader) const;
 
-		const std::vector<Vertex>& GetVertices() const { return m_Vertices; }
+		std::vector<Vertex> GetVertices() const { return m_Vertices; }
 
 	private:
 		void SetupMesh();

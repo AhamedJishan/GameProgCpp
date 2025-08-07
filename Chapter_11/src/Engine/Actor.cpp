@@ -1,26 +1,56 @@
 #include "Actor.h"
 
-#include "Component/Component.h"
 #include "Game.h"
+#include "Component/Component.h"
+#include "InputSystem.h"
 
 namespace jLab
 {
 	Actor::Actor(Game* game)
-		:m_Game(game)
-		,m_Position(glm::vec3(0))
-		,m_Scale(glm::vec3(1))
-		,m_Rotation(glm::angleAxis(0.0f, glm::vec3(0, 1, 0)))
-		,m_RecomputeWorldTransform(true)
-		,m_State(E_Active)
+		:m_Game(game),
+		m_Position(glm::vec3(0)),
+		m_Scale(glm::vec3(1)),
+		m_State(E_Active),
+		m_Rotation(glm::angleAxis(0.0f, glm::vec3(0, 1, 0))),
+		m_RecomputeWorldTransform(true)
 	{
 		m_Game->AddActor(this);
+		ComputeWorldTransform();
 	}
-	
+
 	Actor::~Actor()
 	{
 		m_Game->RemoveActor(this);
+
+		while (!m_Components.empty())
+			delete m_Components.back();
 	}
-	
+
+	void Actor::Update(float deltaTime)
+	{
+		if (m_State == E_Active)
+		{
+			ComputeWorldTransform();
+
+			ActorUpdate(deltaTime);
+			for (Component* component : m_Components)
+				component->Update(deltaTime);
+
+			ComputeWorldTransform();
+		}
+	}
+
+	void Actor::ProcessInput(InputState& inputState)
+	{
+		if (m_State == E_Active)
+		{
+			ActorInput(inputState);
+
+			for (Component* component : m_Components)
+				component->Input(inputState);
+		}
+	}
+
 	void Actor::ComputeWorldTransform()
 	{
 		if (m_RecomputeWorldTransform)
@@ -36,10 +66,29 @@ namespace jLab
 		}
 	}
 
-	void Actor::LookAt(glm::vec3 direction)
+	void Actor::AddComponent(Component* component)
+	{
+		int updateOrder = component->GetUpdateOrder();
+		auto iter = m_Components.begin();
+		for (; iter != m_Components.end(); iter++)
+		{
+			if (updateOrder < (*iter)->GetUpdateOrder())
+				break;
+		}
+		m_Components.insert(iter, component);
+	}
+
+	void Actor::RemoveComponent(Component* component)
+	{
+		auto iter = std::find(m_Components.begin(), m_Components.end(), component);
+		if (iter != m_Components.end())
+			m_Components.erase(iter);
+	}
+
+	void Actor::LookAt(const glm::vec3& direction)
 	{
 		glm::vec3 dir = glm::normalize(direction);
-		float dot = glm::dot(direction, glm::vec3(0, 0, -1));
+		float dot = glm::dot(dir, glm::vec3(0, 0, -1));
 		float angle = glm::acos(dot);
 
 		if (dot > 0.9999f) SetRotation(glm::angleAxis(0.0f, glm::vec3(0, 1, 0)));
@@ -51,54 +100,12 @@ namespace jLab
 			SetRotation(glm::angleAxis(angle, axisOfRotation));
 		}
 	}
-	
-	void Actor::UpdateActor(float deltaTime)
-	{
-		if (m_State == E_Active)
-		{
-			ComputeWorldTransform();
 
-			for (Component* component : m_Components)
-				component->Update(deltaTime);
-			Update(deltaTime);
-
-			ComputeWorldTransform();
-		}
-	}
-	
-	void Actor::InputActor(const InputState& inputState)
-	{
-		if (m_State = E_Active)
-		{
-			for (Component* component : m_Components)
-				component->Input(inputState);
-			Input(inputState);
-		}
-	}
-
-	void Actor::AddComponent(Component* component)
-	{
-		int updateOrder = component->GetUpdateOrder();
-		auto iter = m_Components.begin();
-
-		for ( ; iter != m_Components.end(); iter++)
-			if (updateOrder < (*iter)->GetUpdateOrder())
-				break;
-
-		m_Components.insert(iter, component);
-	}
-
-	void Actor::RemoveComponent(Component* component)
-	{
-		auto iter = std::find(m_Components.begin(), m_Components.end(), component);
-		if (iter != m_Components.end())
-			m_Components.erase(iter);
-	}
-	
-	void Actor::Update(float deltaTime)
+	void Actor::ActorUpdate(float deltaTime)
 	{
 	}
-	void Actor::Input(const InputState& inputState)
+
+	void Actor::ActorInput(InputState& inputState)
 	{
 	}
 }

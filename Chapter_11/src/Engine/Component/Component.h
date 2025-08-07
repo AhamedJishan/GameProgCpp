@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 namespace jLab
 {
 	class Component
@@ -9,7 +11,7 @@ namespace jLab
 		virtual ~Component();
 
 		virtual void Update(float deltaTime);
-		virtual void Input(const struct InputState& inputState);
+		virtual void Input(struct InputState& inputState);
 
 		virtual void OnUpdateWorldTransform();
 
@@ -17,7 +19,7 @@ namespace jLab
 		int GetUpdateOrder() const { return m_UpdateOrder; }
 
 	protected:
-		class Actor* m_Owner;
 		int m_UpdateOrder;
+		class Actor* m_Owner;
 	};
 }

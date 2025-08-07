@@ -4,25 +4,25 @@ namespace jLab
 {
     MouseState::MouseState()
     {
-        m_IsRelative = false;
-        m_CurrentButtons = 0;
-        m_PreviousButtons = 0;
+        m_CurrentState = 0;
+        m_PreviousState = 0;
         m_Position = glm::vec2(0);
-        m_ScrollWheel= glm::vec2(0);
+        m_ScrollWheel = glm::vec2(0);
+        m_IsRelative = false;
     }
 
     bool MouseState::GetButton(int button) const
     {
-        return (SDL_BUTTON(button) & m_PreviousButtons) && (SDL_BUTTON(button) & m_CurrentButtons);
+        return (m_PreviousState & SDL_BUTTON(button)) && (m_CurrentState & SDL_BUTTON(button));
     }
-    
+
     bool MouseState::GetButtonDown(int button) const
     {
-        return !(SDL_BUTTON(button) & m_PreviousButtons) && (SDL_BUTTON(button) & m_CurrentButtons);
+        return !(m_PreviousState & SDL_BUTTON(button)) && (m_CurrentState & SDL_BUTTON(button));
     }
-    
+
     bool MouseState::GetButtonUp(int button) const
     {
-        return (SDL_BUTTON(button) & m_PreviousButtons) && !(SDL_BUTTON(button) & m_CurrentButtons);
+        return (m_PreviousState & SDL_BUTTON(button)) && !(m_CurrentState & SDL_BUTTON(button));
     }
 }

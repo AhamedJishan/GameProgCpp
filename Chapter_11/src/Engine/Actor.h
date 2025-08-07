@@ -1,10 +1,11 @@
 #pragma once
 
-#include "InputSystem.h"
+#include <cstdint>
+#include <vector>
 #include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>
 #include <glm/gtc/quaternion.hpp>
-#include <vector>
+
 
 namespace jLab
 {
@@ -21,39 +22,42 @@ namespace jLab
 		Actor(class Game* game);
 		virtual ~Actor();
 
-		State GetState() const { return m_State; }
-		glm::vec3 GetPosition() const { return m_Position; }
-		glm::vec3 GetScale() const { return m_Scale; }
-		glm::quat GetRotation() const { return m_Rotation; }
-		glm::mat4 GetWorldTransform() const { return m_WorldTransform; }
-		glm::vec3 GetForward() const { return m_Rotation * glm::vec3(0, 0, -1); }
-		glm::vec3 GetUp() const { return m_Rotation * glm::vec3(0, 1, 0); }
-		glm::vec3 GetRight() const { return m_Rotation * glm::vec3(1, 0, 0); }
+		void Update(float deltaTime);
+		void ProcessInput(struct InputState& inputState);
 
-		void ComputeWorldTransform();
-		void LookAt(glm::vec3 direction);
+		// TODO: UpdateComponent
 
-		void SetState(State state) { m_State = state; }
-		void SetPosition(const glm::vec3& position) { m_Position = position; m_RecomputeWorldTransform = true; }
-		void SetScale(const glm::vec3& scale) { m_Scale = scale; m_RecomputeWorldTransform = true; }
-		void SetRotation(const glm::quat& rotation) { m_Rotation = rotation; m_RecomputeWorldTransform = true; }
-		void Rotate(float angle, glm::vec3 axis)
-		{
-			m_Rotation = m_Rotation * glm::angleAxis(angle, axis);
-		}
-
-	private:
-		friend class Game;
-		void UpdateActor(float deltaTime);
-		void InputActor(const InputState& inputState);
-
-		friend class Component;
 		void AddComponent(class Component* component);
 		void RemoveComponent(class Component* component);
 
+		class Game* GetGame() const { return m_Game; }
+		State GetState() const { return m_State; }
+		glm::mat4 GetWorldTransform() const { return m_WorldTransform; }
+		glm::vec3 GetPosition() const { return m_Position; }
+		glm::vec3 GetScale() const { return m_Scale; }
+		glm::quat GetRotation() const { return m_Rotation; }
+		glm::vec3 GetForward() const { return m_Rotation * glm::vec3(0, 0, -1); }
+		glm::vec3 GetRight() const { return m_Rotation * glm::vec3(1, 0, 0); }
+		glm::vec3 GetUp() const { return m_Rotation * glm::vec3(0, 1, 0); }
+
+		void SetState(const State state) { m_State = state; }
+		void SetPosition(const glm::vec3 position) { m_Position = position; m_RecomputeWorldTransform = true; }
+		void SetScale(const glm::vec3 scale) { m_Scale = scale; m_RecomputeWorldTransform = true; }
+		void SetRotation(const glm::quat rotation) { m_Rotation = rotation; m_RecomputeWorldTransform = true; }
+		void Rotate(float angle, const glm::vec3 axis)
+		{
+			glm::quat rot = glm::angleAxis(angle, glm::normalize(axis));
+			m_Rotation = glm::normalize(m_Rotation * rot);
+			m_RecomputeWorldTransform = true;
+		}
+
+		void LookAt(const glm::vec3& direction);
+
 	protected:
-		virtual void Update(float deltaTime);
-		virtual void Input(const InputState& inputState);
+		virtual void ActorUpdate(float deltaTime);
+		virtual void ActorInput(struct InputState& inputState);
+
+		void ComputeWorldTransform();
 
 	protected:
 		class Game* m_Game;
