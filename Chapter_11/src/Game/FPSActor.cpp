@@ -49,7 +49,7 @@ namespace jLab
 
 
 		glm::vec2 deltaMouse = inputState.Mouse.GetPosition();
-		const float maxMouseSpeed = 500.0f;
+		const float maxMouseSpeed = 50.0f;
 
 		float yaw = 0.0f, pitch = 0.0f;
 

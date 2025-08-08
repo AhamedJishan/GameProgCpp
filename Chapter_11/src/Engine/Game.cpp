@@ -7,6 +7,8 @@
 #include "AudioSystem.h"
 #include "Actor.h"
 #include "PhysWorld.h"
+#include "Font.h"
+#include "UIScreen.h"
 
 #include "Game/WallActor.h"
 #include "Game/GroundActor.h"
@@ -14,13 +16,14 @@
 #include "Game/CrosshairActor.h"
 #include "Game/RadarActor.h"
 #include "Game/TargetActor.h"
+#include "Game/PauseMenu.h"
 
 namespace jLab
 {
 	Game::Game()
 	{
 		m_TicksCount = 0;
-		m_IsRunning = true;
+		m_GameState = E_Gameplay;
 		m_UpdatingActors = false;
 		m_InputSystem = new InputSystem();
 		m_AudioSystem = new AudioSystem(this);
@@ -94,9 +97,37 @@ namespace jLab
 		}
 	}
 
+	Font* Game::GetFont(const std::string& filename)
+	{
+		auto iter = m_Fonts.find(filename);
+		if (iter != m_Fonts.end())
+		{
+			return iter->second;
+		}
+		else
+		{
+			Font* font = new Font();
+			if (font->Load(filename))
+				m_Fonts.emplace(filename, font);
+			else
+			{
+				font->Unload();
+				delete font;
+				font = nullptr;
+			}
+
+			return font;
+		}
+	}
+
+	void Game::PushUI(UIScreen* screen)
+	{
+		m_UIStack.emplace_back(screen);
+	}
+
 	void Game::Run()
 	{
-		while (m_IsRunning)
+		while (m_GameState != E_Quit)
 		{
 			ProcessInput();
 			UpdateGame();
@@ -114,7 +145,7 @@ namespace jLab
 			switch (event.type)
 			{
 			case SDL_QUIT:
-				m_IsRunning = false;
+				m_GameState = E_Quit;
 				break;
 			case SDL_MOUSEWHEEL:
 				m_InputSystem->ProcessInput(event);
@@ -128,21 +159,31 @@ namespace jLab
 
 		InputState inputState = m_InputSystem->GetState();
 
-		if (inputState.Keyboard.GetKeyUp(SDL_SCANCODE_ESCAPE))
+		//if (inputState.Keyboard.GetKeyUp(SDL_SCANCODE_ESCAPE))
+		//	m_GameState = E_Quit;
+
+		if(m_GameState == E_Gameplay)
 		{
-			m_IsRunning = false;
+			m_UpdatingActors = true;
+			for (Actor* actor : m_Actors)
+				actor->ProcessInput(inputState);
+			m_UpdatingActors = false;
+		}
+		else if (!m_UIStack.empty())
+		{
+			m_UIStack.back()->ProcessInput(inputState);
 		}
 
-		m_UpdatingActors = true;
-		for (Actor* actor : m_Actors)
-			actor->ProcessInput(inputState);
-		m_UpdatingActors = false;
+		// GAME SPECIFIC
+		if (m_GameState == E_Gameplay)
+			if (inputState.Keyboard.GetKeyDown(SDL_SCANCODE_ESCAPE))
+				PauseMenu* pm = new PauseMenu(this);
 	}
 
 	void Game::UpdateGame()
 	{
 		// Cap FPS at 60
-		while (!SDL_TICKS_PASSED(SDL_GetTicks(), m_TicksCount + 16));
+		//while (!SDL_TICKS_PASSED(SDL_GetTicks(), m_TicksCount + 16));
 		float deltaTime = (SDL_GetTicks() - m_TicksCount) / 1000.0f;
 
 		if (deltaTime > 0.05f)
@@ -150,30 +191,50 @@ namespace jLab
 
 		m_TicksCount = SDL_GetTicks();
 
-		// Update all actors
-		m_UpdatingActors = true;
-		for (Actor* actor : m_Actors)
-			actor->Update(deltaTime);
-		m_UpdatingActors = false;
+		if (m_GameState == E_Gameplay)
+		{
+			// Update all actors
+			m_UpdatingActors = true;
+			for (Actor* actor : m_Actors)
+				actor->Update(deltaTime);
+			m_UpdatingActors = false;
 
-		// Move pending to actors to m_Actors
-		for (Actor* actor : m_PendingActors)
-			m_Actors.emplace_back(actor);
-		m_PendingActors.clear();
+			// Move pending to actors to m_Actors
+			for (Actor* actor : m_PendingActors)
+				m_Actors.emplace_back(actor);
+			m_PendingActors.clear();
 
-		// Move dead actors into a temp list, then delete them
-		std::vector<Actor*> deadActors;
-		for (Actor* actor : m_Actors)
-			if (actor->GetState() == Actor::E_Dead)
-				deadActors.emplace_back(actor);
+			// Move dead actors into a temp list, then delete them
+			std::vector<Actor*> deadActors;
+			for (Actor* actor : m_Actors)
+				if (actor->GetState() == Actor::E_Dead)
+					deadActors.emplace_back(actor);
 
-		// Destructor of actors removes itself from m_Actors
-		for (Actor* actor : deadActors)
-			delete actor;
-		deadActors.clear();
+			// Destructor of actors removes itself from m_Actors
+			for (Actor* actor : deadActors)
+				delete actor;
+			deadActors.clear();
+		}
 
 		// Update AudioSystem
 		m_AudioSystem->Update();
+
+		// Update UI
+		for (UIScreen* ui : m_UIStack)
+			if (ui->GetState() == UIScreen::E_Active)
+				ui->Update(deltaTime);
+		// Delete closing UI
+		auto iter = m_UIStack.begin();
+		while (iter != m_UIStack.end())
+		{
+			if ((*iter)->GetState() == UIScreen::E_Closing)
+			{
+				delete (*iter);
+				iter = m_UIStack.erase(iter);
+			}
+			else
+				iter++;
+		}
 	}
 
 	void Game::GenerateOutput()

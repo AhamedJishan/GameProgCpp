@@ -109,6 +109,7 @@
     <ClInclude Include="src\Engine\Component\MeshRenderer.h" />
     <ClInclude Include="src\Engine\Component\MoveComponent.h" />
     <ClInclude Include="src\Engine\Component\SpriteRenderer.h" />
+    <ClInclude Include="src\Engine\Font.h" />
     <ClInclude Include="src\Engine\Game.h" />
     <ClInclude Include="src\Engine\InputSystem.h" />
     <ClInclude Include="src\Engine\KeyboardState.h" />
@@ -120,10 +121,12 @@
     <ClInclude Include="src\Engine\Shader.h" />
     <ClInclude Include="src\Engine\SoundEvent.h" />
     <ClInclude Include="src\Engine\Texture.h" />
+    <ClInclude Include="src\Engine\UIScreen.h" />
     <ClInclude Include="src\Game\BallActor.h" />
     <ClInclude Include="src\Game\CrosshairActor.h" />
     <ClInclude Include="src\Game\FPSActor.h" />
     <ClInclude Include="src\Game\GroundActor.h" />
+    <ClInclude Include="src\Game\PauseMenu.h" />
     <ClInclude Include="src\Game\RadarActor.h" />
     <ClInclude Include="src\Game\TargetActor.h" />
     <ClInclude Include="src\Game\WallActor.h" />
@@ -142,6 +145,7 @@
     <ClCompile Include="src\Engine\Component\MeshRenderer.cpp" />
     <ClCompile Include="src\Engine\Component\MoveComponent.cpp" />
     <ClCompile Include="src\Engine\Component\SpriteRenderer.cpp" />
+    <ClCompile Include="src\Engine\Font.cpp" />
     <ClCompile Include="src\Engine\Game.cpp" />
     <ClCompile Include="src\Engine\InputSystem.cpp" />
     <ClCompile Include="src\Engine\KeyboardState.cpp" />
@@ -153,6 +157,7 @@
     <ClCompile Include="src\Engine\Shader.cpp" />
     <ClCompile Include="src\Engine\SoundEvent.cpp" />
     <ClCompile Include="src\Engine\Texture.cpp" />
+    <ClCompile Include="src\Engine\UIScreen.cpp" />
     <ClCompile Include="src\EntryPoint.cpp" />
     <ClCompile Include="src\Game\BallActor.cpp" />
     <ClCompile Include="src\Game\FPSActor.cpp" />

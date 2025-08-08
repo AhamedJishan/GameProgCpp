@@ -5,6 +5,7 @@
 #include "Component/MeshRenderer.h"
 #include "Component/SpriteRenderer.h"
 #include "Shader.h"
+#include "UIScreen.h"
 #include <glm/gtc/matrix_transform.hpp>
 
 namespace jLab
@@ -76,7 +77,7 @@ namespace jLab
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glEnable(GL_DEPTH_TEST);
-
+		// Draw 3d stuff
 		SetShaderUniforms();
 		for (MeshRenderer* mesh : m_Meshes)
 			mesh->Draw(m_MeshShader);
@@ -86,9 +87,14 @@ namespace jLab
 		glBlendEquationSeparate(GL_FUNC_ADD, GL_FUNC_ADD);
 		glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ZERO);
 
+		// Draw 2D stuff
 		UseSpriteVerts();
 		for (SpriteRenderer* sprite : m_Sprites)
 			sprite->Draw(m_SpriteShader);
+
+		// Draw UI
+		for (UIScreen* screen : m_Game->GetUIStack())
+			screen->Draw(m_SpriteShader);
 
 		glDisable(GL_BLEND);
 

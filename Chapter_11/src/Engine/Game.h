@@ -2,12 +2,21 @@
 
 #include <SDL/SDL.h>
 #include <vector>
+#include <string>
+#include <unordered_map>
 
 namespace jLab
 {
 	class Game
 	{
 	public:
+		enum GameState
+		{
+			E_Gameplay,
+			E_Paused,
+			E_Quit
+		};
+
 		Game();
 
 		bool Init();
@@ -20,6 +29,13 @@ namespace jLab
 		class Renderer* GetRenderer() const { return m_Renderer; }
 		class AudioSystem* GetAudioSystem() const { return m_AudioSystem; }
 		class PhysWorld* GetPhysWorld() const { return m_PhysWorld; }
+		class Font* GetFont(const std::string& filename);
+
+		void SetState(GameState state) { m_GameState = state; }
+		GameState GetState() const { return m_GameState; }
+
+		void PushUI(class UIScreen* screen);
+		std::vector<class UIScreen*>& GetUIStack() { return m_UIStack; }
 
 		std::vector<class WallActor*>& GetWallPlanes() { return m_WallPlanes; }
 
@@ -37,12 +53,15 @@ namespace jLab
 		class AudioSystem* m_AudioSystem;
 		class PhysWorld* m_PhysWorld;
 
-		bool m_IsRunning;
+		GameState m_GameState;
 		Uint32 m_TicksCount;
 
 		bool m_UpdatingActors;
 		std::vector<class Actor*> m_Actors;
 		std::vector<class Actor*> m_PendingActors;
+
+		std::unordered_map<std::string, class Font*> m_Fonts;
+		std::vector<class UIScreen*> m_UIStack;
 
 		// GAME SPECIFIC
 		std::vector<class WallActor*> m_WallPlanes;

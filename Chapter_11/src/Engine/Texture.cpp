@@ -65,4 +65,16 @@ namespace jLab
 		glActiveTexture(GL_TEXTURE0 + slot);
 		glBindTexture(GL_TEXTURE_2D, m_Id);
 	}
+
+	void Texture::CreateFromSurface(SDL_Surface* surface)
+	{
+		m_Width = surface->w;
+		m_Height = surface->h;
+		glGenTextures(1, &m_Id);
+		
+		glBindTexture(GL_TEXTURE_2D, m_Id);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_Width, m_Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, surface->pixels);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	}
 }

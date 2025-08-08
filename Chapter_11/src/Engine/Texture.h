@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <SDL/SDL_surface.h>
 
 namespace jLab
 {
@@ -21,6 +22,8 @@ namespace jLab
 		void Unload();
 
 		void SetActive(int slot = 0);
+
+		void CreateFromSurface(SDL_Surface* surface);
 
 		TextureType GetTextureType() const { return m_Type; }
 		int GetWidth() const { return m_Width; }

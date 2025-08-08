@@ -51,6 +51,9 @@
     <ClInclude Include="src\Engine\Component\SpriteRenderer.h">
       <Filter>Engine\Component</Filter>
     </ClInclude>
+    <ClInclude Include="src\Engine\Font.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
     <ClInclude Include="src\Engine\Game.h">
       <Filter>Engine</Filter>
     </ClInclude>
@@ -84,6 +87,9 @@
     <ClInclude Include="src\Engine\Texture.h">
       <Filter>Engine</Filter>
     </ClInclude>
+    <ClInclude Include="src\Engine\UIScreen.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
     <ClInclude Include="src\Game\BallActor.h">
       <Filter>Game</Filter>
     </ClInclude>
@@ -94,6 +100,9 @@
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="src\Game\GroundActor.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\PauseMenu.h">
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="src\Game\RadarActor.h">
@@ -146,6 +155,9 @@
     <ClCompile Include="src\Engine\Component\SpriteRenderer.cpp">
       <Filter>Engine\Component</Filter>
     </ClCompile>
+    <ClCompile Include="src\Engine\Font.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
     <ClCompile Include="src\Engine\Game.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
@@ -177,6 +189,9 @@
       <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="src\Engine\Texture.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\UIScreen.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="src\EntryPoint.cpp" />
