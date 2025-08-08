@@ -1,6 +1,7 @@
 #include "Game.h"
 
 #include <algorithm>
+#include <SDL/SDL_ttf.h>
 #include "Renderer.h"
 #include "InputSystem.h"
 #include "AudioSystem.h"
@@ -35,6 +36,12 @@ namespace jLab
 			return false;
 		}
 
+		if (TTF_Init() != 0)
+		{
+			SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to Initialize SDL TTF: %s", TTF_GetError());
+			return false;
+		}
+
 		if (!m_Renderer->Init(1280, 720))
 		{
 			SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to initialize Renderer");
@@ -47,8 +54,6 @@ namespace jLab
 		m_AudioSystem->Init();
 		m_InputSystem->SetRelativeMouseMode(true);
 
-		// TODO: Init AudioSystem
-
 		LoadData();
 
 		return true;
@@ -60,6 +65,7 @@ namespace jLab
 		m_InputSystem->Shutdown();
 		m_AudioSystem->Shutdown();
 		m_Renderer->Shutdown();
+		TTF_Quit();
 		SDL_Quit();
 	}
 

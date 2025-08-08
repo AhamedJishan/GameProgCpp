@@ -35,6 +35,7 @@ workspace "Chapter_11"
             "glew32",
             "SDL2",
             "SDL2main",
+            "SDL2_ttf",
             "fmodL_vc",
             "fmodstudioL_vc",
             "assimp-vc143-mtd"
