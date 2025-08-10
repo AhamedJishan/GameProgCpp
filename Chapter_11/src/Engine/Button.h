@@ -17,6 +17,12 @@ namespace jLab
 		bool ContainsPoint(const glm::vec2& point);
 		void OnClick();
 
+		class Texture* GetNameTexture() const { return m_NameTexture; }
+		glm::vec2 GetPosition() const { return m_Position; }
+		bool GetHighlighted() const { return m_Highlighted; }
+
+		void SetHighlighted(bool highlighted) { m_Highlighted = highlighted; }
+
 	private:
 		std::function<void()> m_OnClick;
 		std::string m_Name;

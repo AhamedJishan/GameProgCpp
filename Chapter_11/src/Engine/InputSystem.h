@@ -14,7 +14,7 @@ namespace jLab
 	class InputSystem
 	{
 	public:
-		InputSystem();
+		InputSystem(class Game* game);
 
 		bool Init();
 		void Shutdown();
@@ -25,9 +25,8 @@ namespace jLab
 
 		InputState& GetState() { return m_InputState; }
 
-		void SetRelativeMouseMode(bool value);
-
 	private:
 		InputState m_InputState;
+		class Game* m_Game;
 	};
 }

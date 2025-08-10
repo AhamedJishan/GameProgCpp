@@ -33,6 +33,10 @@ namespace jLab
 		glm::vec3 ScreenToWorldPos(const glm::vec3& screenPosition);
 		void ScreenToWorldDir(glm::vec3& outStart, glm::vec3& outDirection);
 
+		int GetWidth() const { return m_ScreenWidth; }
+		int GetHeight() const { return m_ScreenHeight; }
+		SDL_Window* GetWindow() const { return m_Window; }
+
 	private:
 		void SetShaderUniforms();
 		void CreateSpriteVerts();

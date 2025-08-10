@@ -1,9 +1,11 @@
 #pragma once
 
 #include <string>
+#include <vector>
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
 #include <glm/vec4.hpp>
+#include <functional>
 
 namespace jLab
 {
@@ -23,6 +25,8 @@ namespace jLab
 
 		void SetTitle(const std::string& text, glm::vec4 color = glm::vec4(1), int pointSize = 40);
 
+		void AddButton(const std::string& name, std::function<void()> onClick);
+
 	protected:
 		void DrawTexture(class Shader* shader, class Texture* texture,
 			glm::vec2 position = glm::vec2(0),
@@ -35,5 +39,10 @@ namespace jLab
 		class Texture* m_Title;
 		glm::vec2 m_TitlePos;
 		UIState m_State;
+
+		std::vector<class Button*> m_Buttons;
+		glm::vec2 m_NextButtonPos;
+		class Texture* m_ButtonOn;
+		class Texture* m_ButtonOff;
 	};
 }

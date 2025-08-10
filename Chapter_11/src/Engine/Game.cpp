@@ -25,7 +25,7 @@ namespace jLab
 		m_TicksCount = 0;
 		m_GameState = E_Gameplay;
 		m_UpdatingActors = false;
-		m_InputSystem = new InputSystem();
+		m_InputSystem = new InputSystem(this);
 		m_AudioSystem = new AudioSystem(this);
 		m_Renderer = new Renderer(this);
 		m_PhysWorld = new PhysWorld(this);
@@ -55,7 +55,7 @@ namespace jLab
 
 		m_InputSystem->Init();
 		m_AudioSystem->Init();
-		m_InputSystem->SetRelativeMouseMode(true);
+		m_InputSystem->GetState().Mouse.SetCursorLocked(true);
 
 		LoadData();
 

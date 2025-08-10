@@ -28,6 +28,7 @@ namespace jLab
 
 		class Renderer* GetRenderer() const { return m_Renderer; }
 		class AudioSystem* GetAudioSystem() const { return m_AudioSystem; }
+		class InputSystem* GetInputSystem() const { return m_InputSystem; }
 		class PhysWorld* GetPhysWorld() const { return m_PhysWorld; }
 		class Font* GetFont(const std::string& filename);
 

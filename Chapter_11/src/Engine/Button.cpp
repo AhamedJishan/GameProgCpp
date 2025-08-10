@@ -12,6 +12,7 @@ namespace jLab
 		,m_Position(position)
 		,m_Dimensions(dimensions)
 		,m_Highlighted(false)
+		,m_NameTexture(nullptr)
 	{
 		SetName(m_Name);
 	}

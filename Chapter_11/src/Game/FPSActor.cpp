@@ -48,7 +48,7 @@ namespace jLab
 			m_MoveDir = glm::normalize(m_MoveDir);
 
 
-		glm::vec2 deltaMouse = inputState.Mouse.GetPosition();
+		glm::vec2 deltaMouse = inputState.Mouse.GetRelativePosition();
 		const float maxMouseSpeed = 50.0f;
 
 		float yaw = 0.0f, pitch = 0.0f;

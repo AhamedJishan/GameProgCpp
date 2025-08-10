@@ -2,12 +2,13 @@
 
 #include <SDL/SDL.h>
 #include <cstring>
-
-#include <iostream>
+#include "Game.h"
+#include "Renderer.h"
 
 namespace jLab
 {
-	InputSystem::InputSystem()
+	InputSystem::InputSystem(Game* game)
+		:m_Game(game)
 	{
 		m_InputState = InputState();
 	}
@@ -52,20 +53,21 @@ namespace jLab
 
 		// Mouse
 		int x = 0, y = 0;
-		if (m_InputState.Mouse.IsRelative())
-			m_InputState.Mouse.m_CurrentState = SDL_GetRelativeMouseState(&x, &y);
-		else
-			m_InputState.Mouse.m_CurrentState = SDL_GetMouseState(&x, &y);
+		int rx = 0, ry = 0;
+		m_InputState.Mouse.m_CurrentState = SDL_GetMouseState(&x, &y);
+		SDL_GetRelativeMouseState(&rx, &ry);
 
-		m_InputState.Mouse.m_Position.x = static_cast<float>(x);
-		m_InputState.Mouse.m_Position.y = static_cast<float>(y);
-	}
+		x -= m_Game->GetRenderer()->GetWidth() / 2.0f;
+		y = m_Game->GetRenderer()->GetHeight() / 2.0f - y;
 
-	void InputSystem::SetRelativeMouseMode(bool value)
-	{
-		SDL_bool setValue = value ? SDL_TRUE : SDL_FALSE;
-		SDL_SetRelativeMouseMode(setValue);
+		m_InputState.Mouse.m_Position = glm::vec2(x, y);
+		m_InputState.Mouse.m_RelativePosition = glm::vec2(rx, ry);
 
-		m_InputState.Mouse.m_IsRelative = value;
+		if(m_InputState.Mouse.IsCursorLocked())
+		{
+			int lockXPos = m_Game->GetRenderer()->GetWidth() / 2.0f;
+			int lockYPos = m_Game->GetRenderer()->GetHeight() / 2.0f;
+			SDL_WarpMouseInWindow(m_Game->GetRenderer()->GetWindow(), lockXPos, lockYPos);
+		}
 	}
 }

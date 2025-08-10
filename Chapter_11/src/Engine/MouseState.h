@@ -15,17 +15,22 @@ namespace jLab
 		bool GetButton(int button) const;
 		bool GetButtonDown(int button) const;
 		bool GetButtonUp(int button) const;
-		bool IsRelative() const { return m_IsRelative; }
 
 		glm::vec2 GetPosition() const { return m_Position; }
+		glm::vec2 GetRelativePosition() const { return m_RelativePosition; }
 		glm::vec2 GetScrollWheel() const { return m_ScrollWheel; }
+
+		void SetCursorLocked(bool value);
+		bool IsCursorLocked() const { return m_IsCursorLocked; }
 
 	private:
 		Uint32 m_CurrentState;
 		Uint32 m_PreviousState;
 
 		glm::vec2 m_Position;
+		glm::vec2 m_RelativePosition;
 		glm::vec2 m_ScrollWheel;
-		bool m_IsRelative;
+
+		bool m_IsCursorLocked;
 	};
 }
