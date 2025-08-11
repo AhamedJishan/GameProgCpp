@@ -17,9 +17,11 @@ namespace jLab
 	UIScreen::UIScreen(Game* game)
 		:m_Game(game)
 		,m_Title(nullptr)
+		,m_Background(nullptr)
 		,m_TitlePos(glm::vec2(0, 280))
+		, m_NextButtonPos(glm::vec2(0, 200))
+		,m_BGPos(0,0)
 		,m_State(E_Active)
-		,m_NextButtonPos(glm::vec2(0, 200))
 	{
 		m_Game->PushUI(this);
 		m_Font = m_Game->GetFont("Assets/Fonts/Carlito-Regular.ttf");
@@ -42,6 +44,10 @@ namespace jLab
 	
 	void UIScreen::Draw(Shader* shader)
 	{
+		// Draw Background
+		if (m_Background)
+			DrawTexture(shader, m_Background, m_BGPos);
+
 		// Draw Title
 		if (m_Title)
 			DrawTexture(shader, m_Title, m_TitlePos);

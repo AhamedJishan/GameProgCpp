@@ -37,12 +37,16 @@ namespace jLab
 		class Game* m_Game;
 		class Font* m_Font;
 		class Texture* m_Title;
+		class Texture* m_Background;
+		class Texture* m_ButtonOn;
+		class Texture* m_ButtonOff;
+
 		glm::vec2 m_TitlePos;
+		glm::vec2 m_NextButtonPos;
+		glm::vec2 m_BGPos;
+
 		UIState m_State;
 
 		std::vector<class Button*> m_Buttons;
-		glm::vec2 m_NextButtonPos;
-		class Texture* m_ButtonOn;
-		class Texture* m_ButtonOff;
 	};
 }

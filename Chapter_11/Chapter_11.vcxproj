@@ -110,6 +110,7 @@
     <ClInclude Include="src\Engine\Component\MeshRenderer.h" />
     <ClInclude Include="src\Engine\Component\MoveComponent.h" />
     <ClInclude Include="src\Engine\Component\SpriteRenderer.h" />
+    <ClInclude Include="src\Engine\DialogBox.h" />
     <ClInclude Include="src\Engine\Font.h" />
     <ClInclude Include="src\Engine\Game.h" />
     <ClInclude Include="src\Engine\InputSystem.h" />
@@ -147,6 +148,7 @@
     <ClCompile Include="src\Engine\Component\MeshRenderer.cpp" />
     <ClCompile Include="src\Engine\Component\MoveComponent.cpp" />
     <ClCompile Include="src\Engine\Component\SpriteRenderer.cpp" />
+    <ClCompile Include="src\Engine\DialogBox.cpp" />
     <ClCompile Include="src\Engine\Font.cpp" />
     <ClCompile Include="src\Engine\Game.cpp" />
     <ClCompile Include="src\Engine\InputSystem.cpp" />

@@ -3,6 +3,7 @@
 #include "Engine/UIScreen.h"
 #include "Engine/Game.h"
 #include "Engine/InputSystem.h"
+#include "Engine/DialogBox.h"
 
 namespace jLab
 {
@@ -23,7 +24,10 @@ namespace jLab
 
 			AddButton("Quit", [this]()
 				{
-					m_Game->SetState(Game::E_Quit);
+					DialogBox* db = new DialogBox(m_Game, "Do you want to Quit?", [this]()
+						{
+							m_Game->SetState(Game::E_Quit);
+						});
 				});
 		}
 
