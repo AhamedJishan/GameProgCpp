@@ -93,9 +93,6 @@
     <ClInclude Include="src\Game\BallActor.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="src\Game\CrosshairActor.h">
-      <Filter>Game</Filter>
-    </ClInclude>
     <ClInclude Include="src\Game\FPSActor.h">
       <Filter>Game</Filter>
     </ClInclude>
@@ -119,6 +116,7 @@
     </ClInclude>
     <ClInclude Include="src\Engine\Button.h" />
     <ClInclude Include="src\Engine\DialogBox.h" />
+    <ClInclude Include="src\Game\HUD.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Actor.cpp">
@@ -208,5 +206,6 @@
     </ClCompile>
     <ClCompile Include="src\Engine\Button.cpp" />
     <ClCompile Include="src\Engine\DialogBox.cpp" />
+    <ClCompile Include="src\Game\HUD.cpp" />
   </ItemGroup>
 </Project>

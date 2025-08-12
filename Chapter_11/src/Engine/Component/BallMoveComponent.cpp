@@ -23,7 +23,7 @@ namespace jLab
 		glm::vec3 end = start + dir * segmentLength;
 
 		LineSegment line(start, end);
-		PhysWorld::CollisionInfo info;
+		CollisionInfo info;
 
 		PhysWorld* physWorld = m_Owner->GetGame()->GetPhysWorld();
 

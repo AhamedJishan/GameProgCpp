@@ -1,6 +1,7 @@
 #include "PhysWorld.h"
 
 #include "Component/BoxComponent.h"
+#include "Actor.h"
 #include <algorithm>
 
 namespace jLab
@@ -25,7 +26,7 @@ namespace jLab
 		}
 	}
 	
-	bool PhysWorld::SegmentCast(const LineSegment& line, CollisionInfo& outInfo)
+	bool PhysWorld::SegmentCast(const LineSegment& line, CollisionInfo& outInfo, Actor* ignoreActor)
 	{
 		bool collided = false;
 		float closestT = std::numeric_limits<float>::infinity();
@@ -36,7 +37,7 @@ namespace jLab
 			float t;
 			if (Intersects(line, box->GetWorldBox(), t, normal))
 			{
-				if (t < closestT)
+				if (t < closestT && (box->GetOwner() != ignoreActor || ignoreActor == nullptr))
 				{
 					closestT = t;
 					outInfo.m_Point = line.PointOnSegment(t);

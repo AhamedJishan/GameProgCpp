@@ -13,10 +13,10 @@
 #include "Game/WallActor.h"
 #include "Game/GroundActor.h"
 #include "Game/FPSActor.h"
-#include "Game/CrosshairActor.h"
 #include "Game/RadarActor.h"
 #include "Game/TargetActor.h"
 #include "Game/PauseMenu.h"
+#include "Game/HUD.h"
 
 namespace jLab
 {
@@ -247,7 +247,6 @@ namespace jLab
 		FPSActor* fpsActor = new FPSActor(this);
 		fpsActor->SetPosition(glm::vec3(0, 1, 0));
 
-		CrosshairActor* ca = new CrosshairActor(this);
 		RadarActor* ra = new RadarActor(this);
 		ra->SetScale(glm::vec3(0.75f, 0.75f, 1.0f));
 		ra->SetPosition(glm::vec3(-540.0f, 260.0f, 0.0f));
@@ -260,6 +259,10 @@ namespace jLab
 		ta2->SetPosition(glm::vec3(0, 3.0f, -9.5f));
 		ta3->SetPosition(glm::vec3(-1.5f, 2.1f, -9.5f));
 		ta4->SetPosition(glm::vec3(1.5f, 2.1f, -9.5f));
+
+		std::vector<Actor*> targets = { ta1, ta2, ta3, ta4 };
+
+		HUD* hud = new HUD(this, fpsActor, targets);
 
 		GroundActor* ga = new GroundActor(this);
 
