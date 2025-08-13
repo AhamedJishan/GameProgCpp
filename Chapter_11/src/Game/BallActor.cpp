@@ -11,14 +11,14 @@ namespace jLab
 {
 	BallActor::BallActor(Game* game)
 		:Actor(game)
-		,m_LifeSpan(5.0f)
+		,m_LifeSpan(3.0f)
 	{
 		m_MeshRenderer = new MeshRenderer(this);
 		m_MeshRenderer->SetMesh(GetGame()->GetRenderer()->GetModel("Assets/Models/ball/ball.obj"));
 		m_MeshRenderer->SetSpecularColor(glm::vec3(1.0f), 64.0f);
 
 		m_BallMove = new BallMoveComponent(this);
-		m_BallMove->SetVelocity(glm::vec3(0, 0, 10.0f));
+		m_BallMove->SetVelocity(glm::vec3(0, 0, 20.0f));
 
 		m_AudioComponent = new AudioComponent(this);
 	}

@@ -13,7 +13,6 @@
 #include "Game/WallActor.h"
 #include "Game/GroundActor.h"
 #include "Game/FPSActor.h"
-#include "Game/RadarActor.h"
 #include "Game/TargetActor.h"
 #include "Game/PauseMenu.h"
 #include "Game/HUD.h"
@@ -247,20 +246,20 @@ namespace jLab
 		FPSActor* fpsActor = new FPSActor(this);
 		fpsActor->SetPosition(glm::vec3(0, 1, 0));
 
-		RadarActor* ra = new RadarActor(this);
-		ra->SetScale(glm::vec3(0.75f, 0.75f, 1.0f));
-		ra->SetPosition(glm::vec3(-540.0f, 260.0f, 0.0f));
-
 		TargetActor* ta1 = new TargetActor(this);
 		TargetActor* ta2 = new TargetActor(this);
 		TargetActor* ta3 = new TargetActor(this);
 		TargetActor* ta4 = new TargetActor(this);
+		TargetActor* ta5 = new TargetActor(this);
+		TargetActor* ta6 = new TargetActor(this);
 		ta1->SetPosition(glm::vec3(0, 1.2f, -9.5f));
 		ta2->SetPosition(glm::vec3(0, 3.0f, -9.5f));
 		ta3->SetPosition(glm::vec3(-1.5f, 2.1f, -9.5f));
 		ta4->SetPosition(glm::vec3(1.5f, 2.1f, -9.5f));
+		ta5->SetPosition(glm::vec3(7.5f, 2, -9.5f));
+		ta6->SetPosition(glm::vec3(-7.5f, 2, -9.5f));
 
-		std::vector<Actor*> targets = { ta1, ta2, ta3, ta4 };
+		std::vector<Actor*> targets = { ta1, ta2, ta3, ta4, ta5, ta6 };
 
 		HUD* hud = new HUD(this, fpsActor, targets);
 

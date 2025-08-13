@@ -102,9 +102,6 @@
     <ClInclude Include="src\Game\PauseMenu.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="src\Game\RadarActor.h">
-      <Filter>Game</Filter>
-    </ClInclude>
     <ClInclude Include="src\Game\TargetActor.h">
       <Filter>Game</Filter>
     </ClInclude>
