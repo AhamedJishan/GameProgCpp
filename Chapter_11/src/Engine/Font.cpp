@@ -2,10 +2,12 @@
 
 #include <vector>
 #include "Texture.h"
+#include "Game.h"
 
 namespace jLab
 {
-	Font::Font()
+	Font::Font(Game* game)
+		:m_Game(game)
 	{
 	}
 
@@ -46,6 +48,7 @@ namespace jLab
 	Texture* Font::RenderText(const std::string& text, const glm::vec4& color, int pointSize)
 	{
 		Texture* texture = nullptr;
+		std::string actualText = m_Game->GetText(text);
 
 		SDL_Color sdlColor;
 		sdlColor.r = color.r * 255;
@@ -58,7 +61,7 @@ namespace jLab
 		{
 			TTF_Font* font = iter->second;
 
-			SDL_Surface* surface = TTF_RenderText_Blended(font, text.c_str(), sdlColor);
+			SDL_Surface* surface = TTF_RenderUTF8_Blended(font, actualText.c_str(), sdlColor);
 			SDL_Surface* converted = SDL_ConvertSurfaceFormat(surface, SDL_PIXELFORMAT_RGBA32, 0);
 
 			if (surface != nullptr)

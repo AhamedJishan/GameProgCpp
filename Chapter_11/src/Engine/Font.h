@@ -10,7 +10,7 @@ namespace jLab
 	class Font
 	{
 	public:
-		Font();
+		Font(class Game* game);
 		~Font();
 
 		bool Load(const std::string& filename);
@@ -20,5 +20,6 @@ namespace jLab
 
 	private:
 		std::unordered_map<int, TTF_Font*> m_FontData;
+		class Game* m_Game;
 	};
 }

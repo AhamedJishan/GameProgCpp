@@ -16,12 +16,12 @@ namespace jLab
 		m_Background = m_Game->GetRenderer()->GetTexture("Assets/Textures/DialogBG.png");
 		SetTitle(text, glm::vec4(0, 0, 0, 1), 30);
 
-		AddButton("Ok", [onOk]()
+		AddButton("OKButton", [onOk]()
 			{
 				onOk();
 			});
 
-		AddButton("Cancel", [this]()
+		AddButton("CancelButton", [this]()
 			{
 				Close();
 			});

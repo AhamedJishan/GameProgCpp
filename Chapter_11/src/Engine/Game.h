@@ -26,6 +26,9 @@ namespace jLab
 		void AddActor(class Actor* actor);
 		void RemoveActor(class Actor* actor);
 
+		void LoadText(const std::string& filename);
+		const std::string& GetText(const std::string& key);
+
 		class Renderer* GetRenderer() const { return m_Renderer; }
 		class AudioSystem* GetAudioSystem() const { return m_AudioSystem; }
 		class InputSystem* GetInputSystem() const { return m_InputSystem; }
@@ -60,9 +63,10 @@ namespace jLab
 		bool m_UpdatingActors;
 		std::vector<class Actor*> m_Actors;
 		std::vector<class Actor*> m_PendingActors;
+		std::vector<class UIScreen*> m_UIStack;
 
 		std::unordered_map<std::string, class Font*> m_Fonts;
-		std::vector<class UIScreen*> m_UIStack;
+		std::unordered_map<std::string, std::string> m_Texts;
 
 		// GAME SPECIFIC
 		std::vector<class WallActor*> m_WallPlanes;

@@ -14,17 +14,17 @@ namespace jLab
 			:UIScreen(game)
 		{
 			m_Game->SetState(Game::E_Paused);
-			SetTitle("PAUSED");
+			SetTitle("PauseTitle");
 			m_Game->GetInputSystem()->GetState().Mouse.SetCursorLocked(false);
 
-			AddButton("Resume", [this]()
+			AddButton("ResumeButton", [this]()
 				{
 					Close();
 				});
 
-			AddButton("Quit", [this]()
+			AddButton("QuitButton", [this]()
 				{
-					DialogBox* db = new DialogBox(m_Game, "Do you want to Quit?", [this]()
+					DialogBox* db = new DialogBox(m_Game, "QuitText", [this]()
 						{
 							m_Game->SetState(Game::E_Quit);
 						});

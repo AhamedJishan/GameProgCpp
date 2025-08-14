@@ -24,7 +24,7 @@ namespace jLab
 		,m_State(E_Active)
 	{
 		m_Game->PushUI(this);
-		m_Font = m_Game->GetFont("Assets/Fonts/Carlito-Regular.ttf");
+		m_Font = m_Game->GetFont("Assets/Fonts/NotoSansJP-Regular.ttf");
 		m_ButtonOn = m_Game->GetRenderer()->GetTexture("Assets/Textures/ButtonYellow.png");
 		m_ButtonOff = m_Game->GetRenderer()->GetTexture("Assets/Textures/ButtonBlue.png");
 	}

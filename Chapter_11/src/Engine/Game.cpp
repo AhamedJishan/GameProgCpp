@@ -2,6 +2,9 @@
 
 #include <algorithm>
 #include <SDL/SDL_ttf.h>
+#include <fstream>
+#include <sstream>
+#include <rapidjson/document.h>
 #include "Renderer.h"
 #include "InputSystem.h"
 #include "AudioSystem.h"
@@ -96,6 +99,49 @@ namespace jLab
 		}
 	}
 
+	void Game::LoadText(const std::string& filename)
+	{
+		m_Texts.clear();
+
+		std::ifstream file(filename.c_str());
+		if (!file.is_open())
+		{
+			SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to open file : %s", filename.c_str());
+			return;
+		}
+
+		std::stringstream buffer;
+		buffer << file.rdbuf();
+		std::string contents = buffer.str();
+
+		rapidjson::StringStream jsonStr(contents.c_str());
+		rapidjson::Document doc;
+		doc.ParseStream(jsonStr);
+		if (!doc.IsObject())
+		{
+			SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "'%s' is not a valid JSON file", filename.c_str());
+			return;
+		}
+
+		rapidjson::Value& actions = doc["TextMap"];
+		for (auto itr = actions.MemberBegin(); itr != actions.MemberEnd(); itr++)
+		{
+			if (itr->name.IsString() && itr->value.IsString())
+				m_Texts.emplace(itr->name.GetString(), itr->value.GetString());
+		}
+	}
+
+	const std::string& Game::GetText(const std::string& key)
+	{
+		static std::string errorMsg = "**KEY NOT FOUND**";
+
+		auto iter = m_Texts.find(key);
+		if (iter != m_Texts.end())
+			return iter->second;
+		else
+			return errorMsg;
+	}
+
 	Font* Game::GetFont(const std::string& filename)
 	{
 		auto iter = m_Fonts.find(filename);
@@ -105,7 +151,7 @@ namespace jLab
 		}
 		else
 		{
-			Font* font = new Font();
+			Font* font = new Font(this);
 			if (font->Load(filename))
 				m_Fonts.emplace(filename, font);
 			else
@@ -158,9 +204,6 @@ namespace jLab
 
 		InputState inputState = m_InputSystem->GetState();
 
-		//if (inputState.Keyboard.GetKeyUp(SDL_SCANCODE_ESCAPE))
-		//	m_GameState = E_Quit;
-
 		if(m_GameState == E_Gameplay)
 		{
 			m_UpdatingActors = true;
@@ -175,8 +218,17 @@ namespace jLab
 
 		// GAME SPECIFIC
 		if (m_GameState == E_Gameplay)
+		{
 			if (inputState.Keyboard.GetKeyDown(SDL_SCANCODE_ESCAPE))
 				PauseMenu* pm = new PauseMenu(this);
+
+			if (inputState.Keyboard.GetKeyDown(SDL_SCANCODE_1))
+				LoadText("Assets/Texts/English.jatxt");
+			if (inputState.Keyboard.GetKeyDown(SDL_SCANCODE_2))
+				LoadText("Assets/Texts/Japanese.jatxt");
+			if (inputState.Keyboard.GetKeyDown(SDL_SCANCODE_3))
+				LoadText("Assets/Texts/Russian.jatxt");
+		}
 	}
 
 	void Game::UpdateGame()
@@ -243,6 +295,8 @@ namespace jLab
 
 	void Game::LoadData()
 	{
+		LoadText("Assets/Texts/English.jatxt");
+
 		FPSActor* fpsActor = new FPSActor(this);
 		fpsActor->SetPosition(glm::vec3(0, 1, 0));
 

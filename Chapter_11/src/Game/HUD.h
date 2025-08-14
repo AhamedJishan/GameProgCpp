@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Engine/UIScreen.h"
+#include "Engine/Shader.h"
 #include <vector>
 #include <glm/vec2.hpp>
 
