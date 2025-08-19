@@ -35,7 +35,7 @@ workspace "Chapter_12"
             "opengl32",
             "glew32",
             "SDL2",
-            --"SDL2main",
+            "SDL2main",
             "SDL2_ttf",
             "fmodL_vc",
             "fmodstudioL_vc",

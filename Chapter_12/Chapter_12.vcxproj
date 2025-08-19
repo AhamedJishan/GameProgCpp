@@ -10,13 +10,6 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="src\EntryPoint.cpp" />
-    <ClCompile Include="src\stbi\stb_image.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\stbi\stb_image.h" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{AE3266DF-9AEA-A72C-03F2-8088EFC8421D}</ProjectGuid>
     <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
@@ -76,7 +69,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;glew32.lib;SDL2.lib;SDL2_ttf.lib;fmodL_vc.lib;fmodstudioL_vc.lib;assimp-vc143-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glew32.lib;SDL2.lib;SDL2main.lib;SDL2_ttf.lib;fmodL_vc.lib;fmodstudioL_vc.lib;assimp-vc143-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\_dependencies\lib;C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\core\lib\x64;C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\studio\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -101,10 +94,81 @@
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>opengl32.lib;glew32.lib;SDL2.lib;SDL2_ttf.lib;fmodL_vc.lib;fmodstudioL_vc.lib;assimp-vc143-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glew32.lib;SDL2.lib;SDL2main.lib;SDL2_ttf.lib;fmodL_vc.lib;fmodstudioL_vc.lib;assimp-vc143-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\_dependencies\lib;C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\core\lib\x64;C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\studio\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Engine\Actor.h" />
+    <ClInclude Include="src\Engine\AudioSystem.h" />
+    <ClInclude Include="src\Engine\Button.h" />
+    <ClInclude Include="src\Engine\Collision.h" />
+    <ClInclude Include="src\Engine\Component\AudioComponent.h" />
+    <ClInclude Include="src\Engine\Component\BallMoveComponent.h" />
+    <ClInclude Include="src\Engine\Component\BoxComponent.h" />
+    <ClInclude Include="src\Engine\Component\CameraComponent.h" />
+    <ClInclude Include="src\Engine\Component\Component.h" />
+    <ClInclude Include="src\Engine\Component\FPSCameraComponent.h" />
+    <ClInclude Include="src\Engine\Component\MeshRenderer.h" />
+    <ClInclude Include="src\Engine\Component\MoveComponent.h" />
+    <ClInclude Include="src\Engine\Component\SpriteRenderer.h" />
+    <ClInclude Include="src\Engine\DialogBox.h" />
+    <ClInclude Include="src\Engine\Font.h" />
+    <ClInclude Include="src\Engine\Game.h" />
+    <ClInclude Include="src\Engine\InputSystem.h" />
+    <ClInclude Include="src\Engine\KeyboardState.h" />
+    <ClInclude Include="src\Engine\Mesh.h" />
+    <ClInclude Include="src\Engine\Model.h" />
+    <ClInclude Include="src\Engine\MouseState.h" />
+    <ClInclude Include="src\Engine\PhysWorld.h" />
+    <ClInclude Include="src\Engine\Renderer.h" />
+    <ClInclude Include="src\Engine\Shader.h" />
+    <ClInclude Include="src\Engine\SoundEvent.h" />
+    <ClInclude Include="src\Engine\Texture.h" />
+    <ClInclude Include="src\Engine\UIScreen.h" />
+    <ClInclude Include="src\Game\BallActor.h" />
+    <ClInclude Include="src\Game\FPSActor.h" />
+    <ClInclude Include="src\Game\GroundActor.h" />
+    <ClInclude Include="src\Game\HUD.h" />
+    <ClInclude Include="src\Game\PauseMenu.h" />
+    <ClInclude Include="src\Game\TargetActor.h" />
+    <ClInclude Include="src\Game\WallActor.h" />
+    <ClInclude Include="src\stbi\stb_image.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Engine\Actor.cpp" />
+    <ClCompile Include="src\Engine\AudioSystem.cpp" />
+    <ClCompile Include="src\Engine\Button.cpp" />
+    <ClCompile Include="src\Engine\Collision.cpp" />
+    <ClCompile Include="src\Engine\Component\AudioComponent.cpp" />
+    <ClCompile Include="src\Engine\Component\BallMoveComponent.cpp" />
+    <ClCompile Include="src\Engine\Component\BoxComponent.cpp" />
+    <ClCompile Include="src\Engine\Component\CameraComponent.cpp" />
+    <ClCompile Include="src\Engine\Component\Component.cpp" />
+    <ClCompile Include="src\Engine\Component\FPSCameraComponent.cpp" />
+    <ClCompile Include="src\Engine\Component\MeshRenderer.cpp" />
+    <ClCompile Include="src\Engine\Component\MoveComponent.cpp" />
+    <ClCompile Include="src\Engine\Component\SpriteRenderer.cpp" />
+    <ClCompile Include="src\Engine\DialogBox.cpp" />
+    <ClCompile Include="src\Engine\Font.cpp" />
+    <ClCompile Include="src\Engine\Game.cpp" />
+    <ClCompile Include="src\Engine\InputSystem.cpp" />
+    <ClCompile Include="src\Engine\KeyboardState.cpp" />
+    <ClCompile Include="src\Engine\Mesh.cpp" />
+    <ClCompile Include="src\Engine\Model.cpp" />
+    <ClCompile Include="src\Engine\MouseState.cpp" />
+    <ClCompile Include="src\Engine\PhysWorld.cpp" />
+    <ClCompile Include="src\Engine\Renderer.cpp" />
+    <ClCompile Include="src\Engine\Shader.cpp" />
+    <ClCompile Include="src\Engine\SoundEvent.cpp" />
+    <ClCompile Include="src\Engine\Texture.cpp" />
+    <ClCompile Include="src\Engine\UIScreen.cpp" />
+    <ClCompile Include="src\EntryPoint.cpp" />
+    <ClCompile Include="src\Game\BallActor.cpp" />
+    <ClCompile Include="src\Game\FPSActor.cpp" />
+    <ClCompile Include="src\Game\HUD.cpp" />
+    <ClCompile Include="src\stbi\stb_image.cpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
