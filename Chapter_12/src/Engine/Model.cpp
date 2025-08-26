@@ -10,8 +10,9 @@
 namespace jLab
 {
 	Model::Model(const std::string& filename, Game* game)
-		:m_Game(game),
-		m_AABB(glm::vec3(std::numeric_limits<float>::infinity()), glm::vec3(-std::numeric_limits<float>::infinity()))
+		:m_Game(game)
+		,m_IsSkinned(false)
+		,m_AABB(glm::vec3(std::numeric_limits<float>::infinity()), glm::vec3(-std::numeric_limits<float>::infinity()))
 	{
 		m_Directory = filename.substr(0, filename.find_last_of('/') + 1);
 		Load(filename);
@@ -42,7 +43,7 @@ namespace jLab
 			SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to load model: %s", filename.c_str());
 			return;
 		}
-
+		
 		ProcessNode(scene->mRootNode, scene);
 	}
 	
@@ -108,7 +109,41 @@ namespace jLab
 			textures.insert(textures.end(), specularTextures.begin(), specularTextures.end());
 		}
 
+		// ----------------Bones-------------------
+		if(mesh->mNumBones > 0)
+		{
+			m_IsSkinned = true;
+			for (unsigned int i = 0; i < mesh->mNumBones; i++)
+			{
+				const aiBone* bone = mesh->mBones[i];
+				uint8_t boneId = GetBoneId(bone);
+
+				for (unsigned int j = 0; j < bone->mNumWeights; j++)
+				{
+					aiVertexWeight& vw = bone->mWeights[j];
+					unsigned int vertexIndex = vw.mVertexId;
+					uint8_t weight = (uint8_t)std::round(vw.mWeight * 255);
+					vertices[vertexIndex].AddBone(boneId, weight);
+				}
+			}
+			return new Mesh(vertices, indices, textures, m_IsSkinned);
+		}
+
 		return new Mesh(vertices, indices, textures);
+	}
+
+	unsigned int Model::GetBoneId(const aiBone* bone)
+	{
+		unsigned int id = 0;
+		std::string boneName = bone->mName.C_Str();
+
+		if (m_BoneNameToIndexMapping.find(boneName) != m_BoneNameToIndexMapping.end())
+			return m_BoneNameToIndexMapping[boneName];
+
+		id = m_BoneNameToIndexMapping.size();
+		m_BoneNameToIndexMapping[boneName] = id;
+
+		return id;
 	}
 	
 	std::vector<Texture*> Model::LoadMaterialTexture(const aiMaterial* mat, const aiTextureType textureType, const aiScene* scene)

@@ -7,11 +7,12 @@
 
 namespace jLab
 {
-	Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<class Texture*> textures)
+	Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<class Texture*> textures, bool isSkinned)
 	{
 		m_Vertices = vertices;
 		m_Indices = indices;
 		m_Textures = textures;
+		m_IsSkinned = isSkinned;
 
 		SetupMesh();
 	}
@@ -78,6 +79,14 @@ namespace jLab
 		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(offsetof(Vertex, Vertex::Normal)));
 		glEnableVertexAttribArray(2);
 		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(offsetof(Vertex, Vertex::TexCoord)));
+
+		if (m_IsSkinned)
+		{
+			glEnableVertexAttribArray(3);
+			glVertexAttribIPointer(3, 4, GL_UNSIGNED_BYTE, sizeof(Vertex), (void*)(offsetof(Vertex, Vertex::BoneIds)));
+			glEnableVertexAttribArray(4);
+			glVertexAttribPointer(4, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Vertex), (void*)(offsetof(Vertex, Vertex::BoneWeights)));
+		}
 
 		glBindVertexArray(0);
 	}

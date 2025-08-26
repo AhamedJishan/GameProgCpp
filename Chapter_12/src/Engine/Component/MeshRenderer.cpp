@@ -8,12 +8,13 @@
 
 namespace jLab
 {
-	MeshRenderer::MeshRenderer(Actor* owner, int drawOrder)
+	MeshRenderer::MeshRenderer(Actor* owner, bool isSkinned, int drawOrder)
 		: Component(owner, drawOrder)
 		, m_Model(nullptr)
 		, m_IsVisible(true)
 		, m_SpecularColor(glm::vec3(1))
 		, m_SpecularPower(32)
+		, m_IsSkinned(isSkinned)
 	{
 		m_Owner->GetGame()->GetRenderer()->AddMeshRenderer(this);
 	}

@@ -38,7 +38,7 @@ namespace jLab
 		SDL_Window* GetWindow() const { return m_Window; }
 
 	private:
-		void SetShaderUniforms();
+		void SetShaderUniforms(class Shader* shader);
 		void CreateSpriteVerts();
 		void UseSpriteVerts();
 
@@ -59,9 +59,11 @@ namespace jLab
 		std::unordered_map<std::string, class Model*> m_Models;
 
 		std::vector<class MeshRenderer*> m_Meshes;
+		std::vector<class SkinnedMeshRenderer*> m_SkinnedMeshes;
 		std::vector<class SpriteRenderer*> m_Sprites;
 
 		class Shader* m_MeshShader;
+		class Shader* m_SkinnedMeshShader;
 		class Shader* m_SpriteShader;
 		unsigned int m_SpriteVAO, m_SpriteVBO, m_SpriteEBO;
 	};

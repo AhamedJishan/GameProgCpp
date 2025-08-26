@@ -3,6 +3,7 @@
 #include "Game.h"
 #include "Model.h"
 #include "Component/MeshRenderer.h"
+#include "Component/SkinnedMeshRenderer.h"
 #include "Component/SpriteRenderer.h"
 #include "Shader.h"
 #include "UIScreen.h"
@@ -55,7 +56,8 @@ namespace jLab
 		glGetError();
 
 		m_MeshShader = new Shader("Assets/Shaders/Phong.vert", "Assets/Shaders/Phong.frag");
-		m_SpriteShader = new Shader("Assets/Shaders/Sprite.vert", "Assets/Shaders/Sprite.frag");;
+		m_SkinnedMeshShader = new Shader("Assets/Shaders/Skinned.vert", "Assets/Shaders/Phong.frag");
+		m_SpriteShader = new Shader("Assets/Shaders/Sprite.vert", "Assets/Shaders/Sprite.frag");
 		m_Projection = glm::perspective(glm::radians(80.0f), ((float)m_ScreenWidth / (float)m_ScreenHeight), 0.1f, 1000.0f);
 		m_View = glm::lookAt(glm::vec3(0), glm::vec3(0, 0, -1), glm::vec3(0, 1, 0));
 		m_Ortho = glm::ortho(-m_ScreenWidth / 2.0f, m_ScreenWidth / 2.0f, -m_ScreenHeight / 2.0f, m_ScreenHeight / 2.0f);
@@ -78,9 +80,13 @@ namespace jLab
 
 		glEnable(GL_DEPTH_TEST);
 		// Draw 3d stuff
-		SetShaderUniforms();
+		SetShaderUniforms(m_MeshShader);
 		for (MeshRenderer* mesh : m_Meshes)
 			mesh->Draw(m_MeshShader);
+
+		SetShaderUniforms(m_SkinnedMeshShader);
+		for (SkinnedMeshRenderer* mesh : m_SkinnedMeshes)
+			mesh->Draw(m_SkinnedMeshShader);
 
 		glDisable(GL_DEPTH_TEST);
 		glEnable(GL_BLEND);
@@ -134,7 +140,10 @@ namespace jLab
 
 	void Renderer::AddMeshRenderer(MeshRenderer* mesh)
 	{
-		m_Meshes.emplace_back(mesh);
+		if (mesh->IsSkinned())
+			m_SkinnedMeshes.emplace_back(static_cast<SkinnedMeshRenderer*>(mesh));
+		else
+			m_Meshes.emplace_back(mesh);
 	}
 
 	void Renderer::RemoveMeshRenderer(MeshRenderer* mesh)
@@ -142,6 +151,10 @@ namespace jLab
 		auto iter = std::find(m_Meshes.begin(), m_Meshes.end(), mesh);
 		if (iter != m_Meshes.end())
 			m_Meshes.erase(iter);
+
+		auto iter2 = std::find(m_SkinnedMeshes.begin(), m_SkinnedMeshes.end(), mesh);
+		if (iter2 != m_SkinnedMeshes.end())
+			m_SkinnedMeshes.erase(iter2);
 	}
 
 	void Renderer::AddSpriteRenderer(SpriteRenderer* sprite)
@@ -183,7 +196,7 @@ namespace jLab
 		outDirection = glm::normalize(end - outStart);
 	}
 
-	void Renderer::SetShaderUniforms()
+	void Renderer::SetShaderUniforms(Shader* shader)
 	{
 		glm::mat4 viewProjectionMatrix = m_Projection * m_View;
 
@@ -191,12 +204,12 @@ namespace jLab
 		glm::vec3 T = glm::vec3(m_View[3]);
 		glm::vec3 cameraPos = -glm::transpose(R) * T;
 
-		m_MeshShader->SetActive();
-		m_MeshShader->SetMat4("u_ViewProjection", viewProjectionMatrix);
-		m_MeshShader->SetVec3("u_CameraPos", cameraPos);
-		m_MeshShader->SetVec3("u_LightColor", glm::vec3(1.0f));
-		m_MeshShader->SetVec3("u_LightDir", glm::vec3(1, -0.5f, -1));
-		m_MeshShader->SetVec3("u_AmbientColor", glm::vec3(0.3f, 0.3f, 0.3f));
+		shader->SetActive();
+		shader->SetMat4("u_ViewProjection", viewProjectionMatrix);
+		shader->SetVec3("u_CameraPos", cameraPos);
+		shader->SetVec3("u_LightColor", glm::vec3(1.0f));
+		shader->SetVec3("u_LightDir", glm::vec3(1, -0.5f, -1));
+		shader->SetVec3("u_AmbientColor", glm::vec3(0.3f, 0.3f, 0.3f));
 	}
 
 	void Renderer::CreateSpriteVerts()

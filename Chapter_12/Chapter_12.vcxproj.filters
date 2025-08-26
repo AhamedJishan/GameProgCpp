@@ -120,6 +120,8 @@
     <ClInclude Include="src\stbi\stb_image.h">
       <Filter>stbi</Filter>
     </ClInclude>
+    <ClInclude Include="src\Game\AnimationTest.h" />
+    <ClInclude Include="src\Engine\Component\SkinnedMeshRenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Actor.cpp">
@@ -216,5 +218,6 @@
     <ClCompile Include="src\stbi\stb_image.cpp">
       <Filter>stbi</Filter>
     </ClCompile>
+    <ClCompile Include="src\Engine\Component\SkinnedMeshRenderer.cpp" />
   </ItemGroup>
 </Project>

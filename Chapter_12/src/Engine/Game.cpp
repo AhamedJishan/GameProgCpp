@@ -19,6 +19,7 @@
 #include "Game/TargetActor.h"
 #include "Game/PauseMenu.h"
 #include "Game/HUD.h"
+#include "Game/AnimationTest.h"
 
 namespace jLab
 {
@@ -296,6 +297,8 @@ namespace jLab
 	void Game::LoadData()
 	{
 		LoadText("Assets/Texts/English.jatxt");
+
+		AnimationTest* at = new AnimationTest(this);
 
 		FPSActor* fpsActor = new FPSActor(this);
 		fpsActor->SetPosition(glm::vec3(0, 1, 0));

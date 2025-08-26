@@ -8,14 +8,16 @@ namespace jLab
 	class MeshRenderer : public Component
 	{
 	public:
-		MeshRenderer(class Actor* owner, int drawOrder = 100);
+		MeshRenderer(class Actor* owner, bool isSkinned = false, int drawOrder = 100);
 		~MeshRenderer();
 
-		void Draw(const class Shader* shader);
+		virtual void Draw(const class Shader* shader);
 
 		void SetMesh(class Model* model) { m_Model = model; }
 		void SetSpecularColor(glm::vec3 specularColor, float specularPower) { m_SpecularColor = specularColor; m_SpecularPower = specularPower; }
 		void SetVisible(bool visible) { m_IsVisible = visible; }
+
+		bool IsSkinned() const { return m_IsSkinned; }
 
 	private:
 		class Model* m_Model;
@@ -23,5 +25,6 @@ namespace jLab
 		glm::vec3 m_SpecularColor;
 		float m_SpecularPower;
 		bool m_IsVisible;
+		bool m_IsSkinned;
 	};
 }
