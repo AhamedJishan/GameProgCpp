@@ -11,6 +11,9 @@ namespace jLab
 
 		void Draw(const class Shader* shader) override;
 
+		void SetSkeleton(class Skeleton* skeleton) { m_Skeleton = skeleton; }
+
 	private:
+		class Skeleton* m_Skeleton;
 	};
 }

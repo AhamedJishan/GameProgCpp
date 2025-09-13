@@ -6,6 +6,7 @@
 #include "Engine/Game.h"
 #include "Engine/Renderer.h"
 #include "Engine/Model.h"
+#include "Engine/Skeleton.h"
 
 namespace jLab
 {

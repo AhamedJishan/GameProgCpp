@@ -12,6 +12,7 @@
 #include "PhysWorld.h"
 #include "Font.h"
 #include "UIScreen.h"
+#include "Skeleton.h"
 
 #include "Game/WallActor.h"
 #include "Game/GroundActor.h"
@@ -141,6 +142,26 @@ namespace jLab
 			return iter->second;
 		else
 			return errorMsg;
+	}
+
+	Skeleton* Game::GetSkeleton(const std::string& filename)
+	{
+		auto it = m_Skeletons.find(filename);
+		if (it != m_Skeletons.end())
+			return it->second;
+
+		Skeleton* skeleton = new Skeleton();
+		if (skeleton->Load(filename))
+		{
+			m_Skeletons.emplace(filename, skeleton);
+		}
+		else
+		{
+			delete skeleton;
+			skeleton = nullptr;
+		}
+
+		return skeleton;
 	}
 
 	Font* Game::GetFont(const std::string& filename)
