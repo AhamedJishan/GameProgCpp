@@ -28,6 +28,7 @@ namespace jLab
 
 	private:
 		int m_NumFrames;
+		// Duration of animation in seconds
 		float m_Duration;
 
 		class Skeleton* m_Skeleton;

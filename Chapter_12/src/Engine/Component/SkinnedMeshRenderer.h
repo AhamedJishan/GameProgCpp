@@ -12,6 +12,7 @@ namespace jLab
 		SkinnedMeshRenderer(class Actor* owner, int drawOrder = 100);
 
 		void Draw(const class Shader* shader) override;
+		void Update(float deltaTime) override;
 
 		void SetSkeleton(class Skeleton* skeleton) { m_Skeleton = skeleton; }
 

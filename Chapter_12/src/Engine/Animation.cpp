@@ -64,14 +64,21 @@ namespace jLab
 		if (outPoses.size() != m_Skeleton->GetNumBones())
 			outPoses.resize(m_Skeleton->GetNumBones());
 
-		// For now just calculating bone transforms at first frame of the animation
-		const int frame = 0;
+		int frame = (int)(inTime / m_Duration * m_NumFrames);
+		//float pct = inTime / m_Duration - frame;
+		
+		if (frame > m_NumFrames - 1)
+			frame = m_NumFrames - 1;
 
 		glm::mat4 globalInverseTransform = m_Skeleton->GetRootNodeGlobalInverseTransform();
 
 		// Does the root bone have a track?
 		if (m_Tracks[0].size() > 0)
+		{
+			//BoneTransform interpolatedBT = BoneTransform::Interpolate(m_Tracks[0][frame], m_Tracks[0][frame + 1], pct);
+			//outPoses[0] = globalInverseTransform * interpolatedBT.ToMatrix();
 			outPoses[0] = globalInverseTransform * m_Tracks[0][frame].ToMatrix();
+		}
 		else
 			outPoses[0] = globalInverseTransform;
 
@@ -80,7 +87,11 @@ namespace jLab
 			glm::mat4 localMat = glm::mat4(1);
 
 			if (m_Tracks[i].size() > 0)
+			{
+				//BoneTransform interpolatedBT = BoneTransform::Interpolate(m_Tracks[i][frame], m_Tracks[i][frame + 1], pct);
+				//localMat = interpolatedBT.ToMatrix();
 				localMat = m_Tracks[i][frame].ToMatrix();
+			}
 
 			outPoses[i] = outPoses[m_Skeleton->GetBones()[i].m_Parent] * localMat;
 		}

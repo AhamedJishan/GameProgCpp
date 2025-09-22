@@ -21,6 +21,18 @@ namespace jLab
 		MeshRenderer::Draw(shader);
 	}
 
+	void SkinnedMeshRenderer::Update(float deltaTime)
+	{
+		if (m_Skeleton && m_Animation)
+		{
+			m_AnimTime += deltaTime * m_AnimPlayRate;
+			while (m_AnimTime >= m_Animation->GetDuration())
+				m_AnimTime -= m_Animation->GetDuration();
+
+			ComputeMatrixPalette();
+		}
+	}
+
 	float SkinnedMeshRenderer::PlayAnimation(Animation* animation, float playRate)
 	{
 		m_Animation = animation;
@@ -45,7 +57,7 @@ namespace jLab
 
 		std::vector<glm::mat4> globalInvBindPoses = m_Skeleton->GetGlobalInverseBindPoses();
 		std::vector<glm::mat4> currentPoses;
-		m_Animation->GetGlobalPoseAtTime(currentPoses, 0.0f);
+		m_Animation->GetGlobalPoseAtTime(currentPoses, m_AnimTime);
 
 		for (int i = 0; i < m_Skeleton->GetNumBones(); i++)
 			m_Palette.m_Entry[i] = currentPoses[i] * globalInvBindPoses[i];
