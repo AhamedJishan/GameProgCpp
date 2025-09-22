@@ -123,6 +123,9 @@
     <ClInclude Include="src\Game\AnimationTest.h" />
     <ClInclude Include="src\Engine\Component\SkinnedMeshRenderer.h" />
     <ClInclude Include="src\Engine\Skeleton.h" />
+    <ClInclude Include="src\Engine\BoneTransform.h" />
+    <ClInclude Include="src\Engine\Animation.h" />
+    <ClInclude Include="src\Engine\MatrixPalette.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Actor.cpp">
@@ -221,5 +224,7 @@
     </ClCompile>
     <ClCompile Include="src\Engine\Component\SkinnedMeshRenderer.cpp" />
     <ClCompile Include="src\Engine\Skeleton.cpp" />
+    <ClCompile Include="src\Engine\BoneTransform.cpp" />
+    <ClCompile Include="src\Engine\Animation.cpp" />
   </ItemGroup>
 </Project>

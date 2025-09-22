@@ -14,7 +14,7 @@ namespace jLab
 	class Model
 	{
 	public:
-		Model(const std::string& filename, class Game* game);
+		Model(const std::string& filename, class Game* game, class Skeleton* = nullptr);
 		~Model();
 
 		void Draw(const class Shader* shader);
@@ -34,6 +34,7 @@ namespace jLab
 
 	private:
 		class Game* m_Game;
+		class Skeleton* m_Skeleton;
 		bool m_IsSkinned;
 
 		std::vector<class Mesh*> m_Meshes;

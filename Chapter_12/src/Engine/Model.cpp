@@ -5,16 +5,22 @@
 #include "Renderer.h"
 #include "Texture.h"
 #include "Shader.h"
+#include "Skeleton.h"
 #include <glm/glm.hpp>
 
 namespace jLab
 {
-	Model::Model(const std::string& filename, Game* game)
+	Model::Model(const std::string& filename, Game* game, Skeleton* skeleton)
 		:m_Game(game)
+		,m_Skeleton(skeleton)
 		,m_IsSkinned(false)
 		,m_AABB(glm::vec3(std::numeric_limits<float>::infinity()), glm::vec3(-std::numeric_limits<float>::infinity()))
 	{
 		m_Directory = filename.substr(0, filename.find_last_of('/') + 1);
+
+		if (m_Skeleton)
+			m_IsSkinned = true;
+
 		Load(filename);
 		GenerateAABB();
 	}
@@ -42,6 +48,13 @@ namespace jLab
 		{
 			SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to load model: %s", filename.c_str());
 			return;
+		}
+
+		if (m_IsSkinned)
+		{
+			std::vector<Skeleton::Bone> bones = m_Skeleton->GetBones();
+			for (int i = 0; i < bones.size(); i++)
+				m_BoneNameToIndexMapping[bones[i].m_Name] = i;
 		}
 		
 		ProcessNode(scene->mRootNode, scene);
@@ -110,9 +123,8 @@ namespace jLab
 		}
 
 		// ----------------Bones-------------------
-		if(mesh->mNumBones > 0)
+		if(mesh->mNumBones > 0 && m_IsSkinned)
 		{
-			m_IsSkinned = true;
 			for (unsigned int i = 0; i < mesh->mNumBones; i++)
 			{
 				const aiBone* bone = mesh->mBones[i];
@@ -139,9 +151,10 @@ namespace jLab
 
 		if (m_BoneNameToIndexMapping.find(boneName) != m_BoneNameToIndexMapping.end())
 			return m_BoneNameToIndexMapping[boneName];
-
-		id = m_BoneNameToIndexMapping.size();
-		m_BoneNameToIndexMapping[boneName] = id;
+		else
+		{
+			printf("%s could not be found in the skeleton", boneName.c_str());
+		}
 
 		return id;
 	}

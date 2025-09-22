@@ -2,22 +2,6 @@
 
 namespace jLab
 {
-	// --------------- BoneTransform ---------------
-	glm::mat4 BoneTransform::ToMatrix() const
-	{
-		return glm::translate(glm::mat4(1.0f), Translation) * glm::mat4_cast(Rotation);
-	}
-
-	BoneTransform BoneTransform::Interpolate(const BoneTransform& a, const BoneTransform& b, float t)
-	{
-		BoneTransform boneTransform;
-		boneTransform.Rotation = glm::slerp(a.Rotation, b.Rotation, t);
-		boneTransform.Translation = glm::mix(a.Translation, b.Translation, t);
-		return boneTransform;
-	}
-
-
-	// --------------- Skeleton ---------------
 	Skeleton::Skeleton()
 	{
 	}
@@ -34,6 +18,8 @@ namespace jLab
 			return false;
 		}
 
+		m_RootNodeGlobalInverseTransform = glm::inverse(AiMatToGLM(scene->mRootNode->mTransformation));
+
 		for (int i = 0; i < scene->mNumMeshes; i++)
 		{
 			const aiMesh* mesh = scene->mMeshes[i];
@@ -44,11 +30,11 @@ namespace jLab
 				glm::mat4 offsetMat = AiMatToGLM(bone->mOffsetMatrix);
 
 				boneNamesToOffsetMap[name] = offsetMat;
-				//boneNamesToOffsetMap.emplace(name, offsetMat);
 			}
 		}
 
 		ProcessNode(scene->mRootNode, -1, boneNamesToOffsetMap);
+		return true;
 	}
 
 	void Skeleton::ProcessNode(const aiNode* node, int parentIndex, std::unordered_map<std::string, glm::mat4>& boneNamesToOffsetMap)
@@ -105,6 +91,7 @@ namespace jLab
 		BoneTransform boneTransform;
 		boneTransform.Rotation = glm::quat(rotation.w, rotation.x, rotation.y, rotation.z);
 		boneTransform.Translation = glm::vec3(position.x, position.y, position.z);
+		boneTransform.Scale = glm::vec3(scale.x, scale.y, scale.z);
 
 		return boneTransform;
 	}

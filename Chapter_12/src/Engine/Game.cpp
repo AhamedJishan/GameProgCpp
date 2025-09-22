@@ -13,6 +13,7 @@
 #include "Font.h"
 #include "UIScreen.h"
 #include "Skeleton.h"
+#include "Animation.h"
 
 #include "Game/WallActor.h"
 #include "Game/GroundActor.h"
@@ -162,6 +163,27 @@ namespace jLab
 		}
 
 		return skeleton;
+	}
+
+	Animation* Game::GetAnimation(const std::string& filename, class Skeleton* skeleton)
+	{
+		auto it = m_Animations.find(filename);
+		if (it != m_Animations.end())
+			return it->second;
+
+		Animation* anim = new Animation();
+
+		if (anim->Load(filename, skeleton))
+		{
+			m_Animations.emplace(filename, anim);
+		}
+		else
+		{
+			delete anim;
+			anim = nullptr;
+		}
+
+		return anim;
 	}
 
 	Font* Game::GetFont(const std::string& filename)

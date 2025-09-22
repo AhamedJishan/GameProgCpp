@@ -100,7 +100,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\Engine\Actor.h" />
+    <ClInclude Include="src\Engine\Animation.h" />
     <ClInclude Include="src\Engine\AudioSystem.h" />
+    <ClInclude Include="src\Engine\BoneTransform.h" />
     <ClInclude Include="src\Engine\Button.h" />
     <ClInclude Include="src\Engine\Collision.h" />
     <ClInclude Include="src\Engine\Component\AudioComponent.h" />
@@ -118,6 +120,7 @@
     <ClInclude Include="src\Engine\Game.h" />
     <ClInclude Include="src\Engine\InputSystem.h" />
     <ClInclude Include="src\Engine\KeyboardState.h" />
+    <ClInclude Include="src\Engine\MatrixPalette.h" />
     <ClInclude Include="src\Engine\Mesh.h" />
     <ClInclude Include="src\Engine\Model.h" />
     <ClInclude Include="src\Engine\MouseState.h" />
@@ -140,7 +143,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Actor.cpp" />
+    <ClCompile Include="src\Engine\Animation.cpp" />
     <ClCompile Include="src\Engine\AudioSystem.cpp" />
+    <ClCompile Include="src\Engine\BoneTransform.cpp" />
     <ClCompile Include="src\Engine\Button.cpp" />
     <ClCompile Include="src\Engine\Collision.cpp" />
     <ClCompile Include="src\Engine\Component\AudioComponent.cpp" />

@@ -38,7 +38,7 @@ namespace jLab
 		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 		SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
 
-		m_Window = SDL_CreateWindow("Chapter_10: Collisions", 10, 30, m_ScreenWidth, m_ScreenHeight, SDL_WINDOW_OPENGL);
+		m_Window = SDL_CreateWindow("Chapter_12: Skeletal Animation", 10, 30, m_ScreenWidth, m_ScreenHeight, SDL_WINDOW_OPENGL);
 		if (!m_Window)
 		{
 			SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to create window: %s", SDL_GetError());
@@ -106,6 +106,7 @@ namespace jLab
 
 		SDL_GL_SwapWindow(m_Window);
 	}
+
 	Texture* Renderer::GetTexture(const std::string& filename, Texture::TextureType textureType)
 	{
 		auto iter = m_Textures.find(filename);
@@ -126,13 +127,13 @@ namespace jLab
 		return texture;
 	}
 
-	Model* Renderer::GetModel(const std::string& filename)
+	Model* Renderer::GetModel(const std::string& filename, Skeleton* skeleton)
 	{
 		auto iter = m_Models.find(filename);
 		if (iter != m_Models.end())
 			return iter->second;
 
-		Model* model = new Model(filename, m_Game);
+		Model* model = new Model(filename, m_Game, skeleton);
 		m_Models.emplace(filename, model);
 
 		return model;

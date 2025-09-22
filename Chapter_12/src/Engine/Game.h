@@ -30,6 +30,7 @@ namespace jLab
 		const std::string& GetText(const std::string& key);
 
 		class Skeleton* GetSkeleton(const std::string& filename);
+		class Animation* GetAnimation(const std::string& filename, class Skeleton* skeleton);
 
 		class Renderer* GetRenderer() const { return m_Renderer; }
 		class AudioSystem* GetAudioSystem() const { return m_AudioSystem; }
@@ -70,6 +71,7 @@ namespace jLab
 		std::unordered_map<std::string, class Font*> m_Fonts;
 		std::unordered_map<std::string, std::string> m_Texts;
 		std::unordered_map<std::string, class Skeleton*> m_Skeletons;
+		std::unordered_map<std::string, class Animation*> m_Animations;
 
 		// GAME SPECIFIC
 		std::vector<class WallActor*> m_WallPlanes;

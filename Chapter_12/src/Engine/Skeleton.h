@@ -8,20 +8,10 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include "BoneTransform.h"
 
 namespace jLab
 {
-	struct BoneTransform
-	{
-		glm::vec3 Translation;
-		glm::quat Rotation;
-
-		glm::mat4 ToMatrix() const;
-
-		BoneTransform Interpolate(const BoneTransform& a, const BoneTransform& b, float t);
-	};
-
-
 	class Skeleton
 	{
 	public:
@@ -40,6 +30,7 @@ namespace jLab
 		const Bone& GetBone(int id) const { return m_Bones[id]; }
 		const std::vector<Bone>& GetBones() const { return m_Bones; }
 		const std::vector<glm::mat4>& GetGlobalInverseBindPoses() const { return m_GlobalInverseBindPose; }
+		const glm::mat4 GetRootNodeGlobalInverseTransform() const { return m_RootNodeGlobalInverseTransform; }
 
 	private:
 		void ProcessNode(const aiNode* node, int parentIndex, std::unordered_map<std::string, glm::mat4>& boneNamesToOffsetMap);
@@ -51,5 +42,6 @@ namespace jLab
 	private:
 		std::vector<Bone> m_Bones;
 		std::vector<glm::mat4> m_GlobalInverseBindPose;
+		glm::mat4 m_RootNodeGlobalInverseTransform;
 	};
 }
