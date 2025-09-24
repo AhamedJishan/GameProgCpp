@@ -22,6 +22,7 @@
 #include "Game/PauseMenu.h"
 #include "Game/HUD.h"
 #include "Game/AnimationTest.h"
+#include "Game/FollowActor.h"
 
 namespace jLab
 {
@@ -382,6 +383,8 @@ namespace jLab
 		m_WallPlanes.emplace_back(wa2);
 		m_WallPlanes.emplace_back(wa3);
 		m_WallPlanes.emplace_back(wa4);
+
+		FollowActor* fa = new FollowActor(this);
 	}
 
 	void Game::UnloadData()

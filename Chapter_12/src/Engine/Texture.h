@@ -2,6 +2,7 @@
 
 #include <string>
 #include <SDL/SDL_surface.h>
+#include <assimp/scene.h>
 
 namespace jLab
 {
@@ -18,7 +19,8 @@ namespace jLab
 		Texture();
 		~Texture();
 
-		bool Load(const std::string& filename, TextureType type = E_Diffuse);
+		bool Load(const std::string& filename, bool flipVertically = true, TextureType type = E_Diffuse);
+		bool Load(const std::string& filename, const aiTexture* data, bool flipVertically = true, TextureType type = E_Diffuse);
 		void Unload();
 
 		void SetActive(int slot = 0);

@@ -110,6 +110,7 @@
     <ClInclude Include="src\Engine\Component\BoxComponent.h" />
     <ClInclude Include="src\Engine\Component\CameraComponent.h" />
     <ClInclude Include="src\Engine\Component\Component.h" />
+    <ClInclude Include="src\Engine\Component\FollowCamera.h" />
     <ClInclude Include="src\Engine\Component\FPSCameraComponent.h" />
     <ClInclude Include="src\Engine\Component\MeshRenderer.h" />
     <ClInclude Include="src\Engine\Component\MoveComponent.h" />
@@ -133,6 +134,7 @@
     <ClInclude Include="src\Engine\UIScreen.h" />
     <ClInclude Include="src\Game\AnimationTest.h" />
     <ClInclude Include="src\Game\BallActor.h" />
+    <ClInclude Include="src\Game\FollowActor.h" />
     <ClInclude Include="src\Game\FPSActor.h" />
     <ClInclude Include="src\Game\GroundActor.h" />
     <ClInclude Include="src\Game\HUD.h" />
@@ -153,6 +155,7 @@
     <ClCompile Include="src\Engine\Component\BoxComponent.cpp" />
     <ClCompile Include="src\Engine\Component\CameraComponent.cpp" />
     <ClCompile Include="src\Engine\Component\Component.cpp" />
+    <ClCompile Include="src\Engine\Component\FollowCamera.cpp" />
     <ClCompile Include="src\Engine\Component\FPSCameraComponent.cpp" />
     <ClCompile Include="src\Engine\Component\MeshRenderer.cpp" />
     <ClCompile Include="src\Engine\Component\MoveComponent.cpp" />
@@ -175,6 +178,7 @@
     <ClCompile Include="src\Engine\UIScreen.cpp" />
     <ClCompile Include="src\EntryPoint.cpp" />
     <ClCompile Include="src\Game\BallActor.cpp" />
+    <ClCompile Include="src\Game\FollowActor.cpp" />
     <ClCompile Include="src\Game\FPSActor.cpp" />
     <ClCompile Include="src\Game\HUD.cpp" />
     <ClCompile Include="src\stbi\stb_image.cpp" />

@@ -10,10 +10,11 @@
 
 namespace jLab
 {
-	Model::Model(const std::string& filename, Game* game, Skeleton* skeleton)
+	Model::Model(const std::string& filename, Game* game, bool flipUVs, Skeleton* skeleton)
 		:m_Game(game)
 		,m_Skeleton(skeleton)
 		,m_IsSkinned(false)
+		,m_FlipUVs(flipUVs)
 		,m_AABB(glm::vec3(std::numeric_limits<float>::infinity()), glm::vec3(-std::numeric_limits<float>::infinity()))
 	{
 		m_Directory = filename.substr(0, filename.find_last_of('/') + 1);
@@ -164,24 +165,45 @@ namespace jLab
 		std::vector<Texture*> textures;
 		aiString textureName;
 
-		for (int i = 0; i < mat->GetTextureCount(textureType); i++)
+			for (int i = 0; i < mat->GetTextureCount(textureType); i++)
 		{
 			Texture* texture = nullptr;
 			mat->GetTexture(textureType, i, &textureName);
 
-			switch (textureType)
+			const aiTexture* embeddedTex = scene->GetEmbeddedTexture(textureName.C_Str());
+			if (embeddedTex)
 			{
-			case aiTextureType_DIFFUSE:
-				texture = m_Game->GetRenderer()->GetTexture(m_Directory + textureName.C_Str(), Texture::E_Diffuse);
-				break;
-			case aiTextureType_HEIGHT:
-				texture = m_Game->GetRenderer()->GetTexture(m_Directory + textureName.C_Str(), Texture::E_Normal);
-				break;
-			case aiTextureType_SPECULAR:
-				texture = m_Game->GetRenderer()->GetTexture(m_Directory + textureName.C_Str(), Texture::E_Specular);
-				break;
-			default:
-				break;
+				switch (textureType)
+				{
+				case aiTextureType_DIFFUSE:
+					texture = m_Game->GetRenderer()->GetTexture(textureName.C_Str(), embeddedTex, m_FlipUVs, Texture::E_Diffuse);
+					break;
+				case aiTextureType_HEIGHT:
+					texture = m_Game->GetRenderer()->GetTexture(textureName.C_Str(), embeddedTex, m_FlipUVs, Texture::E_Normal);
+					break;
+				case aiTextureType_SPECULAR:
+					texture = m_Game->GetRenderer()->GetTexture(textureName.C_Str(), embeddedTex, m_FlipUVs, Texture::E_Specular);
+					break;
+				default:
+					break;
+				}
+			}
+			else
+			{
+				switch (textureType)
+				{
+				case aiTextureType_DIFFUSE:
+					texture = m_Game->GetRenderer()->GetTexture(m_Directory + textureName.C_Str(), m_FlipUVs, Texture::E_Diffuse);
+					break;
+				case aiTextureType_HEIGHT:
+					texture = m_Game->GetRenderer()->GetTexture(m_Directory + textureName.C_Str(), m_FlipUVs, Texture::E_Normal);
+					break;
+				case aiTextureType_SPECULAR:
+					texture = m_Game->GetRenderer()->GetTexture(m_Directory + textureName.C_Str(), m_FlipUVs, Texture::E_Specular);
+					break;
+				default:
+					break;
+				}
 			}
 
 			if (texture)

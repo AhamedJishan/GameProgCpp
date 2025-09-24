@@ -19,7 +19,7 @@ namespace jLab
 		{
 			SkinnedMeshRenderer* smr = new SkinnedMeshRenderer(this);
 			Skeleton* skeleton = m_Game->GetSkeleton("Assets/Models/archer/archer_fixed.fbx");
-			Model* model = m_Game->GetRenderer()->GetModel("Assets/Models/archer/archer_fixed.fbx", skeleton);
+			Model* model = m_Game->GetRenderer()->GetModel("Assets/Models/archer/archer_fixed.fbx", true, skeleton);
 			Animation* animation = m_Game->GetAnimation("Assets/Models/archer/archer_fixed.fbx", skeleton);
 
 			smr->SetMesh(model);

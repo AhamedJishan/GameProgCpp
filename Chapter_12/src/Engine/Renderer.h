@@ -20,8 +20,9 @@ namespace jLab
 
 		void Draw();
 
-		class Texture* GetTexture(const std::string& filename, Texture::TextureType textureType = Texture::E_Diffuse);
-		class Model* GetModel(const std::string& filename, class Skeleton* = nullptr);
+		class Texture* GetTexture(const std::string& filename, bool flipUVs = true, Texture::TextureType textureType = Texture::E_Diffuse);
+		class Texture* GetTexture(const std::string& filename, const aiTexture* data, bool flipUVs = true, Texture::TextureType textureType = Texture::E_Diffuse);
+		class Model* GetModel(const std::string& filename, bool flipUVs = true, class Skeleton* = nullptr);
 
 		void AddMeshRenderer(class MeshRenderer* mesh);
 		void RemoveMeshRenderer(class MeshRenderer* mesh);

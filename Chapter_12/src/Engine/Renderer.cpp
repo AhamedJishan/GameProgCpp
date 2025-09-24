@@ -107,7 +107,7 @@ namespace jLab
 		SDL_GL_SwapWindow(m_Window);
 	}
 
-	Texture* Renderer::GetTexture(const std::string& filename, Texture::TextureType textureType)
+	Texture* Renderer::GetTexture(const std::string& filename, bool flipUVs, Texture::TextureType textureType)
 	{
 		auto iter = m_Textures.find(filename);
 		if (iter != m_Textures.end())
@@ -115,7 +115,7 @@ namespace jLab
 
 		Texture* texture = new Texture();
 
-		if (!texture->Load(filename, textureType))
+		if (!texture->Load(filename, flipUVs, textureType))
 		{
 			delete texture;
 			texture = nullptr;
@@ -127,13 +127,33 @@ namespace jLab
 		return texture;
 	}
 
-	Model* Renderer::GetModel(const std::string& filename, Skeleton* skeleton)
+	Texture* Renderer::GetTexture(const std::string& filename, const aiTexture* data, bool flipUVs, Texture::TextureType textureType)
+	{
+		auto iter = m_Textures.find(filename);
+		if (iter != m_Textures.end())
+			return iter->second;
+
+		Texture* texture = new Texture();
+
+		if (!texture->Load(filename, data, flipUVs,textureType))
+		{
+			delete texture;
+			texture = nullptr;
+			SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to load texture '%s'", filename.c_str());
+		}
+		else
+			m_Textures.emplace(filename, texture);
+
+		return texture;
+	}
+
+	Model* Renderer::GetModel(const std::string& filename, bool flipUVs, Skeleton* skeleton)
 	{
 		auto iter = m_Models.find(filename);
 		if (iter != m_Models.end())
 			return iter->second;
 
-		Model* model = new Model(filename, m_Game, skeleton);
+		Model* model = new Model(filename, m_Game, flipUVs, skeleton);
 		m_Models.emplace(filename, model);
 
 		return model;

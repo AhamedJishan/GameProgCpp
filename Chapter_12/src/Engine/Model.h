@@ -14,7 +14,7 @@ namespace jLab
 	class Model
 	{
 	public:
-		Model(const std::string& filename, class Game* game, class Skeleton* = nullptr);
+		Model(const std::string& filename, class Game* game, bool flipUVs = true, class Skeleton* = nullptr);
 		~Model();
 
 		void Draw(const class Shader* shader);
@@ -36,11 +36,13 @@ namespace jLab
 		class Game* m_Game;
 		class Skeleton* m_Skeleton;
 		bool m_IsSkinned;
+		bool m_FlipUVs;
 
 		std::vector<class Mesh*> m_Meshes;
 		std::string m_Directory;
 
 		std::unordered_map<std::string, uint8_t> m_BoneNameToIndexMapping;
+		//std::unordered_map<std::string, class Texture*> m_EmbeddedTextures;
 
 		AABB m_AABB;
 	};

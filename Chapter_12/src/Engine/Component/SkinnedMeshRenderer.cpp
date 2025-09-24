@@ -12,6 +12,8 @@ namespace jLab
 {
 	SkinnedMeshRenderer::SkinnedMeshRenderer(Actor* owner, int drawOrder)
 		:MeshRenderer(owner, true, drawOrder)
+		,m_Skeleton(nullptr)
+		,m_Animation(nullptr)
 	{
 	}
 

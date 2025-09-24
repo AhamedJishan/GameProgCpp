@@ -19,7 +19,7 @@ namespace jLab
 
 	private:
 		glm::vec3 m_MoveDir;
-		const float m_Speed = 5.0f/2.0f;
+		const float m_Speed = 5.0f/3.0f;
 		const float m_AngularSpeed = 8.0f * 3.14f;
 
 		class BoxComponent* m_BoxComponent;
