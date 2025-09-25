@@ -7,10 +7,11 @@ namespace jLab
 {
 	FollowCamera::FollowCamera(Actor* owner)
 		:CameraComponent(owner)
-		,m_Offset(0.0f, 1.5f, -3.5f)
-		,m_TargetDistance(1.0f)
-		,m_SpringConstant(1.28f)
-		,m_Velocity(0.0f)
+		,m_Offset(0.0f, 0.75f, -0.5f)
+		,m_TargetDistance(2.0f)
+		,m_SpringConstant(100.0f)
+		,m_Velocity(glm::vec3(0))
+		,m_ActualPos(ComputeCameraPos())
 	{
 	}
 
@@ -50,10 +51,11 @@ namespace jLab
 	
 	glm::vec3 FollowCamera::ComputeCameraPos()
 	{
-		glm::vec3 pos = m_Owner->GetPosition();
-		pos += m_Owner->GetForward() * m_Offset.z;
-		pos += glm::vec3(0, 1, 0) * m_Offset.z;
+		glm::vec3 position = m_Owner->GetPosition();
+		position = position + m_Owner->GetRight() * m_Offset.x;
+		position = position + m_Owner->GetUp() * m_Offset.y;
+		position = position + m_Owner->GetForward() * m_Offset.z;
 
-		return pos;
+		return position;
 	}
 }

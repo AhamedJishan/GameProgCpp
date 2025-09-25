@@ -18,5 +18,13 @@ namespace jLab
 
 		class Animation* m_IdleAnim;
 		class Animation* m_RunAnim;
+
+		const float m_Speed = 2.0f;
+		glm::vec3 m_MoveDir;
+
+		const float m_MaxAngularSpeed = 2.75f;
+		float m_AngularSpeed;
+
+		bool m_IsMoving;
 	};
 }

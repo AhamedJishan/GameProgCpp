@@ -15,7 +15,7 @@ namespace jLab
 
 		void SnapToIdeal();
 		void SetOffset(const glm::vec3& offset) { m_Offset = offset; }
-		void SetTargetDistance(float distance) { m_TargetDistance = m_TargetDistance; }
+		void SetTargetDistance(float distance) { m_TargetDistance = distance; }
 		void SetSpringConstant(float springConstant) { m_SpringConstant = springConstant; }
 
 	private:

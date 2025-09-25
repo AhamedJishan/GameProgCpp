@@ -344,8 +344,11 @@ namespace jLab
 
 		AnimationTest* at = new AnimationTest(this);
 
-		FPSActor* fpsActor = new FPSActor(this);
-		fpsActor->SetPosition(glm::vec3(0, 1, 0));
+		//FPSActor* fpsActor = new FPSActor(this);
+		//fpsActor->SetPosition(glm::vec3(0, 1, 0));
+
+		FollowActor* fa = new FollowActor(this);
+
 
 		TargetActor* ta1 = new TargetActor(this);
 		TargetActor* ta2 = new TargetActor(this);
@@ -362,7 +365,7 @@ namespace jLab
 
 		std::vector<Actor*> targets = { ta1, ta2, ta3, ta4, ta5, ta6 };
 
-		HUD* hud = new HUD(this, fpsActor, targets);
+		HUD* hud = new HUD(this, fa, targets);
 
 		GroundActor* ga = new GroundActor(this);
 
@@ -383,8 +386,6 @@ namespace jLab
 		m_WallPlanes.emplace_back(wa2);
 		m_WallPlanes.emplace_back(wa3);
 		m_WallPlanes.emplace_back(wa4);
-
-		FollowActor* fa = new FollowActor(this);
 	}
 
 	void Game::UnloadData()
