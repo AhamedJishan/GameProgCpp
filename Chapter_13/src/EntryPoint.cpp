@@ -1,9 +1,13 @@
-#include <iostream>
+#include "Engine/Game.h"
+
+using namespace jLab;
 
 int main(int argc, char* argv)
 {
-	printf("Hello World\n");
-	std::cin.get();
+	Game game;
+	if (game.Init())
+		game.Run();
+	game.Shutdown();
 
 	return 0;
 }

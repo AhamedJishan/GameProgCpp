@@ -11,7 +11,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Engine\Game.cpp" />
     <ClCompile Include="src\EntryPoint.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Engine\Game.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{AF3266DF-9BEA-A72C-04F2-8088F0C8421D}</ProjectGuid>
