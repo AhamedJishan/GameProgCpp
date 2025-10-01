@@ -32,7 +32,10 @@ workspace "Chapter_13"
         }
 
         links {
-
+            "opengl32",
+            "glew32",
+            "SDL2",
+            "SDL2main"
         }
 
         filter "configurations:Debug"

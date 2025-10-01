@@ -18,5 +18,7 @@ namespace jLab
 
 	private:
 		bool mIsRunning;
+
+		class Renderer* mRenderer;
 	};
 }
