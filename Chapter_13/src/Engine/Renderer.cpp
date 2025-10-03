@@ -53,6 +53,12 @@ namespace jLab
 		return true;
 	}
 
+	void Renderer::Shutdown()
+	{
+		SDL_GL_DeleteContext(mContext);
+		SDL_DestroyWindow(mWindow);
+	}
+
 	void Renderer::Draw()
 	{
 		glClearColor(0, 0, 0, 1);

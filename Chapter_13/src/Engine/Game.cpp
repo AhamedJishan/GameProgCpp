@@ -1,6 +1,8 @@
 #include "Game.h"
 
 #include <cstdio>
+#include <cstdint>
+#include <algorithm>
 #include <SDL/SDL.h>
 
 #include "Renderer.h"
@@ -10,6 +12,7 @@ namespace jLab
 	Game::Game()
 	{
 		mIsRunning = true;
+		mUpdatingActors = false;
 	}
 
 	bool Game::Init()
@@ -32,6 +35,35 @@ namespace jLab
 
 	void Game::Shutdown()
 	{
+		mRenderer->Shutdown();
+		delete mRenderer;
+
+		SDL_Quit();
+	}
+
+	void Game::AddActor(Actor* actor)
+	{
+		if (mUpdatingActors)
+			mPendingActors.push_back(actor);
+		else
+			mActors.push_back(actor);
+	}
+
+	void Game::RemoveActor(Actor* actor)
+	{
+		auto it = std::find(mActors.begin(), mActors.end(), actor);
+		if (it != mActors.end())
+		{
+			std::iter_swap(it, mActors.end());
+			mActors.pop_back();
+		}
+
+		it = std::find(mPendingActors.begin(), mPendingActors.end(), actor);
+		if (it != mPendingActors.end())
+		{
+			std::iter_swap(it, mPendingActors.end());
+			mPendingActors.pop_back();
+		}
 	}
 
 	void Game::Run()
@@ -46,6 +78,23 @@ namespace jLab
 
 	void Game::ProcessInput()
 	{
+		SDL_Event event;
+		while (SDL_PollEvent(&event))
+		{
+			switch (event.type)
+			{
+			case SDL_QUIT:
+				mIsRunning = false;
+				break;
+			default:
+				break;
+			}
+		}
+
+		const uint8_t* keyboardState = SDL_GetKeyboardState(NULL);
+
+		if (keyboardState[SDL_SCANCODE_ESCAPE])
+			mIsRunning = false;
 	}
 
 	void Game::UpdateGame()

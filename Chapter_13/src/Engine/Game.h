@@ -1,5 +1,8 @@
 #pragma once
 
+#include <unordered_map>
+#include <vector>
+
 namespace jLab
 {
 	class Game
@@ -11,6 +14,9 @@ namespace jLab
 		void Run();
 		void Shutdown();
 
+		void AddActor(class Actor* actor);
+		void RemoveActor(class Actor* actor);
+
 	private:
 		void ProcessInput();
 		void UpdateGame();
@@ -20,5 +26,9 @@ namespace jLab
 		bool mIsRunning;
 
 		class Renderer* mRenderer;
+
+		bool mUpdatingActors;
+		std::vector<class Actor*> mActors;
+		std::vector<class Actor*> mPendingActors;
 	};
 }

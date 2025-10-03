@@ -12,6 +12,7 @@
     <ClInclude Include="src\Engine\Renderer.h">
       <Filter>Engine</Filter>
     </ClInclude>
+    <ClInclude Include="src\Engine\Actor.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Game.cpp">
@@ -21,5 +22,6 @@
       <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="src\EntryPoint.cpp" />
+    <ClCompile Include="src\Engine\Actor.cpp" />
   </ItemGroup>
 </Project>
