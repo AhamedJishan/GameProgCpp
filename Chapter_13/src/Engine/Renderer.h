@@ -13,6 +13,11 @@ namespace jLab
 		void Shutdown();
 		void Draw();
 
+		int GetScreenWidth() const { return mScreenWidth; }
+		int GetScreenHeight() const { return mScreenHeight; }
+
+		SDL_Window* GetWindow() const { return mWindow; }
+
 	private:
 		int mScreenWidth;
 		int mScreenHeight;

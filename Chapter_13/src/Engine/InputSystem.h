@@ -1,12 +1,14 @@
 #pragma once
 
 #include "Keyboard.h"
+#include "Mouse.h"
 
 namespace jLab
 {
 	struct InputState
 	{
 		Keyboard Keyboard;
+		Mouse Mouse;
 	};
 	
 	class InputSystem
@@ -22,6 +24,8 @@ namespace jLab
 
 		class Game* GetGame() const { return mGame; }
 		InputState GetState() const { return mInputState; }
+
+		void SetCursorLocked(const bool value);
 
 	private:
 		class Game* mGame;

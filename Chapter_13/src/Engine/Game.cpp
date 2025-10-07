@@ -25,7 +25,7 @@ namespace jLab
 		}
 
 		mRenderer = new Renderer(this);
-		if (!mRenderer->Init(1080, 720))
+		if (!mRenderer->Init(1280, 720))
 		{
 			printf("ERROR: Failed to Initialize Renderer\n");
 			return false;

@@ -104,6 +104,7 @@
     <ClInclude Include="src\Engine\Game.h" />
     <ClInclude Include="src\Engine\InputSystem.h" />
     <ClInclude Include="src\Engine\Keyboard.h" />
+    <ClInclude Include="src\Engine\Mouse.h" />
     <ClInclude Include="src\Engine\Renderer.h" />
   </ItemGroup>
   <ItemGroup>
@@ -112,6 +113,7 @@
     <ClCompile Include="src\Engine\Game.cpp" />
     <ClCompile Include="src\Engine\InputState.cpp" />
     <ClCompile Include="src\Engine\Keyboard.cpp" />
+    <ClCompile Include="src\Engine\Mouse.cpp" />
     <ClCompile Include="src\Engine\Renderer.cpp" />
     <ClCompile Include="src\EntryPoint.cpp" />
   </ItemGroup>
