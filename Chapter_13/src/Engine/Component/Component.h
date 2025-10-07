@@ -11,7 +11,7 @@ namespace jLab
 		virtual ~Component();
 
 		virtual void Update(float deltaTime);
-		virtual void Input(const uint8_t* inputState);
+		virtual void Input(const struct InputState inputState);
 
 		virtual void OnUpdateWorldTransform();
 

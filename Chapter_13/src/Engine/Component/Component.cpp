@@ -1,5 +1,6 @@
 #include "Component.h"
 
+#include "Engine/InputSystem.h"
 #include "Engine/Actor.h"
 
 namespace jLab
@@ -20,7 +21,7 @@ namespace jLab
 	{
 	}
 
-	void Component::Input(const uint8_t* inputState)
+	void Component::Input(const InputState inputState)
 	{
 	}
 

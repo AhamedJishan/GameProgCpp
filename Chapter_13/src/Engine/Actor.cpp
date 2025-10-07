@@ -1,6 +1,7 @@
 #include "Actor.h"
 
 #include "Game.h"
+#include "InputSystem.h"
 #include "Component/Component.h"
 
 namespace jLab
@@ -72,14 +73,14 @@ namespace jLab
 		}
 	}
 	
-	void Actor::InputActor(const uint8_t* keyboardState)
+	void Actor::InputActor(const InputState inputState)
 	{
 		if (mState == State::Active)
 		{
 			for (Component* component : mComponents)
-				component->Input(keyboardState);
+				component->Input(inputState);
 
-			Input(keyboardState);
+			Input(inputState);
 		}
 	}
 
@@ -100,7 +101,7 @@ namespace jLab
 	void Actor::Update(float deltaTime)
 	{
 	}
-	void Actor::Input(const uint8_t* keyboardState)
+	void Actor::Input(const InputState inputState)
 	{
 	}
 }

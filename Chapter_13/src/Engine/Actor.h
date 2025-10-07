@@ -54,14 +54,14 @@ namespace jLab
 	private:
 		friend class Game;
 		void UpdateActor(float deltaTime);
-		void InputActor(const uint8_t* keyboardState);
+		void InputActor(const struct InputState inputState);
 
 		void ComputeWorldTransform();
 
 	protected:
 		// To be implemented by child classes
 		virtual void Update(float deltaTime);
-		virtual void Input(const uint8_t* keyboardState);
+		virtual void Input(const struct InputState inputState);
 
 	protected:
 		State mState;
