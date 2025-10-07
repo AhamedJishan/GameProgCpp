@@ -6,6 +6,7 @@
 #include <SDL/SDL.h>
 
 #include "Renderer.h"
+#include "InputSystem.h"
 
 namespace jLab
 {
@@ -29,6 +30,9 @@ namespace jLab
 			printf("ERROR: Failed to Initialize Renderer\n");
 			return false;
 		}
+
+		mInputSystem = new InputSystem(this);
+		mInputSystem->Init();
 
 		return true;
 	}
@@ -79,6 +83,8 @@ namespace jLab
 	void Game::ProcessInput()
 	{
 		SDL_Event event;
+
+		mInputSystem->PreUpdate();
 		while (SDL_PollEvent(&event))
 		{
 			switch (event.type)
@@ -90,10 +96,10 @@ namespace jLab
 				break;
 			}
 		}
+		mInputSystem->Update();
+		InputState inputState = mInputSystem->GetState();
 
-		const uint8_t* keyboardState = SDL_GetKeyboardState(NULL);
-
-		if (keyboardState[SDL_SCANCODE_ESCAPE])
+		if (inputState.Keyboard.GetKey(SDL_SCANCODE_ESCAPE))
 			mIsRunning = false;
 	}
 

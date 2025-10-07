@@ -26,6 +26,7 @@ namespace jLab
 		bool mIsRunning;
 
 		class Renderer* mRenderer;
+		class InputSystem* mInputSystem;
 
 		bool mUpdatingActors;
 		std::vector<class Actor*> mActors;

@@ -62,8 +62,12 @@ namespace jLab
 		if (mState == State::Active)
 		{
 			ComputeWorldTransform();
-			// TODO: Update all components
+
+			for (Component* component : mComponents)
+				component->Update(deltaTime);
+
 			Update(deltaTime);
+
 			ComputeWorldTransform();
 		}
 	}
@@ -72,7 +76,9 @@ namespace jLab
 	{
 		if (mState == State::Active)
 		{
-			// Input for all components
+			for (Component* component : mComponents)
+				component->Input(keyboardState);
+
 			Input(keyboardState);
 		}
 	}
@@ -86,7 +92,8 @@ namespace jLab
 			mWorldTransform = glm::mat4_cast(mRotation) * mWorldTransform;
 			mWorldTransform = glm::translate(glm::mat4(1), mPosition) * mWorldTransform;
 			
-			// TODO: On Update World Transform for all components
+			for (Component* component : mComponents)
+				component->OnUpdateWorldTransform();
 		}
 	}
 	
