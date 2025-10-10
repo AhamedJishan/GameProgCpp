@@ -4,32 +4,61 @@
     <Filter Include="Engine">
       <UniqueIdentifier>{DBC7D3B0-C769-FE86-B024-12DB9C6585D7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Component">
+      <UniqueIdentifier>{FD6DB9BA-E966-D80C-1299-BD91FEF0B718}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Engine\Actor.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Component\Component.h">
+      <Filter>Engine\Component</Filter>
+    </ClInclude>
     <ClInclude Include="src\Engine\Game.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\InputSystem.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Keyboard.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Mouse.h">
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="src\Engine\Renderer.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="src\Engine\Actor.h" />
-    <ClInclude Include="src\Engine\Component\Component.h" />
-    <ClInclude Include="src\Engine\Keyboard.h" />
-    <ClInclude Include="src\Engine\InputSystem.h" />
-    <ClInclude Include="src\Engine\Mouse.h" />
+    <ClInclude Include="src\Engine\Texture.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Engine\Actor.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Component\Component.cpp">
+      <Filter>Engine\Component</Filter>
+    </ClCompile>
     <ClCompile Include="src\Engine\Game.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\InputState.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Keyboard.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Mouse.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="src\Engine\Renderer.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
+    <ClCompile Include="src\Engine\Texture.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
     <ClCompile Include="src\EntryPoint.cpp" />
-    <ClCompile Include="src\Engine\Actor.cpp" />
-    <ClCompile Include="src\Engine\Component\Component.cpp" />
-    <ClCompile Include="src\Engine\Keyboard.cpp" />
-    <ClCompile Include="src\Engine\InputState.cpp" />
-    <ClCompile Include="src\Engine\Mouse.cpp" />
   </ItemGroup>
 </Project>

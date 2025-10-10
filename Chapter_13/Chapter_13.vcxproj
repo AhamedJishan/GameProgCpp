@@ -69,7 +69,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;glew32.lib;SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glew32.lib;SDL2.lib;SDL2main.lib;SDL2_ttf.lib;fmodL_vc.lib;fmodstudioL_vc.lib;assimp-vc143-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\_dependencies\lib;C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\core\lib\x64;C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\studio\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -94,7 +94,7 @@
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>opengl32.lib;glew32.lib;SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glew32.lib;SDL2.lib;SDL2main.lib;SDL2_ttf.lib;fmodL_vc.lib;fmodstudioL_vc.lib;assimp-vc143-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\_dependencies\lib;C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\core\lib\x64;C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\studio\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -106,6 +106,8 @@
     <ClInclude Include="src\Engine\Keyboard.h" />
     <ClInclude Include="src\Engine\Mouse.h" />
     <ClInclude Include="src\Engine\Renderer.h" />
+    <ClInclude Include="src\Engine\Texture.h" />
+    <ClInclude Include="src\stbi\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Actor.cpp" />
@@ -115,7 +117,9 @@
     <ClCompile Include="src\Engine\Keyboard.cpp" />
     <ClCompile Include="src\Engine\Mouse.cpp" />
     <ClCompile Include="src\Engine\Renderer.cpp" />
+    <ClCompile Include="src\Engine\Texture.cpp" />
     <ClCompile Include="src\EntryPoint.cpp" />
+    <ClCompile Include="src\stbi\stb_image.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
