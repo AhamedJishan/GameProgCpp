@@ -18,6 +18,8 @@ namespace jLab
 		void RemoveActor(class Actor* actor);
 
 		class Renderer* GetRenderer() const { return mRenderer; }
+		class InputSystem* GetInputSystem() const { return mInputSystem; }
+		class PhysWorld* GetPhysWorld() const { return mPhysWorld; }
 
 	private:
 		void ProcessInput();
@@ -26,9 +28,11 @@ namespace jLab
 
 	private:
 		bool mIsRunning;
+		unsigned int mTicksCount;
 
 		class Renderer* mRenderer;
 		class InputSystem* mInputSystem;
+		class PhysWorld* mPhysWorld;
 
 		bool mUpdatingActors;
 		std::vector<class Actor*> mActors;

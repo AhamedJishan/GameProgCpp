@@ -7,6 +7,7 @@
 
 #include "Renderer.h"
 #include "InputSystem.h"
+#include "PhysWorld.h"
 
 namespace jLab
 {
@@ -14,6 +15,7 @@ namespace jLab
 	{
 		mIsRunning = true;
 		mUpdatingActors = false;
+		mTicksCount = 0;
 	}
 
 	bool Game::Init()
@@ -33,6 +35,7 @@ namespace jLab
 
 		mInputSystem = new InputSystem(this);
 		mInputSystem->Init();
+		mPhysWorld = new PhysWorld(this);
 
 		return true;
 	}
@@ -105,6 +108,10 @@ namespace jLab
 
 	void Game::UpdateGame()
 	{
+		float deltaTime = (SDL_GetTicks() - mTicksCount) / 1000.0f;
+		if (deltaTime > 0.05f)
+			deltaTime = 0.05f;
+		mTicksCount = SDL_GetTicks();
 	}
 
 	void Game::GenerateOutput()
