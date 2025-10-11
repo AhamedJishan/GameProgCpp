@@ -100,23 +100,31 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\Engine\Actor.h" />
+    <ClInclude Include="src\Engine\Collision.h" />
+    <ClInclude Include="src\Engine\Component\BoxComponent.h" />
     <ClInclude Include="src\Engine\Component\Component.h" />
     <ClInclude Include="src\Engine\Game.h" />
     <ClInclude Include="src\Engine\InputSystem.h" />
     <ClInclude Include="src\Engine\Keyboard.h" />
     <ClInclude Include="src\Engine\Mouse.h" />
+    <ClInclude Include="src\Engine\PhysWorld.h" />
     <ClInclude Include="src\Engine\Renderer.h" />
+    <ClInclude Include="src\Engine\Shader.h" />
     <ClInclude Include="src\Engine\Texture.h" />
     <ClInclude Include="src\stbi\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Actor.cpp" />
+    <ClCompile Include="src\Engine\Collision.cpp" />
+    <ClCompile Include="src\Engine\Component\BoxComponent.cpp" />
     <ClCompile Include="src\Engine\Component\Component.cpp" />
     <ClCompile Include="src\Engine\Game.cpp" />
     <ClCompile Include="src\Engine\InputState.cpp" />
     <ClCompile Include="src\Engine\Keyboard.cpp" />
     <ClCompile Include="src\Engine\Mouse.cpp" />
+    <ClCompile Include="src\Engine\PhysWorld.cpp" />
     <ClCompile Include="src\Engine\Renderer.cpp" />
+    <ClCompile Include="src\Engine\Shader.cpp" />
     <ClCompile Include="src\Engine\Texture.cpp" />
     <ClCompile Include="src\EntryPoint.cpp" />
     <ClCompile Include="src\stbi\stb_image.cpp" />

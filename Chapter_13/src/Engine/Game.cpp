@@ -8,14 +8,15 @@
 #include "Renderer.h"
 #include "InputSystem.h"
 #include "PhysWorld.h"
+#include "Actor.h";
 
 namespace jLab
 {
 	Game::Game()
 	{
-		mIsRunning = true;
-		mUpdatingActors = false;
 		mTicksCount = 0;
+		mUpdatingActors = false;
+		mGameState = GameState::Gameplay;
 	}
 
 	bool Game::Init()
@@ -44,6 +45,8 @@ namespace jLab
 	{
 		mRenderer->Shutdown();
 		delete mRenderer;
+		mInputSystem->Shutdown();
+		delete mInputSystem;
 
 		SDL_Quit();
 	}
@@ -75,7 +78,7 @@ namespace jLab
 
 	void Game::Run()
 	{
-		while (mIsRunning)
+		while (mGameState != GameState::Quit)
 		{
 			ProcessInput();
 			UpdateGame();
@@ -93,7 +96,7 @@ namespace jLab
 			switch (event.type)
 			{
 			case SDL_QUIT:
-				mIsRunning = false;
+				mGameState = GameState::Quit;
 				break;
 			default:
 				break;
@@ -103,7 +106,15 @@ namespace jLab
 		InputState inputState = mInputSystem->GetState();
 
 		if (inputState.Keyboard.GetKey(SDL_SCANCODE_ESCAPE))
-			mIsRunning = false;
+			mGameState = GameState::Quit;
+
+		if (mGameState == GameState::Gameplay)
+		{
+			mUpdatingActors = true;
+			for (Actor* actor : mActors)
+				actor->ProcessInput(inputState);
+			mUpdatingActors = false;
+		}
 	}
 
 	void Game::UpdateGame()
@@ -112,6 +123,30 @@ namespace jLab
 		if (deltaTime > 0.05f)
 			deltaTime = 0.05f;
 		mTicksCount = SDL_GetTicks();
+
+		if (mGameState == GameState::Gameplay)
+		{
+			// Update actors
+			mUpdatingActors = true;
+			for (Actor* actor : mActors)
+				actor->ProcessUpdate(deltaTime);
+			mUpdatingActors = false;
+
+			// Move Pending Actors to Actors
+			for (Actor* actor : mPendingActors)
+				mActors.emplace_back(actor);
+			mPendingActors.clear();
+
+			// Move dead actors to temp list
+			std::vector<Actor*> deadActors;
+			for (Actor* actor : mActors)
+				deadActors.emplace_back(actor);
+
+			// Delete dead Actors
+			for (Actor* actor : deadActors)
+				delete actor;
+			deadActors.clear();
+		}
 	}
 
 	void Game::GenerateOutput()

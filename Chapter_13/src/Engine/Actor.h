@@ -53,8 +53,8 @@ namespace jLab
 
 	private:
 		friend class Game;
-		void UpdateActor(float deltaTime);
-		void InputActor(const struct InputState inputState);
+		void ProcessUpdate(float deltaTime);
+		void ProcessInput(const struct InputState inputState);
 
 		void ComputeWorldTransform();
 

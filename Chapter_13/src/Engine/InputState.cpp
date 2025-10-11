@@ -21,9 +21,8 @@ namespace jLab
 		return true;
 	}
 
-	void Shutdown()
+	void InputSystem::Shutdown()
 	{
-
 	}
 
 	void InputSystem::PreUpdate()

@@ -8,6 +8,13 @@ namespace jLab
 	class Game
 	{
 	public:
+		enum class GameState
+		{
+			Gameplay,
+			Paused,
+			Quit
+		};
+
 		Game();
 
 		bool Init();
@@ -27,7 +34,7 @@ namespace jLab
 		void GenerateOutput();
 
 	private:
-		bool mIsRunning;
+		GameState mGameState;
 		unsigned int mTicksCount;
 
 		class Renderer* mRenderer;

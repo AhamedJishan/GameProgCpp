@@ -58,7 +58,7 @@ namespace jLab
 		}
 	}
 
-	void Actor::UpdateActor(float deltaTime)
+	void Actor::ProcessUpdate(float deltaTime)
 	{
 		if (mState == State::Active)
 		{
@@ -73,7 +73,7 @@ namespace jLab
 		}
 	}
 	
-	void Actor::InputActor(const InputState inputState)
+	void Actor::ProcessInput(const InputState inputState)
 	{
 		if (mState == State::Active)
 		{

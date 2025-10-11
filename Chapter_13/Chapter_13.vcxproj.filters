@@ -33,6 +33,11 @@
     <ClInclude Include="src\Engine\Texture.h">
       <Filter>Engine</Filter>
     </ClInclude>
+    <ClInclude Include="src\stbi\stb_image.h" />
+    <ClInclude Include="src\Engine\Shader.h" />
+    <ClInclude Include="src\Engine\PhysWorld.h" />
+    <ClInclude Include="src\Engine\Collision.h" />
+    <ClInclude Include="src\Engine\Component\BoxComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Actor.cpp">
@@ -60,5 +65,10 @@
       <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="src\EntryPoint.cpp" />
+    <ClCompile Include="src\stbi\stb_image.cpp" />
+    <ClCompile Include="src\Engine\Shader.cpp" />
+    <ClCompile Include="src\Engine\PhysWorld.cpp" />
+    <ClCompile Include="src\Engine\Collision.cpp" />
+    <ClCompile Include="src\Engine\Component\BoxComponent.cpp" />
   </ItemGroup>
 </Project>
