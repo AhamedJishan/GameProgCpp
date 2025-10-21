@@ -146,4 +146,10 @@ namespace jLab
         mHeight = 0;
         mType = Type::Diffuse;
     }
+
+    void Texture::SetActive(int slot)
+    {
+        glActiveTexture(GL_TEXTURE0 + slot);
+        glBindTexture(GL_TEXTURE_2D, mId);
+    }
 }

@@ -26,6 +26,8 @@ namespace jLab
 
 		void Unload();
 
+		void SetActive(int slot = 0);
+
 		const std::string& GetName() const { return mName; }
 		int GetWidth() const { return mWidth; }
 		int GetHeight() const { return mHeight; }
