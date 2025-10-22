@@ -39,6 +39,7 @@
     <ClInclude Include="src\Engine\Collision.h" />
     <ClInclude Include="src\Engine\Component\BoxComponent.h" />
     <ClInclude Include="src\Engine\Mesh.h" />
+    <ClInclude Include="src\Engine\Model.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Actor.cpp">
@@ -72,5 +73,6 @@
     <ClCompile Include="src\Engine\Collision.cpp" />
     <ClCompile Include="src\Engine\Component\BoxComponent.cpp" />
     <ClCompile Include="src\Engine\Mesh.cpp" />
+    <ClCompile Include="src\Engine\Model.cpp" />
   </ItemGroup>
 </Project>
