@@ -1,6 +1,10 @@
 #pragma once
 
 #include <SDL/SDL.h>
+#include <unordered_map>
+#include <string>
+
+#include "Texture.h"
 
 namespace jLab
 {
@@ -12,6 +16,8 @@ namespace jLab
 		bool Init(int screenWidth, int screenHeight);
 		void Shutdown();
 		void Draw();
+
+		Texture* GetTexture(const std::string& filename, bool flipVertically = false, Texture::Type type = Texture::Type::Diffuse);
 
 		int GetScreenWidth() const { return mScreenWidth; }
 		int GetScreenHeight() const { return mScreenHeight; }
@@ -25,5 +31,7 @@ namespace jLab
 		class Game* mGame;
 		SDL_Window* mWindow;
 		SDL_GLContext mContext;
+
+		std::unordered_map<std::string, Texture*> mTextures;
 	};
 }
