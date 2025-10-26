@@ -17,6 +17,9 @@ namespace jLab
 		void Shutdown();
 		void Draw();
 
+		void AddMeshComponent(class MeshComponent* mesh);
+		void RemoveMeshComponent(class MeshComponent* mesh);
+
 		Texture* GetTexture(const std::string& filename, bool flipVertically = false, Texture::Type type = Texture::Type::Diffuse);
 		Texture* GetTexture(const std::string& filename, const aiTexture* textureData, bool flipVertically = false, Texture::Type type = Texture::Type::Diffuse);
 
@@ -34,5 +37,6 @@ namespace jLab
 		SDL_GLContext mContext;
 
 		std::unordered_map<std::string, Texture*> mTextures;
+		std::vector<class MeshComponent*> mMeshes;
 	};
 }

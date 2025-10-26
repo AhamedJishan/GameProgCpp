@@ -1,6 +1,7 @@
 #include "Renderer.h"
 
 #include <cstdio>
+#include <algorithm>
 #include <GLEW/GL/glew.h>
 
 #include "Game.h"
@@ -65,6 +66,18 @@ namespace jLab
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		SDL_GL_SwapWindow(mWindow);
+	}
+
+	void Renderer::AddMeshComponent(MeshComponent* mesh)
+	{
+		mMeshes.emplace_back(mesh);
+	}
+
+	void Renderer::RemoveMeshComponent(MeshComponent* mesh)
+	{
+		auto it = std::find(mMeshes.begin(), mMeshes.end(), mesh);
+		if (it != mMeshes.end())
+			mMeshes.erase(it);
 	}
 
 	Texture* Renderer::GetTexture(const std::string& filename, bool flipVertically, Texture::Type type)
