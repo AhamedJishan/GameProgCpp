@@ -41,7 +41,7 @@ namespace jLab
 		return true;
 	}
 
-	void Skeleton::ProcessNode(const aiNode* node, int parentIndex, const std::unordered_map<std::string, glm::mat4>& boneNameToOffsetMap)
+	void Skeleton::ProcessNode(const aiNode* node, int parentIndex, std::unordered_map<std::string, glm::mat4>& boneNameToOffsetMap)
 	{
 		int thisIndex = -1;
 

@@ -18,6 +18,7 @@ namespace jLab
 		void Draw();
 
 		Texture* GetTexture(const std::string& filename, bool flipVertically = false, Texture::Type type = Texture::Type::Diffuse);
+		Texture* GetTexture(const std::string& filename, const aiTexture* textureData, bool flipVertically = false, Texture::Type type = Texture::Type::Diffuse);
 
 		int GetScreenWidth() const { return mScreenWidth; }
 		int GetScreenHeight() const { return mScreenHeight; }

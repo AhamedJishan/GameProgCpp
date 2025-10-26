@@ -86,4 +86,23 @@ namespace jLab
 
 		return texture;
 	}
+	Texture* Renderer::GetTexture(const std::string& filename, const aiTexture* textureData, bool flipVertically, Texture::Type type)
+	{
+		auto iter = mTextures.find(filename);
+		if (iter != mTextures.end())
+			return iter->second;
+
+		Texture* texture = new Texture();
+
+		if (!texture->Load(filename, textureData, flipVertically, type))
+		{
+			delete texture;
+			texture = nullptr;
+			printf("Failed to load texture '%s'", filename.c_str());
+		}
+		else
+			mTextures.emplace(filename, texture);
+
+		return texture;
+	}
 }

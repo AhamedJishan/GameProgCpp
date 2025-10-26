@@ -59,7 +59,7 @@ namespace jLab
         return true;
     }
 
-    bool Texture::Load(const std::string& filename, aiTexture* textureData, bool flipVertically, Type type)
+    bool Texture::Load(const std::string& filename, const aiTexture* textureData, bool flipVertically, Type type)
     {
         Unload();
 

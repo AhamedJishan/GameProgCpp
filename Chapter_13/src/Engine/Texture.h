@@ -20,7 +20,7 @@ namespace jLab
 		~Texture();
 
 		bool Load(const std::string& filename, bool flipVertically = false, Type type = Type::Diffuse);
-		bool Load(const std::string& filename, aiTexture* textureData, bool flipVertically = false, Type type = Type::Diffuse);
+		bool Load(const std::string& filename, const aiTexture* textureData, bool flipVertically = false, Type type = Type::Diffuse);
 
 		void CreateFromTexture(SDL_Surface* surface);
 

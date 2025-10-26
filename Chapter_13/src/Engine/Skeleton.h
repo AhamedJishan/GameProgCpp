@@ -31,7 +31,7 @@ namespace jLab
 		const glm::mat4& GetRootNodeGlobalInverseBindPose() const { return mRootNodeGlobalInverseBindPose; }
 
 	private:
-		void ProcessNode(const aiNode* node, int parentIndex, const std::unordered_map<std::string, glm::mat4>& boneNameToOffsetMap);
+		void ProcessNode(const aiNode* node, int parentIndex, std::unordered_map<std::string, glm::mat4>& boneNameToOffsetMap);
 
 		glm::mat4 AiMatToGLM(const aiMatrix4x4& m);
 		glm::mat4 AiMatToGLM(const aiMatrix3x3& m);
