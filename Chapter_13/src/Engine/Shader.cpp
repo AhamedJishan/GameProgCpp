@@ -18,7 +18,7 @@ namespace jLab
 		glDeleteProgram(m_Id);
 	}
 
-	void Shader::SetActive()
+	void Shader::SetActive() const
 	{
 		glUseProgram(m_Id);
 	}

@@ -33,6 +33,9 @@ namespace jLab
 		void UpdateGame();
 		void GenerateOutput();
 
+		void LoadData();
+		void UnloadData();
+
 	private:
 		GameState mGameState;
 		unsigned int mTicksCount;

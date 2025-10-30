@@ -1,14 +1,14 @@
 #version 330 core
 
-layout (location = 0) in vec3 a_Pos;
-layout (location = 1) in vec3 a_Normal;
-layout (location = 2) in vec2 a_TexCoord;
-layout (location = 3) in uvec4 a_SkinBones;
-layout (location = 4) in vec4 a_SkinWeights;
+layout (location = 0) in vec3 aPos;
+layout (location = 1) in vec3 aNormal;
+layout (location = 2) in vec2 aTexCoord;
+layout (location = 3) in uvec4 aSkinBones;
+layout (location = 4) in vec4 aSkinWeights;
 
-uniform mat4 u_WorldTransform;
-uniform mat4 u_ViewProjection;
-uniform mat4 u_MatrixPalette[96];
+uniform mat4 uWorldTransform;
+uniform mat4 uViewProjection;
+uniform mat4 uMatrixPalette[96];
 
 out vec2 TexCoord;
 out vec3 FragNormal;
@@ -16,27 +16,27 @@ out vec3 FragPos;
 
 void main()
 {
-	TexCoord = a_TexCoord;
+	TexCoord = aTexCoord;
 
-	vec4 pos = vec4(a_Pos, 1.0f);
+	vec4 pos = vec4(aPos, 1.0f);
 
 	pos =
-      (u_MatrixPalette[a_SkinBones.x] * pos) * a_SkinWeights.x +
-      (u_MatrixPalette[a_SkinBones.y] * pos) * a_SkinWeights.y +
-      (u_MatrixPalette[a_SkinBones.z] * pos) * a_SkinWeights.z +
-      (u_MatrixPalette[a_SkinBones.w] * pos) * a_SkinWeights.w;
+      (uMatrixPalette[aSkinBones.x] * pos) * aSkinWeights.x +
+      (uMatrixPalette[aSkinBones.y] * pos) * aSkinWeights.y +
+      (uMatrixPalette[aSkinBones.z] * pos) * aSkinWeights.z +
+      (uMatrixPalette[aSkinBones.w] * pos) * aSkinWeights.w;
 
-	vec3 normal = a_Normal;
-	normal = mat3(u_MatrixPalette[a_SkinBones.x]) * normal * a_SkinWeights.x;
-	normal += mat3(u_MatrixPalette[a_SkinBones.y]) * normal * a_SkinWeights.y;
-	normal += mat3(u_MatrixPalette[a_SkinBones.z]) * normal * a_SkinWeights.z;
-	normal += mat3(u_MatrixPalette[a_SkinBones.w]) * normal * a_SkinWeights.w;
+	vec3 normal = aNormal;
+	normal = mat3(uMatrixPalette[aSkinBones.x]) * normal * aSkinWeights.x;
+	normal += mat3(uMatrixPalette[aSkinBones.y]) * normal * aSkinWeights.y;
+	normal += mat3(uMatrixPalette[aSkinBones.z]) * normal * aSkinWeights.z;
+	normal += mat3(uMatrixPalette[aSkinBones.w]) * normal * aSkinWeights.w;
 
-	FragNormal = mat3(transpose(inverse(u_WorldTransform))) * normal;
+	FragNormal = mat3(transpose(inverse(uWorldTransform))) * normal;
 	
-	pos =  u_WorldTransform * pos;
+	pos =  uWorldTransform * pos;
 	FragPos = pos.xyz;
-	pos = u_ViewProjection * pos;
+	pos = uViewProjection * pos;
 
 	gl_Position = pos;
 }

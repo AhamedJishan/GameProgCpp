@@ -9,6 +9,8 @@
 #include "InputSystem.h"
 #include "PhysWorld.h"
 #include "Actor.h";
+#include "Component/MeshComponent.h"
+#include "Model.h"
 
 namespace jLab
 {
@@ -38,11 +40,14 @@ namespace jLab
 		mInputSystem->Init();
 		mPhysWorld = new PhysWorld(this);
 
+		LoadData();
+
 		return true;
 	}
 
 	void Game::Shutdown()
 	{
+		UnloadData();
 		mRenderer->Shutdown();
 		delete mRenderer;
 		mInputSystem->Shutdown();
@@ -140,7 +145,7 @@ namespace jLab
 			// Move dead actors to temp list
 			std::vector<Actor*> deadActors;
 			for (Actor* actor : mActors)
-				deadActors.emplace_back(actor);
+				if(actor->GetState() == Actor::State::Dead) deadActors.emplace_back(actor);
 
 			// Delete dead Actors
 			for (Actor* actor : deadActors)
@@ -152,5 +157,19 @@ namespace jLab
 	void Game::GenerateOutput()
 	{
 		mRenderer->Draw();
+	}
+
+	void Game::LoadData()
+	{
+		Actor* testModel = new Actor(this);
+		testModel->SetScale(glm::vec3(0.01f));
+		testModel->SetPosition(glm::vec3(0, -1, -1.5f));
+
+		MeshComponent* mc = new MeshComponent(testModel);
+		mc->SetMesh(mRenderer->GetModel("Assets/Models/eve/eve.dae", false));
+	}
+	
+	void Game::UnloadData()
+	{
 	}
 }

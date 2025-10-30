@@ -12,7 +12,7 @@ namespace jLab
 		Shader(const std::string& vertexShader, const std::string& fragmentShader);
 		~Shader();
 
-		void SetActive();
+		void SetActive() const;
 
 		void SetBool(const std::string& name, const bool value) const;
 		void SetInt(const std::string& name, const int value) const;

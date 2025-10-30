@@ -1,11 +1,11 @@
 #version 330 core
 
-layout (location = 0) in vec3 a_Pos;
-layout (location = 1) in vec3 a_Normal;
-layout (location = 2) in vec2 a_TexCoord;
+layout (location = 0) in vec3 aPos;
+layout (location = 1) in vec3 aNormal;
+layout (location = 2) in vec2 aTexCoord;
 
-uniform mat4 u_WorldTransform;
-uniform mat4 u_ViewProjection;
+uniform mat4 uWorldTransform;
+uniform mat4 uViewProjection;
 
 out vec2 TexCoord;
 out vec3 FragNormal;
@@ -13,13 +13,13 @@ out vec3 FragPos;
 
 void main()
 {
-	TexCoord = a_TexCoord;
+	TexCoord = aTexCoord;
 
-	FragNormal = mat3(transpose(inverse(u_WorldTransform))) * a_Normal;
+	FragNormal = mat3(transpose(inverse(uWorldTransform))) * aNormal;
 
-	vec4 pos =  u_WorldTransform * vec4(a_Pos, 1);
+	vec4 pos =  uWorldTransform * vec4(aPos, 1);
 	FragPos = pos.xyz;
-	pos = u_ViewProjection * pos;
+	pos = uViewProjection * pos;
 
 	gl_Position = pos;
 }

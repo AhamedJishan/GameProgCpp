@@ -1,20 +1,20 @@
 #version 330 core
 
-layout (location = 0) in vec3 a_Pos;
-layout (location = 1) in vec3 a_Normal;
-layout (location = 2) in vec2 a_TexCoords;
+layout (location = 0) in vec3 aPos;
+layout (location = 1) in vec3 aNormal;
+layout (location = 2) in vec2 aTexCoords;
 
-uniform mat4 u_WorldTransform;
-uniform mat4 u_ViewProjection;
+uniform mat4 uWorldTransform;
+uniform mat4 uViewProjection;
 
 out vec2 TexCoords;
 
 void main()
 {
-	vec4 pos = vec4(a_Pos, 1);
-	pos = u_ViewProjection * u_WorldTransform * pos;
+	vec4 pos = vec4(aPos, 1);
+	pos = uViewProjection * uWorldTransform * pos;
 
 	gl_Position = pos;
 
-	TexCoords = a_TexCoords;
+	TexCoords = aTexCoords;
 }
