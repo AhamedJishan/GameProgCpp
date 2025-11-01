@@ -101,7 +101,7 @@ namespace jLab
 	void Actor::Update(float deltaTime)
 	{
 	}
-	void Actor::Input(const InputState inputState)
+	void Actor::Input(InputState inputState)
 	{
 	}
 }

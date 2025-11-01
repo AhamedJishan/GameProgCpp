@@ -61,7 +61,7 @@ namespace jLab
 	protected:
 		// To be implemented by child classes
 		virtual void Update(float deltaTime);
-		virtual void Input(const struct InputState inputState);
+		virtual void Input(struct InputState inputState);
 
 	protected:
 		State mState;

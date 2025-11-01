@@ -43,6 +43,12 @@
     <ClInclude Include="src\Engine\BoneTransform.h" />
     <ClInclude Include="src\Engine\Skeleton.h" />
     <ClInclude Include="src\Engine\Component\MeshComponent.h" />
+    <ClInclude Include="src\Game\GroundActor.h" />
+    <ClInclude Include="src\Engine\Component\MoveComponent.h" />
+    <ClInclude Include="src\Engine\Component\CameraComponent.h" />
+    <ClInclude Include="src\Engine\Component\FPSCameraComponent.h" />
+    <ClInclude Include="src\Game\FPSActor.h" />
+    <ClInclude Include="src\Game\WallActor.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Actor.cpp">
@@ -80,5 +86,9 @@
     <ClCompile Include="src\Engine\BoneTransform.cpp" />
     <ClCompile Include="src\Engine\Skeleton.cpp" />
     <ClCompile Include="src\Engine\Component\MeshComponent.cpp" />
+    <ClCompile Include="src\Engine\Component\MoveComponent.cpp" />
+    <ClCompile Include="src\Engine\Component\CameraComponent.cpp" />
+    <ClCompile Include="src\Engine\Component\FPSCameraComponent.cpp" />
+    <ClCompile Include="src\Game\FPSActor.cpp" />
   </ItemGroup>
 </Project>

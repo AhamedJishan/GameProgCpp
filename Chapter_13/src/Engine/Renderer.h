@@ -33,6 +33,8 @@ namespace jLab
 
 		SDL_Window* GetWindow() const { return mWindow; }
 
+		void SetSetViewMatrix(const glm::mat4& view) { mView = view; }
+
 	private:
 		void SetShaderUniforms(const class Shader* shader);
 

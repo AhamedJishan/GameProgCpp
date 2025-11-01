@@ -45,7 +45,7 @@ namespace jLab
 	void Model::Load(const std::string& filename)
 	{
 		Assimp::Importer importer;
-		const aiScene* scene = importer.ReadFile(filename, aiProcess_GenNormals | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
+		const aiScene* scene = importer.ReadFile(filename, aiProcess_GenNormals | aiProcess_FlipUVs | aiProcess_Triangulate);
 		if (!scene || !scene->mRootNode || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE)
 		{
 			printf("Failed to load model '%s'", filename.c_str());

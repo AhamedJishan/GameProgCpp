@@ -11,6 +11,9 @@
 #include "Actor.h";
 #include "Component/MeshComponent.h"
 #include "Model.h"
+#include "Game/GroundActor.h"
+#include "Game/WallActor.h"
+#include "Game/FPSActor.h"
 
 namespace jLab
 {
@@ -161,9 +164,29 @@ namespace jLab
 
 	void Game::LoadData()
 	{
+		mInputSystem->SetCursorLocked(true);
+
+		FPSActor* playerController = new FPSActor(this);
+		playerController->SetPosition(glm::vec3(0, 1, 0));
+
+		GroundActor* ground = new GroundActor(this);
+
+		WallActor* wa1 = new WallActor(this);
+		WallActor* wa2 = new WallActor(this);
+		WallActor* wa3 = new WallActor(this);
+		WallActor* wa4 = new WallActor(this);
+
+		wa1->SetPosition(glm::vec3(10, 0, 0));
+		wa2->SetPosition(glm::vec3(-10, 0, 0));
+		wa3->SetPosition(glm::vec3(0, 0, 10));
+		wa4->SetPosition(glm::vec3(0, 0, -10));
+
+		wa3->SetRotation(glm::angleAxis(glm::radians(90.0f), glm::vec3(0, 1, 0)));
+		wa4->SetRotation(glm::angleAxis(glm::radians(90.0f), glm::vec3(0, 1, 0)));
+
 		Actor* testModel = new Actor(this);
-		testModel->SetScale(glm::vec3(0.01f));
-		testModel->SetPosition(glm::vec3(0, -1, -1.5f));
+		testModel->SetScale(glm::vec3(0.0065f));
+		testModel->SetPosition(glm::vec3(0, 0.25f, -5));
 
 		MeshComponent* mc = new MeshComponent(testModel);
 		mc->SetMesh(mRenderer->GetModel("Assets/Models/eve/eve.dae", false));
