@@ -49,6 +49,8 @@
     <ClInclude Include="src\Engine\Component\FPSCameraComponent.h" />
     <ClInclude Include="src\Game\FPSActor.h" />
     <ClInclude Include="src\Game\WallActor.h" />
+    <ClInclude Include="src\Engine\MatrixPalette.h" />
+    <ClInclude Include="src\Engine\Animation.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Actor.cpp">
@@ -90,5 +92,6 @@
     <ClCompile Include="src\Engine\Component\CameraComponent.cpp" />
     <ClCompile Include="src\Engine\Component\FPSCameraComponent.cpp" />
     <ClCompile Include="src\Game\FPSActor.cpp" />
+    <ClCompile Include="src\Engine\Animation.cpp" />
   </ItemGroup>
 </Project>

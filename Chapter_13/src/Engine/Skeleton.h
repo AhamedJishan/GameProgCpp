@@ -25,6 +25,7 @@ namespace jLab
 
 		bool Load(const std::string& filename);
 
+		int GetNumBones() const { return mBones.size(); }
 		const Bone& GetBone(int id) const { return mBones[id]; }
 		const std::vector<Bone>& GetBones() const { return mBones; }
 		const std::vector<glm::mat4>& GetGlobalInverseBindPoses() const { return mGlobalInverseBindPoses; }
