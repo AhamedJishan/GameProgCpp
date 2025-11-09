@@ -184,6 +184,11 @@ namespace jLab
 		wa3->SetRotation(glm::angleAxis(glm::radians(90.0f), glm::vec3(0, 1, 0)));
 		wa4->SetRotation(glm::angleAxis(glm::radians(90.0f), glm::vec3(0, 1, 0)));
 
+		mWallPlanes.emplace_back(wa1);
+		mWallPlanes.emplace_back(wa2);
+		mWallPlanes.emplace_back(wa3);
+		mWallPlanes.emplace_back(wa4);
+
 		AnimTestActor* animTest = new AnimTestActor(this);
 		animTest->SetScale(glm::vec3(0.0065f));
 		animTest->SetPosition(glm::vec3(0, 0.25f, -5));

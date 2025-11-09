@@ -51,14 +51,13 @@ namespace jLab
 
 		void LookAt(const glm::vec3& direction);
 
-	private:
+	protected:
 		friend class Game;
 		void ProcessUpdate(float deltaTime);
 		void ProcessInput(const struct InputState inputState);
 
 		void ComputeWorldTransform();
 
-	protected:
 		// To be implemented by child classes
 		virtual void Update(float deltaTime);
 		virtual void Input(struct InputState inputState);

@@ -28,6 +28,8 @@ namespace jLab
 		class InputSystem* GetInputSystem() const { return mInputSystem; }
 		class PhysWorld* GetPhysWorld() const { return mPhysWorld; }
 
+		std::vector<class WallActor*>& GetWallPlanes() { return mWallPlanes; }
+
 	private:
 		void ProcessInput();
 		void UpdateGame();
@@ -47,5 +49,8 @@ namespace jLab
 		bool mUpdatingActors;
 		std::vector<class Actor*> mActors;
 		std::vector<class Actor*> mPendingActors;
+
+		// Game Specific
+		std::vector<class WallActor*> mWallPlanes;
 	};
 }
