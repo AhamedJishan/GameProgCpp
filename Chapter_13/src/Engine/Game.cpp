@@ -9,11 +9,11 @@
 #include "InputSystem.h"
 #include "PhysWorld.h"
 #include "Actor.h";
-#include "Component/MeshComponent.h"
-#include "Model.h"
+
 #include "Game/GroundActor.h"
 #include "Game/WallActor.h"
 #include "Game/FPSActor.h"
+#include "Game/AnimTestActor.h"
 
 namespace jLab
 {
@@ -184,12 +184,9 @@ namespace jLab
 		wa3->SetRotation(glm::angleAxis(glm::radians(90.0f), glm::vec3(0, 1, 0)));
 		wa4->SetRotation(glm::angleAxis(glm::radians(90.0f), glm::vec3(0, 1, 0)));
 
-		Actor* testModel = new Actor(this);
-		testModel->SetScale(glm::vec3(0.0065f));
-		testModel->SetPosition(glm::vec3(0, 0.25f, -5));
-
-		MeshComponent* mc = new MeshComponent(testModel);
-		mc->SetMesh(mRenderer->GetModel("Assets/Models/eve/eve.dae", false));
+		AnimTestActor* animTest = new AnimTestActor(this);
+		animTest->SetScale(glm::vec3(0.0065f));
+		animTest->SetPosition(glm::vec3(0, 0.25f, -5));
 	}
 	
 	void Game::UnloadData()

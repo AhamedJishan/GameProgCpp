@@ -44,10 +44,10 @@ namespace jLab
 				continue;
 
 			mTracks[index].resize(mNumFrames);
-			for (int j = 0; j < mNumFrames; i++)
+			for (int j = 0; j < mNumFrames; j++)
 			{
 				BoneTransform boneTransform;
-				boneTransform = GetBoneTransformAtFrame(j, animation->mChannels[index]);
+				boneTransform = GetBoneTransformAtFrame(j, animation->mChannels[i]);
 				mTracks[index][j] = boneTransform;
 			}
 		}

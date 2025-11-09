@@ -9,6 +9,7 @@
 #include "Texture.h"
 #include "Model.h"
 #include "Component/MeshComponent.h"
+#include "Component/SkinnedMeshComponent.h"
 
 // TODO: ScreenToWorldPos, ScreenToWorldDir
 
@@ -58,6 +59,7 @@ namespace jLab
 		glGetError();
 
 		mMeshShader = new Shader("Assets/Shaders/Phong.vert", "Assets/Shaders/Phong.frag");
+		mSkinnedMeshShader = new Shader("Assets/Shaders/Skinned.vert", "Assets/Shaders/Phong.frag");
 		
 		mProjection = glm::perspective(glm::radians(80.0f), (float)(mScreenWidth) / (float)(mScreenHeight), 0.1f, 1000.0f);
 		mView = glm::lookAt(glm::vec3(0), glm::vec3(0, 0, -1), glm::vec3(0, 1, 0));
@@ -81,7 +83,9 @@ namespace jLab
 		SetShaderUniforms(mMeshShader);
 		for (MeshComponent* mesh : mMeshes)
 			mesh->Draw(mMeshShader);
-
+		SetShaderUniforms(mSkinnedMeshShader);
+		for (SkinnedMeshComponent* mesh : mSkinnedMeshes)
+			mesh->Draw(mSkinnedMeshShader);
 		glDisable(GL_DEPTH_TEST);
 
 		SDL_GL_SwapWindow(mWindow);
@@ -89,7 +93,10 @@ namespace jLab
 
 	void Renderer::AddMeshComponent(MeshComponent* mesh)
 	{
-		mMeshes.emplace_back(mesh);
+		if (mesh->IsSkinned())
+			mSkinnedMeshes.emplace_back(static_cast<SkinnedMeshComponent*>(mesh));
+		else
+			mMeshes.emplace_back(mesh);
 	}
 
 	void Renderer::RemoveMeshComponent(MeshComponent* mesh)
@@ -97,6 +104,10 @@ namespace jLab
 		auto it = std::find(mMeshes.begin(), mMeshes.end(), mesh);
 		if (it != mMeshes.end())
 			mMeshes.erase(it);
+
+		auto it2 = std::find(mSkinnedMeshes.begin(), mSkinnedMeshes.end(), static_cast<SkinnedMeshComponent*>(mesh));
+		if (it2 != mSkinnedMeshes.end())
+			mSkinnedMeshes.erase(it2);
 	}
 
 	Texture* Renderer::GetTexture(const std::string& filename, bool flipVertically, Texture::Type type)

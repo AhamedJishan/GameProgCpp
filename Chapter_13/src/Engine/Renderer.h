@@ -52,9 +52,11 @@ namespace jLab
 		glm::mat4 mOrtho;
 
 		class Shader* mMeshShader;
+		class Shader* mSkinnedMeshShader;
 
 		std::unordered_map<std::string, Texture*> mTextures;
 		std::unordered_map<std::string, class Model*> mModels;
 		std::vector<class MeshComponent*> mMeshes;
+		std::vector<class SkinnedMeshComponent*> mSkinnedMeshes;
 	};
 }

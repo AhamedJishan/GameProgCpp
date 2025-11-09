@@ -51,6 +51,8 @@
     <ClInclude Include="src\Game\WallActor.h" />
     <ClInclude Include="src\Engine\MatrixPalette.h" />
     <ClInclude Include="src\Engine\Animation.h" />
+    <ClInclude Include="src\Engine\Component\SkinnedMeshComponent.h" />
+    <ClInclude Include="src\Game\AnimTestActor.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Actor.cpp">
@@ -93,5 +95,6 @@
     <ClCompile Include="src\Engine\Component\FPSCameraComponent.cpp" />
     <ClCompile Include="src\Game\FPSActor.cpp" />
     <ClCompile Include="src\Engine\Animation.cpp" />
+    <ClCompile Include="src\Engine\Component\SkinnedMeshComponent.cpp" />
   </ItemGroup>
 </Project>
