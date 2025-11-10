@@ -31,6 +31,9 @@ namespace jLab
 		int GetScreenWidth() const { return mScreenWidth; }
 		int GetScreenHeight() const { return mScreenHeight; }
 
+		glm::vec3 ScreenToWorldPos(const glm::vec3& screenPosition);
+		void ScreenToWorldDir(glm::vec3& outStart, glm::vec3& outDirection);
+
 		SDL_Window* GetWindow() const { return mWindow; }
 
 		void SetSetViewMatrix(const glm::mat4& view) { mView = view; }

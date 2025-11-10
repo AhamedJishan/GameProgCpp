@@ -11,8 +11,6 @@
 #include "Component/MeshComponent.h"
 #include "Component/SkinnedMeshComponent.h"
 
-// TODO: ScreenToWorldPos, ScreenToWorldDir
-
 namespace jLab
 {
 	Renderer::Renderer(Game* game)
@@ -175,5 +173,27 @@ namespace jLab
 		shader->SetVec3("uLightDir", glm::vec3(1, -0.5f, -1));
 		shader->SetVec3("uLightColor", glm::vec3(1));
 		shader->SetVec3("uAmbientColor", glm::vec3(0.3f));
+	}
+
+	glm::vec3 Renderer::ScreenToWorldPos(const glm::vec3& screenPosition)
+	{
+		glm::vec3 ndc = screenPosition;
+		ndc.x /= mScreenWidth * 0.5f;
+		ndc.y /= mScreenHeight * 0.5f;
+
+		glm::mat4 unprojection = glm::inverse(mProjection * mView);
+		glm::vec4 pos = unprojection * glm::vec4(ndc, 1.0f);
+		pos /= pos.w;
+
+		return glm::vec3(pos);
+	}
+
+	void Renderer::ScreenToWorldDir(glm::vec3& outStart, glm::vec3& outDirection)
+	{
+		glm::vec3 ndcPos = glm::vec3(0);
+		outStart = ScreenToWorldPos(ndcPos);
+		ndcPos.z = 0.9f;
+		glm::vec3 end = ScreenToWorldPos(ndcPos);
+		outDirection = glm::normalize(end - outStart);
 	}
 }
