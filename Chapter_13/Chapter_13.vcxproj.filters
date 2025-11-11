@@ -53,6 +53,8 @@
     <ClInclude Include="src\Engine\Animation.h" />
     <ClInclude Include="src\Engine\Component\SkinnedMeshComponent.h" />
     <ClInclude Include="src\Game\AnimTestActor.h" />
+    <ClInclude Include="src\Engine\Component\SpriteComponent.h" />
+    <ClInclude Include="src\Game\SpriteTestActor.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Actor.cpp">
@@ -96,5 +98,6 @@
     <ClCompile Include="src\Game\FPSActor.cpp" />
     <ClCompile Include="src\Engine\Animation.cpp" />
     <ClCompile Include="src\Engine\Component\SkinnedMeshComponent.cpp" />
+    <ClCompile Include="src\Engine\Component\SpriteComponent.cpp" />
   </ItemGroup>
 </Project>

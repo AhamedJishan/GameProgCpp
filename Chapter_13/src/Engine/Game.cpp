@@ -14,6 +14,7 @@
 #include "Game/WallActor.h"
 #include "Game/FPSActor.h"
 #include "Game/AnimTestActor.h"
+#include "Game/SpriteTestActor.h"
 
 namespace jLab
 {
@@ -190,8 +191,10 @@ namespace jLab
 		mWallPlanes.emplace_back(wa4);
 
 		AnimTestActor* animTest = new AnimTestActor(this);
-		animTest->SetScale(glm::vec3(0.0065f));
+		animTest->SetScale(glm::vec3(0.005f));
 		animTest->SetPosition(glm::vec3(0, 0.25f, -5));
+
+		SpriteTestActor* spriteTest = new SpriteTestActor(this);
 	}
 	
 	void Game::UnloadData()

@@ -110,6 +110,7 @@
     <ClInclude Include="src\Engine\Component\MeshComponent.h" />
     <ClInclude Include="src\Engine\Component\MoveComponent.h" />
     <ClInclude Include="src\Engine\Component\SkinnedMeshComponent.h" />
+    <ClInclude Include="src\Engine\Component\SpriteComponent.h" />
     <ClInclude Include="src\Engine\Game.h" />
     <ClInclude Include="src\Engine\InputSystem.h" />
     <ClInclude Include="src\Engine\Keyboard.h" />
@@ -125,6 +126,7 @@
     <ClInclude Include="src\Game\AnimTestActor.h" />
     <ClInclude Include="src\Game\FPSActor.h" />
     <ClInclude Include="src\Game\GroundActor.h" />
+    <ClInclude Include="src\Game\SpriteTestActor.h" />
     <ClInclude Include="src\Game\WallActor.h" />
     <ClInclude Include="src\stbi\stb_image.h" />
   </ItemGroup>
@@ -140,6 +142,7 @@
     <ClCompile Include="src\Engine\Component\MeshComponent.cpp" />
     <ClCompile Include="src\Engine\Component\MoveComponent.cpp" />
     <ClCompile Include="src\Engine\Component\SkinnedMeshComponent.cpp" />
+    <ClCompile Include="src\Engine\Component\SpriteComponent.cpp" />
     <ClCompile Include="src\Engine\Game.cpp" />
     <ClCompile Include="src\Engine\InputState.cpp" />
     <ClCompile Include="src\Engine\Keyboard.cpp" />

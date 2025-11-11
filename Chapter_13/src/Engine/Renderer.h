@@ -23,6 +23,8 @@ namespace jLab
 
 		void AddMeshComponent(class MeshComponent* mesh);
 		void RemoveMeshComponent(class MeshComponent* mesh);
+		void AddSpriteComponent(class SpriteComponent* sprite);
+		void RemoveSpriteComponent(class SpriteComponent* sprite);
 
 		Texture* GetTexture(const std::string& filename, bool flipVertically = false, Texture::Type type = Texture::Type::Diffuse);
 		Texture* GetTexture(const std::string& filename, const aiTexture* textureData, bool flipVertically = false, Texture::Type type = Texture::Type::Diffuse);
@@ -40,6 +42,9 @@ namespace jLab
 
 	private:
 		void SetShaderUniforms(const class Shader* shader);
+		void InitSpriteQuad();
+		void DeleteSpriteQuad();
+		void UseSpriteQuad();
 
 	private:
 		class Game* mGame;
@@ -56,10 +61,13 @@ namespace jLab
 
 		class Shader* mMeshShader;
 		class Shader* mSkinnedMeshShader;
+		class Shader* mSpriteShader;
 
 		std::unordered_map<std::string, Texture*> mTextures;
 		std::unordered_map<std::string, class Model*> mModels;
 		std::vector<class MeshComponent*> mMeshes;
 		std::vector<class SkinnedMeshComponent*> mSkinnedMeshes;
+		std::vector<class SpriteComponent*> mSprites;
+		unsigned int mSpriteVAO, mSpriteVBO, mSpriteEBO;
 	};
 }
