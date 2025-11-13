@@ -2,6 +2,9 @@
 
 #include <cstdio>
 #include <cstdint>
+#include <fstream>
+#include <sstream>
+#include <rapidjson/document.h>
 #include <algorithm>
 #include <SDL/SDL.h>
 
@@ -85,6 +88,46 @@ namespace jLab
 		}
 	}
 
+	void Game::LoadText(const std::string& filename)
+	{
+		mTexts.clear();
+
+		std::ifstream file(filename.c_str());
+		if (!file.is_open())
+		{
+			printf("ERROR: Failed to open Text File '%s'", filename.c_str());
+			return;
+		}
+
+		std::stringstream sstream;
+		sstream << file.rdbuf();
+		std::string fileContent = sstream.str();
+
+		rapidjson::Document doc;
+		doc.Parse(fileContent.c_str());
+		if (!doc.IsObject())
+		{
+			printf("ERROR: Text File '%s' is not a valid JSON", filename.c_str());
+			return;
+		}
+
+		rapidjson::Value& values = doc["TextMap"];
+		for (auto it = values.MemberBegin(); it != values.MemberEnd(); it++)
+			if (it->name.IsString() && it->value.IsString())
+				mTexts.emplace(it->name.GetString(), it->value.GetString());
+	}
+
+	const std::string& Game::GetText(const std::string& key)
+	{
+		std::string errMsg = "**KEY NOT FOUND**";
+
+		auto it = mTexts.find(key);
+		if (it != mTexts.end())
+			return mTexts[key];
+		else
+			return errMsg;
+	}
+
 	void Game::Run()
 	{
 		while (mGameState != GameState::Quit)
@@ -166,6 +209,8 @@ namespace jLab
 	void Game::LoadData()
 	{
 		mInputSystem->SetCursorLocked(true);
+
+		LoadText("Assets/Texts/English.jatxt");
 
 		FPSActor* playerController = new FPSActor(this);
 		playerController->SetPosition(glm::vec3(0, 1, 0));

@@ -2,6 +2,7 @@
 
 #include <unordered_map>
 #include <vector>
+#include <string>
 
 namespace jLab
 {
@@ -28,6 +29,9 @@ namespace jLab
 		class InputSystem* GetInputSystem() const { return mInputSystem; }
 		class PhysWorld* GetPhysWorld() const { return mPhysWorld; }
 
+		void LoadText(const std::string& filename);
+		const std::string& GetText(const std::string& key);
+
 		std::vector<class WallActor*>& GetWallPlanes() { return mWallPlanes; }
 
 	private:
@@ -49,6 +53,8 @@ namespace jLab
 		bool mUpdatingActors;
 		std::vector<class Actor*> mActors;
 		std::vector<class Actor*> mPendingActors;
+
+		std::unordered_map<std::string, std::string> mTexts;
 
 		// Game Specific
 		std::vector<class WallActor*> mWallPlanes;
