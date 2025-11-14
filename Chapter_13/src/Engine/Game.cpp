@@ -13,6 +13,9 @@
 #include "InputSystem.h"
 #include "PhysWorld.h"
 #include "Actor.h";
+#include "Font.h"
+#include "Skeleton.h"
+#include "Animation.h"
 
 #include "Game/GroundActor.h"
 #include "Game/WallActor.h"
@@ -92,6 +95,48 @@ namespace jLab
 			std::iter_swap(it, mPendingActors.end());
 			mPendingActors.pop_back();
 		}
+	}
+
+	Skeleton* Game::GetSkeleton(const std::string& filename)
+	{
+		auto it = mSkeletons.find(filename);
+		if (it != mSkeletons.end())
+			return it->second;
+
+		Skeleton* skeleton = new Skeleton();
+		if (!skeleton->Load(filename))
+			return nullptr;
+
+		mSkeletons.emplace(filename, skeleton);
+		return skeleton;
+	}
+
+	Animation* Game::GetAnimation(const std::string& filename, class Skeleton* skeleton)
+	{
+		auto it = mAnimations.find(filename);
+		if (it != mAnimations.end())
+			return it->second;
+
+		Animation* animation = new Animation();
+		if (!animation->Load(filename, skeleton))
+			return nullptr;
+
+		mAnimations.emplace(filename, animation);
+		return animation;
+	}
+
+	Font* Game::GetFont(const std::string& filename)
+	{
+		auto it = mFonts.find(filename);
+		if (it != mFonts.end())
+			return it->second;
+
+		Font* font = new Font(this);
+		if (!font->Load(filename))
+			return nullptr;
+
+		mFonts.emplace(filename, font);
+		return font;
 	}
 
 	void Game::LoadText(const std::string& filename)

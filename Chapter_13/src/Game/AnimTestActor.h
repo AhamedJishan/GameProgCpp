@@ -18,11 +18,9 @@ namespace jLab
 		{
 			SkinnedMeshComponent* mc = new SkinnedMeshComponent(this);
 
-			Skeleton* skeleton = new Skeleton();
-			skeleton->Load("Assets/Models/archer/archer_fixed.fbx");
+			Skeleton* skeleton = mGame->GetSkeleton("Assets/Models/archer/archer_fixed.fbx");
 			Model* model = mGame->GetRenderer()->GetModel("Assets/Models/archer/archer_fixed.fbx", true, skeleton);
-			Animation* animation = new Animation();
-			animation->Load("Assets/Models/archer/archer_fixed.fbx", skeleton);
+			Animation* animation = mGame->GetAnimation("Assets/Models/archer/archer_fixed.fbx", skeleton);
 
 			mc->SetMesh(model);
 			mc->SetSpecular(glm::vec3(0.3f), 16);

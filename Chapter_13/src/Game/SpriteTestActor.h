@@ -20,8 +20,7 @@ namespace jLab
 			SpriteComponent* sc = new SpriteComponent(this);
 			//Texture* texture = mGame->GetRenderer()->GetTexture("Assets/Textures/Crosshair.png");
 
-			Font* font = new Font(mGame);
-			font->Load("Assets/Fonts/Carlito-Regular.ttf");
+			Font* font = mGame->GetFont("Assets/Fonts/Carlito-Regular.ttf");
 			Texture* texture = font->RenderText("PauseTitle");
 			sc->SetTexture(texture);
 		}
