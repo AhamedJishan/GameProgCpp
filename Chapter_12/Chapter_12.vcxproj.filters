@@ -128,6 +128,7 @@
     <ClInclude Include="src\Engine\MatrixPalette.h" />
     <ClInclude Include="src\Engine\Component\FollowCamera.h" />
     <ClInclude Include="src\Game\FollowActor.h" />
+    <ClInclude Include="src\Game\STA.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Actor.cpp">

@@ -55,6 +55,7 @@
     <ClInclude Include="src\Game\AnimTestActor.h" />
     <ClInclude Include="src\Engine\Component\SpriteComponent.h" />
     <ClInclude Include="src\Game\SpriteTestActor.h" />
+    <ClInclude Include="src\Engine\Font.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Actor.cpp">
@@ -99,5 +100,6 @@
     <ClCompile Include="src\Engine\Animation.cpp" />
     <ClCompile Include="src\Engine\Component\SkinnedMeshComponent.cpp" />
     <ClCompile Include="src\Engine\Component\SpriteComponent.cpp" />
+    <ClCompile Include="src\Engine\Font.cpp" />
   </ItemGroup>
 </Project>

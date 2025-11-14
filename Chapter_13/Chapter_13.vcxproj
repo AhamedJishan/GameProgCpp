@@ -111,6 +111,7 @@
     <ClInclude Include="src\Engine\Component\MoveComponent.h" />
     <ClInclude Include="src\Engine\Component\SkinnedMeshComponent.h" />
     <ClInclude Include="src\Engine\Component\SpriteComponent.h" />
+    <ClInclude Include="src\Engine\Font.h" />
     <ClInclude Include="src\Engine\Game.h" />
     <ClInclude Include="src\Engine\InputSystem.h" />
     <ClInclude Include="src\Engine\Keyboard.h" />
@@ -143,6 +144,7 @@
     <ClCompile Include="src\Engine\Component\MoveComponent.cpp" />
     <ClCompile Include="src\Engine\Component\SkinnedMeshComponent.cpp" />
     <ClCompile Include="src\Engine\Component\SpriteComponent.cpp" />
+    <ClCompile Include="src\Engine\Font.cpp" />
     <ClCompile Include="src\Engine\Game.cpp" />
     <ClCompile Include="src\Engine\InputState.cpp" />
     <ClCompile Include="src\Engine\Keyboard.cpp" />

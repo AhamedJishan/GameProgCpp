@@ -139,6 +139,7 @@
     <ClInclude Include="src\Game\GroundActor.h" />
     <ClInclude Include="src\Game\HUD.h" />
     <ClInclude Include="src\Game\PauseMenu.h" />
+    <ClInclude Include="src\Game\STA.h" />
     <ClInclude Include="src\Game\TargetActor.h" />
     <ClInclude Include="src\Game\WallActor.h" />
     <ClInclude Include="src\stbi\stb_image.h" />

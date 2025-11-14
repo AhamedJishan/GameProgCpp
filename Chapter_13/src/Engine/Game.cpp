@@ -7,6 +7,7 @@
 #include <rapidjson/document.h>
 #include <algorithm>
 #include <SDL/SDL.h>
+#include <SDL/SDL_ttf.h>
 
 #include "Renderer.h"
 #include "InputSystem.h"
@@ -33,6 +34,11 @@ namespace jLab
 		if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0)
 		{
 			printf("ERROR: Failed to Initialize SDL\n\t'%s'\n", SDL_GetError());
+			return false;
+		}
+		if (TTF_Init() != 0)
+		{
+			printf("Failed to Initialize SDL TTF: %s", TTF_GetError());
 			return false;
 		}
 

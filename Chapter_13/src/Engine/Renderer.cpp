@@ -95,7 +95,7 @@ namespace jLab
 		// 2D Render Pass
 		glEnable(GL_BLEND);
 		glBlendEquationSeparate(GL_FUNC_ADD, GL_FUNC_ADD);
-		glBlendFuncSeparate(GL_SRC_COLOR, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ZERO);
+		glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ZERO);
 		UseSpriteQuad();
 		for (SpriteComponent* sprite : mSprites)
 			sprite->Draw(mSpriteShader);
