@@ -16,12 +16,13 @@
 #include "Font.h"
 #include "Skeleton.h"
 #include "Animation.h"
+#include "UIScreen.h"
 
 #include "Game/GroundActor.h"
 #include "Game/WallActor.h"
 #include "Game/FPSActor.h"
 #include "Game/AnimTestActor.h"
-#include "Game/SpriteTestActor.h"
+#include "Game/TestUIScreenActor.h"
 
 namespace jLab
 {
@@ -95,6 +96,11 @@ namespace jLab
 			std::iter_swap(it, mPendingActors.end());
 			mPendingActors.pop_back();
 		}
+	}
+
+	void Game::PushUI(UIScreen* screen)
+	{
+		mUIStack.emplace_back(screen);
 	}
 
 	Skeleton* Game::GetSkeleton(const std::string& filename)
@@ -218,6 +224,8 @@ namespace jLab
 				actor->ProcessInput(inputState);
 			mUpdatingActors = false;
 		}
+		else if (!mUIStack.empty())
+				mUIStack.back()->Input(inputState);
 	}
 
 	void Game::UpdateGame()
@@ -249,6 +257,23 @@ namespace jLab
 			for (Actor* actor : deadActors)
 				delete actor;
 			deadActors.clear();
+
+			// Update UIStack
+			for (UIScreen* screen : mUIStack)
+				if(screen->GetState() == UIScreen::State::Active) screen->Update(deltaTime);
+
+			// Delete closed UIScreen
+			auto iter = mUIStack.begin();
+			while (iter != mUIStack.end())
+			{
+				if ((*iter)->GetState() == UIScreen::State::Closing)
+				{
+					delete* iter;
+					iter = mUIStack.erase(iter);
+				}
+				else
+					iter++;
+			}
 		}
 	}
 
@@ -290,7 +315,7 @@ namespace jLab
 		animTest->SetScale(glm::vec3(0.005f));
 		animTest->SetPosition(glm::vec3(0, 0.25f, -5));
 
-		SpriteTestActor* spriteTest = new SpriteTestActor(this);
+		TestUIScreenActor* testUIScreen = new TestUIScreenActor(this);
 	}
 	
 	void Game::UnloadData()

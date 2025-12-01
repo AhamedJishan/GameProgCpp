@@ -54,8 +54,9 @@
     <ClInclude Include="src\Engine\Component\SkinnedMeshComponent.h" />
     <ClInclude Include="src\Game\AnimTestActor.h" />
     <ClInclude Include="src\Engine\Component\SpriteComponent.h" />
-    <ClInclude Include="src\Game\SpriteTestActor.h" />
     <ClInclude Include="src\Engine\Font.h" />
+    <ClInclude Include="src\Engine\UIScreen.h" />
+    <ClInclude Include="src\Game\TestUIScreenActor.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Actor.cpp">
@@ -101,5 +102,6 @@
     <ClCompile Include="src\Engine\Component\SkinnedMeshComponent.cpp" />
     <ClCompile Include="src\Engine\Component\SpriteComponent.cpp" />
     <ClCompile Include="src\Engine\Font.cpp" />
+    <ClCompile Include="src\Engine\UIScreen.cpp" />
   </ItemGroup>
 </Project>

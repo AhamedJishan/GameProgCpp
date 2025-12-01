@@ -124,10 +124,11 @@
     <ClInclude Include="src\Engine\Shader.h" />
     <ClInclude Include="src\Engine\Skeleton.h" />
     <ClInclude Include="src\Engine\Texture.h" />
+    <ClInclude Include="src\Engine\UIScreen.h" />
     <ClInclude Include="src\Game\AnimTestActor.h" />
     <ClInclude Include="src\Game\FPSActor.h" />
     <ClInclude Include="src\Game\GroundActor.h" />
-    <ClInclude Include="src\Game\SpriteTestActor.h" />
+    <ClInclude Include="src\Game\TestUIScreenActor.h" />
     <ClInclude Include="src\Game\WallActor.h" />
     <ClInclude Include="src\stbi\stb_image.h" />
   </ItemGroup>
@@ -156,6 +157,7 @@
     <ClCompile Include="src\Engine\Shader.cpp" />
     <ClCompile Include="src\Engine\Skeleton.cpp" />
     <ClCompile Include="src\Engine\Texture.cpp" />
+    <ClCompile Include="src\Engine\UIScreen.cpp" />
     <ClCompile Include="src\EntryPoint.cpp" />
     <ClCompile Include="src\Game\FPSActor.cpp" />
     <ClCompile Include="src\stbi\stb_image.cpp" />

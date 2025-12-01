@@ -25,6 +25,9 @@ namespace jLab
 		void AddActor(class Actor* actor);
 		void RemoveActor(class Actor* actor);
 
+		void PushUI(class UIScreen* screen);
+		std::vector<class UIScreen*> GetUIStack() const { return mUIStack; }
+
 		class Renderer* GetRenderer() const { return mRenderer; }
 		class InputSystem* GetInputSystem() const { return mInputSystem; }
 		class PhysWorld* GetPhysWorld() const { return mPhysWorld; }
@@ -56,6 +59,7 @@ namespace jLab
 		bool mUpdatingActors;
 		std::vector<class Actor*> mActors;
 		std::vector<class Actor*> mPendingActors;
+		std::vector<class UIScreen*> mUIStack;
 
 		std::unordered_map<std::string, class Skeleton*> mSkeletons;
 		std::unordered_map<std::string, class Animation*> mAnimations;

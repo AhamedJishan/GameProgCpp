@@ -11,6 +11,7 @@
 #include "Component/MeshComponent.h"
 #include "Component/SkinnedMeshComponent.h"
 #include "Component/SpriteComponent.h"
+#include "UIScreen.h"
 
 namespace jLab
 {
@@ -99,6 +100,8 @@ namespace jLab
 		UseSpriteQuad();
 		for (SpriteComponent* sprite : mSprites)
 			sprite->Draw(mSpriteShader);
+		for (UIScreen* screen : mGame->GetUIStack())
+			screen->Draw(mSpriteShader);
 		glDisable(GL_BLEND);
 
 		SDL_GL_SwapWindow(mWindow);
