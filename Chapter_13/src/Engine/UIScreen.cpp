@@ -6,9 +6,11 @@
 
 #include "Game.h"
 #include "Renderer.h"
+#include "InputSystem.h"
 #include "Texture.h"
 #include "Shader.h"
 #include "Font.h"
+#include "Button.h"
 
 namespace jLab
 {
@@ -33,7 +35,9 @@ namespace jLab
 		if (mTitle)
 			delete mTitle;
 
-		// TODO: clear buttons
+		for (Button* button : mButtons)
+			delete button;
+		mButtons.clear();
 	}
 	
 	void UIScreen::Update(float deltaTime)
@@ -42,7 +46,19 @@ namespace jLab
 	
 	void UIScreen::Input(InputState& inputState)
 	{
-		// TODO: handle button highlighting and onclick.
+		glm::vec2 mousePos = inputState.Mouse.GetPosition();
+
+		for (Button* button : mButtons)
+		{
+			if (button->ContainsPoint(mousePos))
+				button->SetHighlighted(true);
+			else
+				button->SetHighlighted(false);
+		}
+
+		if (inputState.Mouse.GetButton(SDL_BUTTON_LEFT))
+			for (Button* button : mButtons)
+				if (button->GetHighlighted()) button->OnClick();
 	}
 	
 	void UIScreen::Draw(const Shader* shader)
@@ -53,7 +69,12 @@ namespace jLab
 		if (mTitle)
 			DrawTexture(shader, mTitle, mTitlePos);
 
-		// TODO: draw buttons
+		for (Button* button : mButtons)
+		{
+			Texture* bg = button->GetHighlighted() ? mButtonOnTexture : mButtonOffTexture;
+			DrawTexture(shader, bg, button->GetPosition());
+			DrawTexture(shader, button->GetNameTexture(), button->GetPosition());
+		}
 	}
 	
 	void UIScreen::Close()
@@ -69,6 +90,15 @@ namespace jLab
 		mTitle = mFont->RenderText(text, color, pointSize);
 	}
 	
+	void UIScreen::AddButton(const std::string& name, std::function<void()> onClick)
+	{
+		glm::vec2 dims = glm::vec2(mButtonOffTexture->GetWidth(), mButtonOffTexture->GetHeight());
+		Button* button = new Button(name, onClick, mFont, mNextBUttonPos, dims);
+		mButtons.emplace_back(button);
+
+		mNextBUttonPos -= mButtonOffTexture->GetHeight() + 20.0f;
+	}
+
 	void UIScreen::DrawTexture(const Shader* shader, Texture* texture, glm::vec2 offset, glm::vec2 scale)
 	{
 		glm::mat4 scaleMat = glm::scale(glm::mat4(1), glm::vec3(scale.x * texture->GetWidth(), scale.y * texture->GetHeight(), 0));

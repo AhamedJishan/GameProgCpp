@@ -57,6 +57,7 @@
     <ClInclude Include="src\Engine\Font.h" />
     <ClInclude Include="src\Engine\UIScreen.h" />
     <ClInclude Include="src\Game\TestUIScreenActor.h" />
+    <ClInclude Include="src\Engine\Button.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Actor.cpp">
@@ -103,5 +104,6 @@
     <ClCompile Include="src\Engine\Component\SpriteComponent.cpp" />
     <ClCompile Include="src\Engine\Font.cpp" />
     <ClCompile Include="src\Engine\UIScreen.cpp" />
+    <ClCompile Include="src\Engine\Button.cpp" />
   </ItemGroup>
 </Project>

@@ -14,6 +14,11 @@ namespace jLab
 			mBGPos = glm::vec2(0, 210);
 			SetTitle("PauseTitle", glm::vec4(0, 0, 0, 1));
 			mTitlePos = glm::vec2(0, 320);
+
+			AddButton("ResumeButton", [this]
+				{
+					printf("Button pressed!");
+				});
 		}
 	};
 }

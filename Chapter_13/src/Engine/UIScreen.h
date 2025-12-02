@@ -1,6 +1,8 @@
 #pragma once
 
 #include <string>
+#include <vector>
+#include <functional>
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
 #include <glm/vec4.hpp>
@@ -29,7 +31,7 @@ namespace jLab
 
 		State GetState() const { return mState; };
 
-		// TODO: Add button
+		void AddButton(const std::string& name, std::function<void()> onClick);
 
 	protected:
 		void DrawTexture(const class Shader* shader,
@@ -52,6 +54,6 @@ namespace jLab
 
 		State mState;
 
-		// TODO: List of buttons
+		std::vector<class Button*> mButtons;
 	};
 }
