@@ -50,7 +50,7 @@ namespace jLab
 		glm::vec2 mTitlePos;
 		glm::vec2 mBGPos;
 		glm::vec2 mBGScale;
-		glm::vec2 mNextBUttonPos;
+		glm::vec2 mNextButtonPos;
 
 		State mState;
 

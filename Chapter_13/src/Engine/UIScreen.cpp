@@ -20,7 +20,7 @@ namespace jLab
 		,mTitlePos(glm::vec2(0))
 		,mBGPos(glm::vec2(0))
 		,mBGScale(glm::vec2(1))
-		,mNextBUttonPos(glm::vec2(0, -100))
+		,mNextButtonPos(glm::vec2(0, -100))
 		,mState(State::Active)
 	{
 		mGame->PushUI(this);
@@ -93,10 +93,10 @@ namespace jLab
 	void UIScreen::AddButton(const std::string& name, std::function<void()> onClick)
 	{
 		glm::vec2 dims = glm::vec2(mButtonOffTexture->GetWidth(), mButtonOffTexture->GetHeight());
-		Button* button = new Button(name, onClick, mFont, mNextBUttonPos, dims);
+		Button* button = new Button(name, onClick, mFont, mNextButtonPos, dims);
 		mButtons.emplace_back(button);
 
-		mNextBUttonPos -= mButtonOffTexture->GetHeight() + 20.0f;
+		mNextButtonPos.y -= mButtonOffTexture->GetHeight() + 20.0f;
 	}
 
 	void UIScreen::DrawTexture(const Shader* shader, Texture* texture, glm::vec2 offset, glm::vec2 scale)

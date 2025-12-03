@@ -17,12 +17,12 @@
 #include "Skeleton.h"
 #include "Animation.h"
 #include "UIScreen.h"
+#include "DialogBox.h"
 
 #include "Game/GroundActor.h"
 #include "Game/WallActor.h"
 #include "Game/FPSActor.h"
 #include "Game/AnimTestActor.h"
-#include "Game/TestUIScreenActor.h"
 
 namespace jLab
 {
@@ -214,7 +214,7 @@ namespace jLab
 		mInputSystem->Update();
 		InputState inputState = mInputSystem->GetState();
 
-		if (inputState.Keyboard.GetKey(SDL_SCANCODE_ESCAPE))
+		if (inputState.Keyboard.GetKeyDown(SDL_SCANCODE_ESCAPE))
 			mGameState = GameState::Quit;
 
 		if (mGameState == GameState::Gameplay)
@@ -224,7 +224,7 @@ namespace jLab
 				actor->ProcessInput(inputState);
 			mUpdatingActors = false;
 		}
-		else if (!mUIStack.empty())
+		/*else */if (!mUIStack.empty())
 				mUIStack.back()->Input(inputState);
 	}
 
@@ -284,7 +284,7 @@ namespace jLab
 
 	void Game::LoadData()
 	{
-		mInputSystem->SetCursorLocked(true);
+		//mInputSystem->SetCursorLocked(true);
 
 		LoadText("Assets/Texts/English.jatxt");
 
@@ -315,7 +315,10 @@ namespace jLab
 		animTest->SetScale(glm::vec3(0.005f));
 		animTest->SetPosition(glm::vec3(0, 0.25f, -5));
 
-		TestUIScreenActor* testUIScreen = new TestUIScreenActor(this);
+		new DialogBox(this, "QuitText", [this]
+			{
+				mGameState = GameState::Quit;
+			});
 	}
 	
 	void Game::UnloadData()
