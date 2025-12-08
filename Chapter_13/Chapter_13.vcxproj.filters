@@ -59,6 +59,7 @@
     <ClInclude Include="src\Game\TestUIScreenActor.h" />
     <ClInclude Include="src\Engine\Button.h" />
     <ClInclude Include="src\Engine\DialogBox.h" />
+    <ClInclude Include="src\Game\PauseMenu.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Actor.cpp">

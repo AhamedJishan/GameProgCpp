@@ -130,6 +130,7 @@
     <ClInclude Include="src\Game\AnimTestActor.h" />
     <ClInclude Include="src\Game\FPSActor.h" />
     <ClInclude Include="src\Game\GroundActor.h" />
+    <ClInclude Include="src\Game\PauseMenu.h" />
     <ClInclude Include="src\Game\TestUIScreenActor.h" />
     <ClInclude Include="src\Game\WallActor.h" />
     <ClInclude Include="src\stbi\stb_image.h" />

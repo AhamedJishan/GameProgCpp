@@ -17,12 +17,12 @@
 #include "Skeleton.h"
 #include "Animation.h"
 #include "UIScreen.h"
-#include "DialogBox.h"
 
 #include "Game/GroundActor.h"
 #include "Game/WallActor.h"
 #include "Game/FPSActor.h"
 #include "Game/AnimTestActor.h"
+#include "Game/PauseMenu.h"
 
 namespace jLab
 {
@@ -215,7 +215,7 @@ namespace jLab
 		InputState inputState = mInputSystem->GetState();
 
 		if (inputState.Keyboard.GetKeyDown(SDL_SCANCODE_ESCAPE))
-			mGameState = GameState::Quit;
+			new PauseMenu(this);
 
 		if (mGameState == GameState::Gameplay)
 		{
@@ -224,7 +224,7 @@ namespace jLab
 				actor->ProcessInput(inputState);
 			mUpdatingActors = false;
 		}
-		/*else */if (!mUIStack.empty())
+		else if (!mUIStack.empty())
 				mUIStack.back()->Input(inputState);
 	}
 
@@ -257,23 +257,23 @@ namespace jLab
 			for (Actor* actor : deadActors)
 				delete actor;
 			deadActors.clear();
+		}
 
-			// Update UIStack
-			for (UIScreen* screen : mUIStack)
-				if(screen->GetState() == UIScreen::State::Active) screen->Update(deltaTime);
+		// Update UIStack
+		for (UIScreen* screen : mUIStack)
+			if (screen->GetState() == UIScreen::State::Active) screen->Update(deltaTime);
 
-			// Delete closed UIScreen
-			auto iter = mUIStack.begin();
-			while (iter != mUIStack.end())
+		// Delete closed UIScreen
+		auto iter = mUIStack.begin();
+		while (iter != mUIStack.end())
+		{
+			if ((*iter)->GetState() == UIScreen::State::Closing)
 			{
-				if ((*iter)->GetState() == UIScreen::State::Closing)
-				{
-					delete* iter;
-					iter = mUIStack.erase(iter);
-				}
-				else
-					iter++;
+				delete* iter;
+				iter = mUIStack.erase(iter);
 			}
+			else
+				iter++;
 		}
 	}
 
@@ -284,7 +284,7 @@ namespace jLab
 
 	void Game::LoadData()
 	{
-		//mInputSystem->SetCursorLocked(true);
+		mInputSystem->SetCursorLocked(true);
 
 		LoadText("Assets/Texts/English.jatxt");
 
@@ -314,11 +314,6 @@ namespace jLab
 		AnimTestActor* animTest = new AnimTestActor(this);
 		animTest->SetScale(glm::vec3(0.005f));
 		animTest->SetPosition(glm::vec3(0, 0.25f, -5));
-
-		new DialogBox(this, "QuitText", [this]
-			{
-				mGameState = GameState::Quit;
-			});
 	}
 	
 	void Game::UnloadData()

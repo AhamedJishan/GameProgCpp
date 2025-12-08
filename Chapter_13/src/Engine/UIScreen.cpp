@@ -56,7 +56,7 @@ namespace jLab
 				button->SetHighlighted(false);
 		}
 
-		if (inputState.Mouse.GetButton(SDL_BUTTON_LEFT))
+		if (inputState.Mouse.GetButtonDown(SDL_BUTTON_LEFT))
 			for (Button* button : mButtons)
 				if (button->GetHighlighted()) button->OnClick();
 	}

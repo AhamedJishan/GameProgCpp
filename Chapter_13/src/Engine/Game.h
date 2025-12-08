@@ -25,6 +25,9 @@ namespace jLab
 		void AddActor(class Actor* actor);
 		void RemoveActor(class Actor* actor);
 
+		GameState GetState() const { return mGameState; }
+		void SetState(GameState state) { mGameState = state; }
+
 		void PushUI(class UIScreen* screen);
 		std::vector<class UIScreen*> GetUIStack() const { return mUIStack; }
 
