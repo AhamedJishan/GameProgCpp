@@ -20,7 +20,6 @@
 
 #include "Game/GroundActor.h"
 #include "Game/WallActor.h"
-//#include "Game/FPSActor.h"
 #include "Game/FollowActor.h"
 #include "Game/AnimTestActor.h"
 #include "Game/PauseMenu.h"
@@ -289,9 +288,7 @@ namespace jLab
 
 		LoadText("Assets/Texts/English.jatxt");
 
-		//FPSActor* playerController = new FPSActor(this);
 		FollowActor* playerController = new FollowActor(this);
-		//playerController->SetPosition(glm::vec3(0, 1, 0));
 
 		GroundActor* ground = new GroundActor(this);
 

@@ -87,7 +87,7 @@ namespace jLab
 	{
 		int posIndex = 0, nextPosIndex = 0;
 		float posT = 0.0f;
-		for (int i = 1; i < nodeAnim->mNumPositionKeys; i++)
+		for (int i = 1; i < nodeAnim->mNumPositionKeys - 1; i++)
 		{
 			if (frame < nodeAnim->mPositionKeys[i].mTime)
 			{
@@ -101,7 +101,7 @@ namespace jLab
 
 		int rotIndex = 0, nextRotIndex = 0;
 		float rotT = 0.0f;
-		for (int i = 1; i < nodeAnim->mNumRotationKeys; i++)
+		for (int i = 1; i < nodeAnim->mNumRotationKeys - 1; i++)
 		{
 			if (frame < nodeAnim->mRotationKeys[i].mTime)
 			{
@@ -115,7 +115,7 @@ namespace jLab
 
 		int scaleIndex = 0, nextScaleIndex = 0;
 		float scaleT = 0.0f;
-		for (int i = 1; i < nodeAnim->mNumScalingKeys; i++)
+		for (int i = 1; i < nodeAnim->mNumScalingKeys - 1; i++)
 		{
 			if (frame < nodeAnim->mScalingKeys[i].mTime)
 			{

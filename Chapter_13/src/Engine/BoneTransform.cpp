@@ -15,7 +15,7 @@ namespace jLab
 	{
 		BoneTransform ret;
 		ret.Scale = glm::mix(a.Scale, b.Scale, t);
-		ret.Rotation = glm::mix(a.Rotation, b.Rotation, t);
+		ret.Rotation = glm::slerp(a.Rotation, b.Rotation, t);
 		ret.Position = glm::mix(a.Position, b.Position, t);
 		return ret;
 	}
@@ -24,7 +24,7 @@ namespace jLab
 	{
 		BoneTransform ret;
 		ret.Scale = glm::mix(a.Scale, b.Scale, scaleT);
-		ret.Rotation = glm::mix(a.Rotation, b.Rotation, rotationT);
+		ret.Rotation = glm::slerp(a.Rotation, b.Rotation, rotationT);
 		ret.Position = glm::mix(a.Position, b.Position, translationT);
 		return ret;
 	}
