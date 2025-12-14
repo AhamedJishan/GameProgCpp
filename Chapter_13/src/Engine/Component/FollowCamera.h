@@ -1,0 +1,33 @@
+#pragma once
+
+#include "CameraComponent.h"
+
+#include <glm/vec3.hpp>
+
+namespace jLab
+{
+	class FollowCamera : public CameraComponent
+	{
+	public:
+		FollowCamera(class Actor* owner);
+		
+		void Update(float deltaTime) override;
+
+		void SnapToIdeal();
+
+		void SetOffset(glm::vec3 offset) { mOffset = offset; }
+		void SetTargetDistance(float targetDistance) { mTargetDistance = targetDistance; }
+		void SetSpringConstant(float springConstant) { mSpringConstant = springConstant; }
+
+	private:
+		glm::vec3 ComputeIdealCamPosition();
+
+	private:
+		glm::vec3 mActualPos;
+		glm::vec3 mVelocity;
+		glm::vec3 mOffset;
+
+		float mTargetDistance;
+		float mSpringConstant;
+	};
+}

@@ -56,10 +56,11 @@
     <ClInclude Include="src\Engine\Component\SpriteComponent.h" />
     <ClInclude Include="src\Engine\Font.h" />
     <ClInclude Include="src\Engine\UIScreen.h" />
-    <ClInclude Include="src\Game\TestUIScreenActor.h" />
     <ClInclude Include="src\Engine\Button.h" />
     <ClInclude Include="src\Engine\DialogBox.h" />
     <ClInclude Include="src\Game\PauseMenu.h" />
+    <ClInclude Include="src\Engine\Component\FollowCamera.h" />
+    <ClInclude Include="src\Game\FollowActor.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Actor.cpp">
@@ -108,5 +109,7 @@
     <ClCompile Include="src\Engine\UIScreen.cpp" />
     <ClCompile Include="src\Engine\Button.cpp" />
     <ClCompile Include="src\Engine\DialogBox.cpp" />
+    <ClCompile Include="src\Engine\Component\FollowCamera.cpp" />
+    <ClCompile Include="src\Game\FollowActor.cpp" />
   </ItemGroup>
 </Project>
