@@ -61,6 +61,7 @@
     <ClInclude Include="src\Game\PauseMenu.h" />
     <ClInclude Include="src\Engine\Component\FollowCamera.h" />
     <ClInclude Include="src\Game\FollowActor.h" />
+    <ClInclude Include="src\Engine\AudioSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Actor.cpp">
@@ -111,5 +112,6 @@
     <ClCompile Include="src\Engine\DialogBox.cpp" />
     <ClCompile Include="src\Engine\Component\FollowCamera.cpp" />
     <ClCompile Include="src\Game\FollowActor.cpp" />
+    <ClCompile Include="src\Engine\AudioSystem.cpp" />
   </ItemGroup>
 </Project>
