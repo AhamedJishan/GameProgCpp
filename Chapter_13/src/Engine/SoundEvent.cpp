@@ -11,6 +11,12 @@ namespace jLab
 	{
 	}
 
+	SoundEvent::SoundEvent()
+		:mSystem(nullptr)
+		,mId(0)
+	{
+	}
+
 	bool SoundEvent::IsValid() const
 	{
 		return (mSystem && mSystem->GetEventInstance(mId) != nullptr);

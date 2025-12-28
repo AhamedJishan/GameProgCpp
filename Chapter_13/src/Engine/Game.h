@@ -57,6 +57,7 @@ namespace jLab
 
 		class Renderer* mRenderer;
 		class InputSystem* mInputSystem;
+		class AudioSystem* mAudioSystem;
 		class PhysWorld* mPhysWorld;
 
 		bool mUpdatingActors;

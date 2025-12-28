@@ -8,6 +8,8 @@ namespace jLab
 	class SoundEvent
 	{
 	public:
+		SoundEvent();
+
 		bool IsValid() const;
 		void Restart();
 		void Stop(bool allowFadeout = false);

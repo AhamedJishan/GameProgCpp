@@ -3,6 +3,7 @@
 #include <string>
 #include <unordered_map>
 #include <glm/mat4x4.hpp>
+#include "SoundEvent.h"
 
 namespace FMOD
 {
@@ -32,7 +33,7 @@ namespace jLab
 		void UnloadBank(const std::string& name);
 		void UnloadAllBanks();
 
-		// TODO: void PlayEvent();
+		SoundEvent PlayEvent(const std::string& name);
 
 		void SetListener(glm::mat4 view);
 

@@ -7,6 +7,8 @@
 
 namespace jLab
 {
+	unsigned int AudioSystem::sNextId = 0;
+
 	AudioSystem::AudioSystem(Game* game)
 		:mGame(game)
 		,mSystem(nullptr)
@@ -31,6 +33,9 @@ namespace jLab
 			printf("FMOD error! (%d) %s\n", result, FMOD_ErrorString(result));
 			return false;
 		}
+
+		LoadBank("Assets/Audio/Master Bank.strings.bank");
+		LoadBank("Assets/Audio/Master Bank.bank");
 
 		return true;
 	}
@@ -67,7 +72,7 @@ namespace jLab
 	
 	void AudioSystem::LoadBank(const std::string& name)
 	{
-		if (mBanks.find(name) == mBanks.end())
+		if (mBanks.find(name) != mBanks.end())
 		{
 			printf("[WARNING]: Tried to load bank '%s' which is already loaded!", name.c_str());
 			return;
@@ -179,6 +184,24 @@ namespace jLab
 
 		mBanks.clear();
 		mEventDescriptions.clear();
+	}
+
+	SoundEvent AudioSystem::PlayEvent(const std::string& name)
+	{
+		unsigned int retId = 0;
+		auto iter = mEventDescriptions.find(name);
+		if(iter != mEventDescriptions.end())
+		{
+			FMOD::Studio::EventInstance* event = nullptr;
+			iter->second->createInstance(&event);
+			if (event)
+			{
+				event->start();
+				retId = ++sNextId;
+				mEventInstances.emplace(retId, event);
+			}
+		}
+		return SoundEvent(this, retId);
 	}
 
 	FMOD_VECTOR VecToFMOD(glm::vec3 vec)

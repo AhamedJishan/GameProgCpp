@@ -11,6 +11,7 @@
 
 #include "Renderer.h"
 #include "InputSystem.h"
+#include "AudioSystem.h"
 #include "PhysWorld.h"
 #include "Actor.h";
 #include "Font.h"
@@ -53,6 +54,16 @@ namespace jLab
 			return false;
 		}
 
+		mAudioSystem = new AudioSystem(this);
+		if (!mAudioSystem->Init())
+		{
+			printf("ERROR: Failed to Initialize AudioSystem\n");
+			mAudioSystem->Shutdown();
+			delete mAudioSystem;
+			mAudioSystem = nullptr;
+			return false;
+		}
+
 		mInputSystem = new InputSystem(this);
 		mInputSystem->Init();
 		mPhysWorld = new PhysWorld(this);
@@ -67,6 +78,13 @@ namespace jLab
 		UnloadData();
 		mRenderer->Shutdown();
 		delete mRenderer;
+
+		if (mAudioSystem)
+		{
+			mAudioSystem->Shutdown();
+			delete mAudioSystem;
+		}
+
 		mInputSystem->Shutdown();
 		delete mInputSystem;
 
@@ -259,6 +277,9 @@ namespace jLab
 			deadActors.clear();
 		}
 
+		// Update AudioSystem
+		mAudioSystem->Update(deltaTime);
+
 		// Update UIStack
 		for (UIScreen* screen : mUIStack)
 			if (screen->GetState() == UIScreen::State::Active) screen->Update(deltaTime);
@@ -284,6 +305,8 @@ namespace jLab
 
 	void Game::LoadData()
 	{
+		mAudioSystem->PlayEvent("event:/Music");
+
 		mInputSystem->SetCursorLocked(true);
 
 		LoadText("Assets/Texts/English.jatxt");
