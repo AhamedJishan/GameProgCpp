@@ -41,6 +41,10 @@ namespace jLab
 		void SetBusVolume(const std::string& name, float volume);
 		void SetBusPaused(const std::string& name, bool pause);
 
+	protected:
+		friend class SoundEvent;
+		FMOD::Studio::EventInstance* GetEventInstance(unsigned int id);
+
 	private:
 		static unsigned int sNextId;
 

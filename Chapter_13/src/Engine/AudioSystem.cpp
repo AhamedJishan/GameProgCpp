@@ -246,4 +246,13 @@ namespace jLab
 
 		iter->second->setPaused(pause);
 	}
+
+	FMOD::Studio::EventInstance* AudioSystem::GetEventInstance(unsigned int id)
+	{
+		auto iter = mEventInstances.find(id);
+		if (iter != mEventInstances.end())
+			return iter->second;
+
+		return nullptr;
+	}
 }
