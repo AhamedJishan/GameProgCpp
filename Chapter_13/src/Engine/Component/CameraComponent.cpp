@@ -3,6 +3,7 @@
 #include "Engine/Actor.h"
 #include "Engine/Game.h"
 #include "Engine/Renderer.h"
+#include "Engine/AudioSystem.h"
 
 namespace jLab
 {
@@ -14,6 +15,6 @@ namespace jLab
 	void CameraComponent::SetViewMatrix(const glm::mat4& view)
 	{
 		mOwner->GetGame()->GetRenderer()->SetSetViewMatrix(view);
-		// TODO: Set audio listener
+		mOwner->GetGame()->GetAudioSystem()->SetListener(view);
 	}
 }

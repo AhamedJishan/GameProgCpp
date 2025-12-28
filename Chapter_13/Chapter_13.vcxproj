@@ -105,6 +105,7 @@
     <ClInclude Include="src\Engine\BoneTransform.h" />
     <ClInclude Include="src\Engine\Button.h" />
     <ClInclude Include="src\Engine\Collision.h" />
+    <ClInclude Include="src\Engine\Component\AudioComponent.h" />
     <ClInclude Include="src\Engine\Component\BoxComponent.h" />
     <ClInclude Include="src\Engine\Component\CameraComponent.h" />
     <ClInclude Include="src\Engine\Component\Component.h" />
@@ -145,6 +146,7 @@
     <ClCompile Include="src\Engine\BoneTransform.cpp" />
     <ClCompile Include="src\Engine\Button.cpp" />
     <ClCompile Include="src\Engine\Collision.cpp" />
+    <ClCompile Include="src\Engine\Component\AudioComponent.cpp" />
     <ClCompile Include="src\Engine\Component\BoxComponent.cpp" />
     <ClCompile Include="src\Engine\Component\CameraComponent.cpp" />
     <ClCompile Include="src\Engine\Component\Component.cpp" />

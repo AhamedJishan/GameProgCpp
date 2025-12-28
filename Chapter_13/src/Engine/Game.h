@@ -31,12 +31,13 @@ namespace jLab
 		void PushUI(class UIScreen* screen);
 		std::vector<class UIScreen*> GetUIStack() const { return mUIStack; }
 
-		class Renderer* GetRenderer() const { return mRenderer; }
-		class InputSystem* GetInputSystem() const { return mInputSystem; }
-		class PhysWorld* GetPhysWorld() const { return mPhysWorld; }
-		class Skeleton* GetSkeleton(const std::string& filename);
-		class Animation* GetAnimation(const std::string& filename, class Skeleton* skeleton);
-		class Font* GetFont(const std::string& filename);
+		class Renderer*		GetRenderer()		const { return mRenderer; }
+		class AudioSystem*	GetAudioSystem()	const { return mAudioSystem; }
+		class InputSystem*	GetInputSystem()	const { return mInputSystem; }
+		class PhysWorld*	GetPhysWorld()		const { return mPhysWorld; }
+		class Skeleton*		GetSkeleton	(const std::string& filename);
+		class Animation*	GetAnimation(const std::string& filename, class Skeleton* skeleton);
+		class Font*			GetFont		(const std::string& filename);
 
 		void LoadText(const std::string& filename);
 		const std::string& GetText(const std::string& key);
