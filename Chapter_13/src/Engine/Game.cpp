@@ -24,6 +24,8 @@
 #include "Game/FollowActor.h"
 #include "Game/AnimTestActor.h"
 #include "Game/PauseMenu.h"
+#include "Game/TargetActor.h"
+#include "Game/HUD.h"
 
 namespace jLab
 {
@@ -312,6 +314,23 @@ namespace jLab
 		LoadText("Assets/Texts/English.jatxt");
 
 		FollowActor* playerController = new FollowActor(this);
+
+		TargetActor* ta1 = new TargetActor(this);
+		TargetActor* ta2 = new TargetActor(this);
+		TargetActor* ta3 = new TargetActor(this);
+		TargetActor* ta4 = new TargetActor(this);
+		TargetActor* ta5 = new TargetActor(this);
+		TargetActor* ta6 = new TargetActor(this);
+		ta1->SetPosition(glm::vec3(0, 1.2f, -9.5f));
+		ta2->SetPosition(glm::vec3(0, 3.0f, -9.5f));
+		ta3->SetPosition(glm::vec3(-1.5f, 2.1f, -9.5f));
+		ta4->SetPosition(glm::vec3(1.5f, 2.1f, -9.5f));
+		ta5->SetPosition(glm::vec3(7.5f, 2, -9.5f));
+		ta6->SetPosition(glm::vec3(-7.5f, 2, -9.5f));
+		
+		std::vector<Actor*> targets = { ta1, ta2, ta3, ta4, ta5, ta6 };
+		
+		HUD* hud = new HUD(this, playerController, targets);
 
 		GroundActor* ground = new GroundActor(this);
 

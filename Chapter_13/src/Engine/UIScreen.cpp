@@ -17,6 +17,7 @@ namespace jLab
 	UIScreen::UIScreen(Game* game)
 		:mGame(game)
 		,mTitle(nullptr)
+		,mBGTexture(nullptr)
 		,mTitlePos(glm::vec2(0))
 		,mBGPos(glm::vec2(0))
 		,mBGScale(glm::vec2(1))
@@ -25,7 +26,6 @@ namespace jLab
 	{
 		mGame->PushUI(this);
 		mFont = mGame->GetFont("Assets/Fonts/Carlito-Regular.ttf");
-		mBGTexture = mGame->GetRenderer()->GetTexture("Assets/Textures/DialogBG.png");
 		mButtonOnTexture = mGame->GetRenderer()->GetTexture("Assets/Textures/ButtonYellow.png");
 		mButtonOffTexture = mGame->GetRenderer()->GetTexture("Assets/Textures/ButtonBlue.png");
 	}

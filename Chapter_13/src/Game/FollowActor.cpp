@@ -7,6 +7,7 @@
 #include "Engine/Component/MoveComponent.h"
 #include "Engine/Component/SkinnedMeshComponent.h"
 #include "Engine/Component/FollowCamera.h"
+#include "Engine/Component/MirrorCamera.h"
 #include "Engine/Skeleton.h"
 #include "Engine/Animation.h"
 #include "Engine/Model.h"
@@ -24,6 +25,7 @@ namespace jLab
 
 		mMoveComp = new MoveComponent(this);
 		mFollowCamComp = new FollowCamera(this);
+		mMirrorCamComp = new MirrorCamera(this);
 		mSkinnedMeshComp = new SkinnedMeshComponent(this);
 
 		mSkinnedMeshComp->SetMesh(model);

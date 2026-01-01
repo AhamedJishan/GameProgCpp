@@ -65,8 +65,10 @@ namespace jLab
 		mProjection = glm::perspective(glm::radians(80.0f), (float)(mScreenWidth) / (float)(mScreenHeight), 0.1f, 1000.0f);
 		mView = glm::lookAt(glm::vec3(0), glm::vec3(0, 0, -1), glm::vec3(0, 1, 0));
 		mOrtho = glm::ortho(-mScreenWidth / 2.0f, mScreenWidth / 2.0f, -mScreenHeight / 2.0f, mScreenHeight / 2.0f);
+		mMirrorView = mView;
 
 		InitSpriteQuad();
+		CreateMirrorRenderTarget();
 
 		return true;
 	}
@@ -74,24 +76,16 @@ namespace jLab
 	void Renderer::Shutdown()
 	{
 		DeleteSpriteQuad();
+		DeleteMirrorRenderTarget();
 		SDL_GL_DeleteContext(mContext);
 		SDL_DestroyWindow(mWindow);
 	}
 
 	void Renderer::Draw()
 	{
-		glClearColor(0, 0, 0, 1);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		// Draw 3D Stuff
-		glEnable(GL_DEPTH_TEST);
-		SetShaderUniforms(mMeshShader);
-		for (MeshComponent* mesh : mMeshes)
-			mesh->Draw(mMeshShader);
-		SetShaderUniforms(mSkinnedMeshShader);
-		for (SkinnedMeshComponent* mesh : mSkinnedMeshes)
-			mesh->Draw(mSkinnedMeshShader);
-		glDisable(GL_DEPTH_TEST);
+		// 3D Render Pass
+		Draw3DScene(mMirrorFBO, mMirrorView, mProjection, 0.25f);
+		Draw3DScene(0, mView, mProjection, 1.0f);
 
 		// 2D Render Pass
 		glEnable(GL_BLEND);
@@ -194,9 +188,9 @@ namespace jLab
 		return model;
 	}
 
-	void Renderer::SetShaderUniforms(const Shader* shader)
+	void Renderer::SetShaderUniforms(const Shader* shader, const glm::mat4& view, const glm::mat4& proj)
 	{
-		glm::mat4 viewProjection = mProjection * mView;
+		glm::mat4 viewProjection = proj * view;
 
 		glm::mat3 R = glm::mat3(mView);
 		glm::vec3 T = glm::vec3(mView[3]);
@@ -257,6 +251,66 @@ namespace jLab
 		glBindVertexArray(mSpriteVAO);
 		mSpriteShader->SetActive();
 		mSpriteShader->SetMat4("uViewProjection", mOrtho);
+	}
+
+	bool Renderer::CreateMirrorRenderTarget()
+	{
+		int width = static_cast<int>(mScreenWidth / 4.0f);
+		int height = static_cast<int>(mScreenHeight / 4.0f);
+
+		glGenFramebuffers(1, &mMirrorFBO);
+		glBindFramebuffer(GL_FRAMEBUFFER, mMirrorFBO);
+
+		mMirrorTexture = new Texture();
+		mMirrorTexture->CreateForRendering(width, height, GL_RGB);
+
+		unsigned int depthRBO;
+		glGenRenderbuffers(1, &depthRBO);
+		glBindRenderbuffer(GL_RENDERBUFFER, depthRBO);
+		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, width, height);
+
+		glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, mMirrorTexture->GetID(), 0);
+		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRBO);
+
+		GLenum drawBuffers[] = { GL_COLOR_ATTACHMENT0 };
+		glDrawBuffers(1, drawBuffers);
+
+		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+		{
+			glDeleteFramebuffers(1, &mMirrorFBO);
+			delete mMirrorTexture;
+			mMirrorTexture = nullptr;
+			return false;
+		}
+
+		return true;
+	}
+
+	void Renderer::DeleteMirrorRenderTarget()
+	{
+		glDeleteFramebuffers(1, &mMirrorFBO);
+		delete mMirrorTexture;
+		mMirrorTexture = nullptr;
+	}
+
+	void Renderer::Draw3DScene(unsigned int framebuffer, const glm::mat4& view, const glm::mat4& proj, float viewPortScale)
+	{
+		glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+
+		glViewport(0, 0, mScreenWidth * viewPortScale, mScreenHeight * viewPortScale);
+
+		glClearColor(0, 0, 0, 1);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		// Draw 3D Stuff
+		glEnable(GL_DEPTH_TEST);
+		SetShaderUniforms(mMeshShader, view, proj);
+		for (MeshComponent* mesh : mMeshes)
+			mesh->Draw(mMeshShader);
+		SetShaderUniforms(mSkinnedMeshShader, view, proj);
+		for (SkinnedMeshComponent* mesh : mSkinnedMeshes)
+			mesh->Draw(mSkinnedMeshShader);
+		glDisable(GL_DEPTH_TEST);
 	}
 
 	glm::vec3 Renderer::ScreenToWorldPos(const glm::vec3& screenPosition)

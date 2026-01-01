@@ -135,6 +135,19 @@ namespace jLab
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         glGenerateMipmap(GL_TEXTURE_2D);
     }
+
+    void Texture::CreateForRendering(int width, int height, unsigned int format)
+    {
+        Unload();
+
+        mWidth = width;
+        mHeight = height;
+        glGenTextures(1, &mId);
+        glBindTexture(GL_TEXTURE_2D, mId);
+        glTexImage2D(GL_TEXTURE_2D, 0, format, mWidth, mHeight, 0, format, GL_FLOAT, 0);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    }
     
     void Texture::Unload()
     {

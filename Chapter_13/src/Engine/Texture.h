@@ -23,11 +23,13 @@ namespace jLab
 		bool Load(const std::string& filename, const aiTexture* textureData, bool flipVertically = false, Type type = Type::Diffuse);
 
 		void CreateFromTexture(SDL_Surface* surface);
+		void CreateForRendering(int width, int height, unsigned int format);
 
 		void Unload();
 
 		void SetActive(int slot = 0);
 
+		unsigned int GetID() const { return mId; }
 		const std::string& GetName() const { return mName; }
 		int GetWidth() const { return mWidth; }
 		int GetHeight() const { return mHeight; }

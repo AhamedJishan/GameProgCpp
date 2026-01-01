@@ -19,6 +19,8 @@ namespace jLab
 			mGame->GetInputSystem()->SetCursorLocked(false);
 			mGame->SetState(Game::GameState::Paused);
 
+			mBGTexture = mGame->GetRenderer()->GetTexture("Assets/Textures/DialogBG.png");
+
 			SetTitle("PauseTitle", glm::vec4(0, 0, 0, 1.0f));
 			mTitlePos = glm::vec2(0, 100);
 

@@ -15,6 +15,7 @@ namespace jLab
 		class MoveComponent* mMoveComp;
 		class SkinnedMeshComponent* mSkinnedMeshComp;
 		class FollowCamera* mFollowCamComp;
+		class MirrorCamera* mMirrorCamComp;
 
 		class Animation* mIdleAnim;
 		class Animation* mRunAnim;

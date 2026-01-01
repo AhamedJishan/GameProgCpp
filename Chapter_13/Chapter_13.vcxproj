@@ -112,6 +112,7 @@
     <ClInclude Include="src\Engine\Component\FollowCamera.h" />
     <ClInclude Include="src\Engine\Component\FPSCameraComponent.h" />
     <ClInclude Include="src\Engine\Component\MeshComponent.h" />
+    <ClInclude Include="src\Engine\Component\MirrorCamera.h" />
     <ClInclude Include="src\Engine\Component\MoveComponent.h" />
     <ClInclude Include="src\Engine\Component\SkinnedMeshComponent.h" />
     <ClInclude Include="src\Engine\Component\SpriteComponent.h" />
@@ -135,7 +136,9 @@
     <ClInclude Include="src\Game\FollowActor.h" />
     <ClInclude Include="src\Game\FPSActor.h" />
     <ClInclude Include="src\Game\GroundActor.h" />
+    <ClInclude Include="src\Game\HUD.h" />
     <ClInclude Include="src\Game\PauseMenu.h" />
+    <ClInclude Include="src\Game\TargetActor.h" />
     <ClInclude Include="src\Game\WallActor.h" />
     <ClInclude Include="src\stbi\stb_image.h" />
   </ItemGroup>
@@ -153,6 +156,7 @@
     <ClCompile Include="src\Engine\Component\FollowCamera.cpp" />
     <ClCompile Include="src\Engine\Component\FPSCameraComponent.cpp" />
     <ClCompile Include="src\Engine\Component\MeshComponent.cpp" />
+    <ClCompile Include="src\Engine\Component\MirrorCamera.cpp" />
     <ClCompile Include="src\Engine\Component\MoveComponent.cpp" />
     <ClCompile Include="src\Engine\Component\SkinnedMeshComponent.cpp" />
     <ClCompile Include="src\Engine\Component\SpriteComponent.cpp" />
@@ -174,6 +178,7 @@
     <ClCompile Include="src\EntryPoint.cpp" />
     <ClCompile Include="src\Game\FollowActor.cpp" />
     <ClCompile Include="src\Game\FPSActor.cpp" />
+    <ClCompile Include="src\Game\HUD.cpp" />
     <ClCompile Include="src\stbi\stb_image.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
