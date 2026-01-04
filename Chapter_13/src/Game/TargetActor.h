@@ -18,7 +18,7 @@ namespace jLab
 			SetScale(glm::vec3(0.75f));
 			Rotate(glm::radians(90.0f), glm::vec3(1, 0, 0));
 
-			Model* model = GetGame()->GetRenderer()->GetModel("Assets/Models/target/target.obj");
+			Model* model = GetGame()->GetRenderer()->GetModel("Assets/Models/target/target_corrected.obj");
 			MeshComponent* mc = new MeshComponent(this);
 			mc->SetMesh(model);
 			mc->SetSpecular(glm::vec3(0.0f), 32.0f);

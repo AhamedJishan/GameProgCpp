@@ -9,9 +9,10 @@ namespace jLab
 	class Shader
 	{
 	public:
-		Shader(const std::string& vertexShader, const std::string& fragmentShader);
+		Shader();
 		~Shader();
 
+		bool Load(const std::string& vertexShader, const std::string& fragmentShader);
 		void SetActive() const;
 
 		void SetBool(const std::string& name, const bool value) const;
@@ -25,7 +26,6 @@ namespace jLab
 		void SetMat4s(const std::string& name, const glm::mat4* mat, int count) const;
 
 	private:
-		bool Load(const std::string& vertexShader, const std::string& fragmentShader);
 		bool Compile(const std::string& shaderSource, GLenum shaderType, unsigned int& outShader);
 		bool IsCompiled(unsigned int shader);
 		bool IsProgramValid();

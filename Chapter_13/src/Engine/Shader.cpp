@@ -7,10 +7,9 @@
 
 namespace jLab
 {
-	Shader::Shader(const std::string& vertexShader, const std::string& fragmentShader)
+	Shader::Shader()
 		:m_Id(-1)
 	{
-		Load(vertexShader, fragmentShader);
 	}
 
 	Shader::~Shader()

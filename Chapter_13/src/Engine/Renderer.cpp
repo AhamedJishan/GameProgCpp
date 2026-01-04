@@ -12,6 +12,7 @@
 #include "Component/SkinnedMeshComponent.h"
 #include "Component/SpriteComponent.h"
 #include "UIScreen.h"
+#include "GBuffer.h"
 
 namespace jLab
 {
@@ -58,14 +59,19 @@ namespace jLab
 		}
 		glGetError();
 
-		mMeshShader = new Shader("Assets/Shaders/Phong.vert", "Assets/Shaders/Phong.frag");
-		mSkinnedMeshShader = new Shader("Assets/Shaders/Skinned.vert", "Assets/Shaders/Phong.frag");
-		mSpriteShader = new Shader("Assets/Shaders/Sprite.vert", "Assets/Shaders/Sprite.frag");
-		
-		mProjection = glm::perspective(glm::radians(80.0f), (float)(mScreenWidth) / (float)(mScreenHeight), 0.1f, 1000.0f);
-		mView = glm::lookAt(glm::vec3(0), glm::vec3(0, 0, -1), glm::vec3(0, 1, 0));
-		mOrtho = glm::ortho(-mScreenWidth / 2.0f, mScreenWidth / 2.0f, -mScreenHeight / 2.0f, mScreenHeight / 2.0f);
-		mMirrorView = mView;
+		mGBuffer = new GBuffer();
+		if (!mGBuffer->Create(mScreenWidth, mScreenHeight))
+		{
+			printf("ERROR: Failed to create GBuffer!\n");
+			delete mGBuffer;
+			return false;
+		}
+
+		if (!LoadShaders())
+		{
+			printf("ERROR: Failed to Load Shaders!\n");
+			return false;
+		}
 
 		InitSpriteQuad();
 		CreateMirrorRenderTarget();
@@ -75,6 +81,7 @@ namespace jLab
 
 	void Renderer::Shutdown()
 	{
+		delete mGBuffer;
 		DeleteSpriteQuad();
 		DeleteMirrorRenderTarget();
 		SDL_GL_DeleteContext(mContext);
@@ -84,8 +91,13 @@ namespace jLab
 	void Renderer::Draw()
 	{
 		// 3D Render Pass
-		Draw3DScene(mMirrorFBO, mMirrorView, mProjection, 0.25f);
-		Draw3DScene(0, mView, mProjection, 1.0f);
+		Draw3DScene(mMirrorFBO, mMirrorView, 0.25f, true);
+		Draw3DScene(mGBuffer->GetId(), mView, 1.0f, false);
+
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		glClearColor(0, 0, 0, 1);
+		glClear(GL_COLOR_BUFFER_BIT);
+		DrawFromGBuffer();
 
 		// 2D Render Pass
 		glEnable(GL_BLEND);
@@ -188,20 +200,16 @@ namespace jLab
 		return model;
 	}
 
-	void Renderer::SetShaderUniforms(const Shader* shader, const glm::mat4& view, const glm::mat4& proj)
+	void Renderer::SetShaderUniforms(const Shader* shader, const glm::mat4& view)
 	{
-		glm::mat4 viewProjection = proj * view;
-
 		glm::mat3 R = glm::mat3(mView);
 		glm::vec3 T = glm::vec3(mView[3]);
 		glm::vec3 cameraPos = -glm::transpose(R) * T;
 
-		shader->SetActive();
-		shader->SetMat4("uViewProjection", viewProjection);
 		shader->SetVec3("uCameraPos", cameraPos);
 		shader->SetVec3("uLightDir", glm::vec3(1, -0.5f, -1));
 		shader->SetVec3("uLightColor", glm::vec3(1));
-		shader->SetVec3("uAmbientColor", glm::vec3(0.3f));
+		shader->SetVec3("uAmbientColor", glm::vec3(0.2f));
 	}
 
 	void Renderer::InitSpriteQuad()
@@ -253,6 +261,40 @@ namespace jLab
 		mSpriteShader->SetMat4("uViewProjection", mOrtho);
 	}
 
+	bool Renderer::LoadShaders()
+	{
+		mProjection = glm::perspective(glm::radians(80.0f), (float)(mScreenWidth) / (float)(mScreenHeight), 0.1f, 1000.0f);
+		mView = glm::lookAt(glm::vec3(0), glm::vec3(0, 0, -1), glm::vec3(0, 1, 0));
+		mOrtho = glm::ortho(-mScreenWidth / 2.0f, mScreenWidth / 2.0f, -mScreenHeight / 2.0f, mScreenHeight / 2.0f);
+		mMirrorView = mView;
+
+		mMeshShader = new Shader();
+		if (!mMeshShader->Load("Assets/Shaders/Phong.vert", "Assets/Shaders/GBufferWrite.frag"))
+			return false;
+
+		mSkinnedMeshShader = new Shader();
+		if (!mSkinnedMeshShader->Load("Assets/Shaders/Skinned.vert", "Assets/Shaders/GBufferWrite.frag"))
+			return false;
+
+		mGGlobalShader = new Shader();
+		if (!mGGlobalShader->Load("Assets/Shaders/GBufferGlobal.vert", "Assets/Shaders/GBufferGlobal.frag"))
+			return false;
+		mGGlobalShader->SetActive();
+		mGGlobalShader->SetMat4("uViewProjection", mOrtho);
+		mGGlobalShader->SetMat4("uWorldTransform", glm::scale(glm::mat4(1), glm::vec3(mScreenWidth, -mScreenHeight, 0)));
+		mGGlobalShader->SetInt("uGDiffuse", static_cast<int>(GBuffer::Type::Diffuse));
+		mGGlobalShader->SetInt("uGNormal", static_cast<int>(GBuffer::Type::Normal));
+		mGGlobalShader->SetInt("uGWorldPos", static_cast<int>(GBuffer::Type::WorldPosition));
+
+		mSpriteShader = new Shader();
+		if (!mSpriteShader->Load("Assets/Shaders/Sprite.vert", "Assets/Shaders/Sprite.frag"))
+			return false;
+		mSpriteShader->SetActive();
+		mSpriteShader->SetMat4("uViewProjection", mProjection * mView);
+
+		return true;
+	}
+
 	bool Renderer::CreateMirrorRenderTarget()
 	{
 		int width = static_cast<int>(mScreenWidth / 4.0f);
@@ -293,7 +335,7 @@ namespace jLab
 		mMirrorTexture = nullptr;
 	}
 
-	void Renderer::Draw3DScene(unsigned int framebuffer, const glm::mat4& view, const glm::mat4& proj, float viewPortScale)
+	void Renderer::Draw3DScene(unsigned int framebuffer, const glm::mat4& view, float viewPortScale, bool lit)
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
 
@@ -304,13 +346,33 @@ namespace jLab
 
 		// Draw 3D Stuff
 		glEnable(GL_DEPTH_TEST);
-		SetShaderUniforms(mMeshShader, view, proj);
+
+		mMeshShader->SetActive();
+		if (lit)
+			SetShaderUniforms(mMeshShader, view);
+		mMeshShader->SetMat4("uViewProjection", mProjection * view);
 		for (MeshComponent* mesh : mMeshes)
 			mesh->Draw(mMeshShader);
-		SetShaderUniforms(mSkinnedMeshShader, view, proj);
+
+		mSkinnedMeshShader->SetActive();
+		if (lit)
+			SetShaderUniforms(mSkinnedMeshShader, view);
+		mSkinnedMeshShader->SetMat4("uViewProjection", mProjection * view);
 		for (SkinnedMeshComponent* mesh : mSkinnedMeshes)
 			mesh->Draw(mSkinnedMeshShader);
+
 		glDisable(GL_DEPTH_TEST);
+	}
+
+	void Renderer::DrawFromGBuffer()
+	{
+		mGGlobalShader->SetActive();
+		mGBuffer->SetTexturesActive();
+
+		SetShaderUniforms(mGGlobalShader, mView);
+
+		glBindVertexArray(mSpriteVAO);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	}
 
 	glm::vec3 Renderer::ScreenToWorldPos(const glm::vec3& screenPosition)

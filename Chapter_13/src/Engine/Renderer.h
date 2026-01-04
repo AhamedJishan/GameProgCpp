@@ -45,16 +45,19 @@ namespace jLab
 		void SetMirrorView(const glm::mat4& view) { mMirrorView = view; }
 
 	private:
-		void SetShaderUniforms(const class Shader* shader, const glm::mat4& view, const glm::mat4& proj);
+		void SetShaderUniforms(const class Shader* shader, const glm::mat4& view);
 		void InitSpriteQuad();
 		void DeleteSpriteQuad();
 		void UseSpriteQuad();
+		bool LoadShaders();
 		bool CreateMirrorRenderTarget();
 		void DeleteMirrorRenderTarget();
-		void Draw3DScene(unsigned int framebuffer, const glm::mat4& view, const glm::mat4& proj, float viewPortScale);
+		void Draw3DScene(unsigned int framebuffer, const glm::mat4& view, float viewPortScale, bool lit);
+		void DrawFromGBuffer();
 
 	private:
 		class Game* mGame;
+		class GBuffer* mGBuffer;
 
 		int mScreenWidth;
 		int mScreenHeight;
@@ -68,6 +71,7 @@ namespace jLab
 
 		class Shader* mMeshShader;
 		class Shader* mSkinnedMeshShader;
+		class Shader* mGGlobalShader;
 		class Shader* mSpriteShader;
 
 		std::unordered_map<std::string, Texture*> mTextures;

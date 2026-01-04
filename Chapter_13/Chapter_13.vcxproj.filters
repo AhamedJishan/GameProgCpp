@@ -67,6 +67,7 @@
     <ClInclude Include="src\Game\HUD.h" />
     <ClInclude Include="src\Game\TargetActor.h" />
     <ClInclude Include="src\Engine\Component\MirrorCamera.h" />
+    <ClInclude Include="src\Engine\GBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Actor.cpp">
@@ -122,5 +123,6 @@
     <ClCompile Include="src\Engine\Component\AudioComponent.cpp" />
     <ClCompile Include="src\Game\HUD.cpp" />
     <ClCompile Include="src\Engine\Component\MirrorCamera.cpp" />
+    <ClCompile Include="src\Engine\GBuffer.cpp" />
   </ItemGroup>
 </Project>
