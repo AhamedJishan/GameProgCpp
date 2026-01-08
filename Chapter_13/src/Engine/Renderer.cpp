@@ -5,6 +5,7 @@
 #include <GLEW/GL/glew.h>
 
 #include "Game.h"
+#include "Actor.h"
 #include "Shader.h"
 #include "Texture.h"
 #include "Model.h"
@@ -13,6 +14,7 @@
 #include "Component/SpriteComponent.h"
 #include "UIScreen.h"
 #include "GBuffer.h"
+#include "Component/PointLightComponent.h"
 
 namespace jLab
 {
@@ -73,6 +75,8 @@ namespace jLab
 			return false;
 		}
 
+		mLightMesh = GetModel("Assets/Models/lightmesh/pointlightmesh.obj");
+
 		InitSpriteQuad();
 		CreateMirrorRenderTarget();
 
@@ -95,11 +99,13 @@ namespace jLab
 		Draw3DScene(mGBuffer->GetId(), mView, 1.0f, false);
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-		glClearColor(0, 0, 0, 1);
-		glClear(GL_COLOR_BUFFER_BIT);
+		//glClearColor(0, 0, 0, 1);
+		//glClear(GL_COLOR_BUFFER_BIT);
 		DrawFromGBuffer();
 
 		// 2D Render Pass
+		glDisable(GL_DEPTH_TEST);
+		glDepthMask(GL_TRUE);
 		glEnable(GL_BLEND);
 		glBlendEquationSeparate(GL_FUNC_ADD, GL_FUNC_ADD);
 		glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ZERO);
@@ -147,6 +153,18 @@ namespace jLab
 		auto it = std::find(mSprites.begin(), mSprites.end(), sprite);
 		if (it != mSprites.end())
 			mSprites.erase(it);
+	}
+
+	void Renderer::AddLight(PointLightComponent* light)
+	{
+		mLights.emplace_back(light);
+	}
+
+	void Renderer::RemoveLight(PointLightComponent* light)
+	{
+		auto it = std::find(mLights.begin(), mLights.end(), light);
+		if (it != mLights.end())
+			mLights.erase(it);
 	}
 
 	Texture* Renderer::GetTexture(const std::string& filename, bool flipVertically, Texture::Type type)
@@ -202,8 +220,8 @@ namespace jLab
 
 	void Renderer::SetShaderUniforms(const Shader* shader, const glm::mat4& view)
 	{
-		glm::mat3 R = glm::mat3(mView);
-		glm::vec3 T = glm::vec3(mView[3]);
+		glm::mat3 R = glm::mat3(view);
+		glm::vec3 T = glm::vec3(view[3]);
 		glm::vec3 cameraPos = -glm::transpose(R) * T;
 
 		shader->SetVec3("uCameraPos", cameraPos);
@@ -281,10 +299,20 @@ namespace jLab
 			return false;
 		mGGlobalShader->SetActive();
 		mGGlobalShader->SetMat4("uViewProjection", mOrtho);
-		mGGlobalShader->SetMat4("uWorldTransform", glm::scale(glm::mat4(1), glm::vec3(mScreenWidth, -mScreenHeight, 0)));
+		mGGlobalShader->SetMat4("uWorldTransform", glm::scale(glm::mat4(1), glm::vec3(mScreenWidth, -mScreenHeight, 1)));
 		mGGlobalShader->SetInt("uGDiffuse", static_cast<int>(GBuffer::Type::Diffuse));
 		mGGlobalShader->SetInt("uGNormal", static_cast<int>(GBuffer::Type::Normal));
 		mGGlobalShader->SetInt("uGWorldPos", static_cast<int>(GBuffer::Type::WorldPosition));
+
+		mGPointLightShader = new Shader();
+		if (!mGPointLightShader->Load("Assets/Shaders/GBufferPointLight.vert", "Assets/Shaders/GBufferPointLight.frag"))
+			return false;
+		mGPointLightShader->SetActive();
+		mGPointLightShader->SetMat4("uViewProjection", mProjection * mView);
+		mGPointLightShader->SetInt("uGDiffuse", static_cast<int>(GBuffer::Type::Diffuse));
+		mGPointLightShader->SetInt("uGNormal", static_cast<int>(GBuffer::Type::Normal));
+		mGPointLightShader->SetInt("uGWorldPos", static_cast<int>(GBuffer::Type::WorldPosition));
+		mGPointLightShader->SetVec2("uScreenDimensions", glm::vec2(mScreenWidth, mScreenHeight));
 
 		mSpriteShader = new Shader();
 		if (!mSpriteShader->Load("Assets/Shaders/Sprite.vert", "Assets/Shaders/Sprite.frag"))
@@ -341,11 +369,12 @@ namespace jLab
 
 		glViewport(0, 0, mScreenWidth * viewPortScale, mScreenHeight * viewPortScale);
 
+		glDisable(GL_BLEND);
+		glEnable(GL_DEPTH_TEST);
+		glDepthMask(GL_TRUE);
+
 		glClearColor(0, 0, 0, 1);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		// Draw 3D Stuff
-		glEnable(GL_DEPTH_TEST);
 
 		mMeshShader->SetActive();
 		if (lit)
@@ -360,19 +389,37 @@ namespace jLab
 		mSkinnedMeshShader->SetMat4("uViewProjection", mProjection * view);
 		for (SkinnedMeshComponent* mesh : mSkinnedMeshes)
 			mesh->Draw(mSkinnedMeshShader);
-
-		glDisable(GL_DEPTH_TEST);
 	}
 
 	void Renderer::DrawFromGBuffer()
 	{
+		// Global lighting pass
 		mGGlobalShader->SetActive();
 		mGBuffer->SetTexturesActive();
 
 		SetShaderUniforms(mGGlobalShader, mView);
 
+		glDisable(GL_DEPTH_TEST);
+
 		glBindVertexArray(mSpriteVAO);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+		// Point Light pass
+		glBindFramebuffer(GL_READ_FRAMEBUFFER, mGBuffer->GetId());
+		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+		glBlitFramebuffer(0, 0, mScreenWidth, mScreenHeight, 0, 0, mScreenWidth, mScreenHeight, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+		
+		glEnable(GL_DEPTH_TEST);
+		glDepthMask(GL_FALSE);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_ONE, GL_ONE);
+
+		mGBuffer->SetTexturesActive();
+		mGPointLightShader->SetActive();
+		mGPointLightShader->SetMat4("uViewProjection", mProjection * mView);
+
+		for (int i = 0; i < mLights.size(); i++)
+			mLights[i]->Draw(mGPointLightShader);
 	}
 
 	glm::vec3 Renderer::ScreenToWorldPos(const glm::vec3& screenPosition)

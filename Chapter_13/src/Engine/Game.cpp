@@ -26,6 +26,7 @@
 #include "Game/PauseMenu.h"
 #include "Game/TargetActor.h"
 #include "Game/HUD.h"
+#include "Game/PointLightActor.h"
 
 namespace jLab
 {
@@ -314,6 +315,7 @@ namespace jLab
 		LoadText("Assets/Texts/English.jatxt");
 
 		FollowActor* playerController = new FollowActor(this);
+		//playerController->SetPosition(glm::vec3(9, 0, 9));
 
 		TargetActor* ta1 = new TargetActor(this);
 		TargetActor* ta2 = new TargetActor(this);
@@ -355,6 +357,37 @@ namespace jLab
 		AnimTestActor* animTest = new AnimTestActor(this);
 		animTest->SetScale(glm::vec3(0.005f));
 		animTest->SetPosition(glm::vec3(0, 0.25f, -5));
+
+		int index = 0;
+		std::vector<glm::vec3> lightColors =
+		{
+			{1.0f, 0.0f, 0.0f}, // Red
+			{0.0f, 1.0f, 0.0f}, // Green
+			{0.0f, 0.0f, 1.0f}, // Blue
+			{1.0f, 1.0f, 0.0f}, // Yellow
+			{1.0f, 0.0f, 1.0f}, // Magenta
+			{0.0f, 1.0f, 1.0f}  // Cyan
+		};
+
+		for (int x = 0; x < 8; x++)
+		{
+			for (int z = 0; z < 8; z++)
+			{
+				PointLightActor* pla = new PointLightActor(this);
+
+				float posX = -8.0f + x * (16.0f / 7.0f);
+				float posZ = -8.0f + z * (16.0f / 7.0f);
+
+				float r = x / 7.0f;                 
+				float b = z / 7.0f;                 
+				float g = (r + b) * 0.5f;           
+
+				pla->SetPosition(glm::vec3(posX, 0.5f, posZ));
+
+				pla->SetColor(lightColors[index % lightColors.size()]);
+				index++;
+			}
+		}
 	}
 	
 	void Game::UnloadData()

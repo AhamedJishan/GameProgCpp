@@ -114,6 +114,7 @@
     <ClInclude Include="src\Engine\Component\MeshComponent.h" />
     <ClInclude Include="src\Engine\Component\MirrorCamera.h" />
     <ClInclude Include="src\Engine\Component\MoveComponent.h" />
+    <ClInclude Include="src\Engine\Component\PointLightComponent.h" />
     <ClInclude Include="src\Engine\Component\SkinnedMeshComponent.h" />
     <ClInclude Include="src\Engine\Component\SpriteComponent.h" />
     <ClInclude Include="src\Engine\DialogBox.h" />
@@ -139,6 +140,7 @@
     <ClInclude Include="src\Game\GroundActor.h" />
     <ClInclude Include="src\Game\HUD.h" />
     <ClInclude Include="src\Game\PauseMenu.h" />
+    <ClInclude Include="src\Game\PointLightActor.h" />
     <ClInclude Include="src\Game\TargetActor.h" />
     <ClInclude Include="src\Game\WallActor.h" />
     <ClInclude Include="src\stbi\stb_image.h" />
@@ -159,6 +161,7 @@
     <ClCompile Include="src\Engine\Component\MeshComponent.cpp" />
     <ClCompile Include="src\Engine\Component\MirrorCamera.cpp" />
     <ClCompile Include="src\Engine\Component\MoveComponent.cpp" />
+    <ClCompile Include="src\Engine\Component\PointLightComponent.cpp" />
     <ClCompile Include="src\Engine\Component\SkinnedMeshComponent.cpp" />
     <ClCompile Include="src\Engine\Component\SpriteComponent.cpp" />
     <ClCompile Include="src\Engine\DialogBox.cpp" />

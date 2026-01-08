@@ -13,6 +13,6 @@ layout (location = 2) out vec3 outWorldPos;
 void main()
 {
 	outDiffuse = texture(texture_diffuse1, TexCoord).rgb;
-	outNormal = FragNormal;
+	outNormal = normalize(FragNormal);
 	outWorldPos = FragPos;
 }

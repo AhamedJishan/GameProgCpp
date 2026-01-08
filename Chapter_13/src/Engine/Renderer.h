@@ -25,10 +25,13 @@ namespace jLab
 		void RemoveMeshComponent(class MeshComponent* mesh);
 		void AddSpriteComponent(class SpriteComponent* sprite);
 		void RemoveSpriteComponent(class SpriteComponent* sprite);
+		void AddLight(class PointLightComponent* light);
+		void RemoveLight(class PointLightComponent* light);
 
 		Texture* GetTexture(const std::string& filename, bool flipVertically = false, Texture::Type type = Texture::Type::Diffuse);
 		Texture* GetTexture(const std::string& filename, const aiTexture* textureData, bool flipVertically = false, Texture::Type type = Texture::Type::Diffuse);
 		class Model* GetModel(const std::string& filename, bool flipUVs = true, class Skeleton* skeleton = nullptr);
+		class Model* GetLightModel() const { return mLightMesh; }
 
 		int GetScreenWidth() const { return mScreenWidth; }
 		int GetScreenHeight() const { return mScreenHeight; }
@@ -72,6 +75,7 @@ namespace jLab
 		class Shader* mMeshShader;
 		class Shader* mSkinnedMeshShader;
 		class Shader* mGGlobalShader;
+		class Shader* mGPointLightShader;
 		class Shader* mSpriteShader;
 
 		std::unordered_map<std::string, Texture*> mTextures;
@@ -80,6 +84,10 @@ namespace jLab
 		std::vector<class SkinnedMeshComponent*> mSkinnedMeshes;
 		std::vector<class SpriteComponent*> mSprites;
 		unsigned int mSpriteVAO, mSpriteVBO, mSpriteEBO;
+
+		// Point Lights
+		std::vector<class PointLightComponent*> mLights;
+		class Model* mLightMesh;
 
 		// Game Specific
 		unsigned int mMirrorFBO;

@@ -15,7 +15,8 @@ void main()
 {
 	TexCoord = aTexCoord;
 
-	FragNormal = mat3(transpose(inverse(uWorldTransform))) * aNormal;
+	FragNormal = normalize(mat3(transpose(inverse(uWorldTransform))) * aNormal);
+	//FragNormal = normalize(mat3(uWorldTransform) * aNormal);
 
 	vec4 pos =  uWorldTransform * vec4(aPos, 1);
 	FragPos = pos.xyz;

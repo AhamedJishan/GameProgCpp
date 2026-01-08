@@ -1,6 +1,6 @@
 #version 330 core
 
-out vec4 OutColor;
+layout (location = 0) out vec4 OutColor;
 
 uniform sampler2D uGDiffuse;
 uniform sampler2D uGNormal;
