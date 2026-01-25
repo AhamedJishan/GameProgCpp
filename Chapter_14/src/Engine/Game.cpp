@@ -18,6 +18,7 @@
 #include "Skeleton.h"
 #include "Animation.h"
 #include "UIScreen.h"
+#include "LevelLoader.h"
 
 #include "Game/GroundActor.h"
 #include "Game/WallActor.h"
@@ -388,6 +389,8 @@ namespace jLab
 				index++;
 			}
 		}
+
+		LevelLoader::LoadLevel(this, "Assets/LevelFile.json");
 	}
 	
 	void Game::UnloadData()
