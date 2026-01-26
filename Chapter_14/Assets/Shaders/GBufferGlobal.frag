@@ -25,7 +25,7 @@ void main()
 	// DIFFUSE
 	vec3 lightDir = normalize(-uLightDir);
 	float diffuseFactor = max(dot(lightDir, normal), 0);
-	phong += diffuseFactor * diffuseColor;
+	phong += diffuseFactor * diffuseColor * uLightColor;
 
 	OutColor = vec4(phong, 1);
 }

@@ -12,6 +12,12 @@
 
 namespace jLab
 {
+	struct DirectionalLight
+	{
+		glm::vec3 mDirection;
+		glm::vec3 mColor;
+	};
+
 	class Renderer
 	{
 	public:
@@ -42,6 +48,10 @@ namespace jLab
 		SDL_Window* GetWindow() const { return mWindow; }
 
 		void SetSetViewMatrix(const glm::mat4& view) { mView = view; }
+
+		// Global properties
+		void SetAmbientColor(glm::vec3 color) { mAmbientColor = color; }
+		void SetDirectionalLight(glm::vec3 direction, glm::vec3 color) { mDirectionalLight.mDirection = direction; mDirectionalLight.mColor = color; }
 
 		// Game Specific
 		class Texture* GetMirrorTexture() const { return mMirrorTexture; }
@@ -84,6 +94,10 @@ namespace jLab
 		std::vector<class SkinnedMeshComponent*> mSkinnedMeshes;
 		std::vector<class SpriteComponent*> mSprites;
 		unsigned int mSpriteVAO, mSpriteVBO, mSpriteEBO;
+
+		// Global Properties
+		glm::vec3 mAmbientColor;
+		DirectionalLight mDirectionalLight;
 
 		// Point Lights
 		std::vector<class PointLightComponent*> mLights;

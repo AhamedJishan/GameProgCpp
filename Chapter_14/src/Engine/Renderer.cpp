@@ -21,6 +21,10 @@ namespace jLab
 	Renderer::Renderer(Game* game)
 	{
 		mGame = game;
+
+		mAmbientColor = glm::vec3(0.2f, 0.2f, 0.2f);
+		mDirectionalLight.mColor = glm::vec3(1, 1, 1);
+		mDirectionalLight.mDirection = glm::vec3(1, -1, -1);
 	}
 
 	bool Renderer::Init(int screenWidth, int screenHeight)
@@ -99,8 +103,6 @@ namespace jLab
 		Draw3DScene(mGBuffer->GetId(), mView, 1.0f, false);
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-		//glClearColor(0, 0, 0, 1);
-		//glClear(GL_COLOR_BUFFER_BIT);
 		DrawFromGBuffer();
 
 		// 2D Render Pass
@@ -225,9 +227,9 @@ namespace jLab
 		glm::vec3 cameraPos = -glm::transpose(R) * T;
 
 		shader->SetVec3("uCameraPos", cameraPos);
-		shader->SetVec3("uLightDir", glm::vec3(1, -0.5f, -1));
-		shader->SetVec3("uLightColor", glm::vec3(1));
-		shader->SetVec3("uAmbientColor", glm::vec3(0.2f));
+		shader->SetVec3("uLightDir", mDirectionalLight.mDirection);
+		shader->SetVec3("uLightColor", mDirectionalLight.mColor);
+		shader->SetVec3("uAmbientColor", mAmbientColor);
 	}
 
 	void Renderer::InitSpriteQuad()
@@ -393,6 +395,9 @@ namespace jLab
 
 	void Renderer::DrawFromGBuffer()
 	{
+		glClearColor(0, 0, 0, 1);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		
 		// Global lighting pass
 		mGGlobalShader->SetActive();
 		mGBuffer->SetTexturesActive();

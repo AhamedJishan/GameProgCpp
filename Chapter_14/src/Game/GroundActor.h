@@ -18,10 +18,13 @@ namespace jLab
 			MeshComponent* mc = new MeshComponent(this);
 			Model* model = mGame->GetRenderer()->GetModel("Assets/Models/scene/GroundPlane.obj");
 			mc->SetMesh(model);
-			mc->SetSpecular(glm::vec3(0.3f), 16);
+			mc->SetSpecular(glm::vec3(0.3f), 16.0f);
 
 			BoxComponent* box = new BoxComponent(this);
 			box->SetObjectBox(model->GetBox());
+
+			// The ground is upside down
+			Rotate(glm::radians(180.0f), glm::vec3(1, 0, 0));
 		}
 	};
 }
