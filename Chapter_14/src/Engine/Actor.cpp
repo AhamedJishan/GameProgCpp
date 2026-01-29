@@ -3,6 +3,7 @@
 #include "Game.h"
 #include "InputSystem.h"
 #include "Component/Component.h"
+#include "LevelLoader.h"
 
 namespace jLab
 {
@@ -56,6 +57,25 @@ namespace jLab
 			axisOfRotation = glm::normalize(axisOfRotation);
 			SetRotation(glm::angleAxis(angle, axisOfRotation));
 		}
+	}
+
+	void Actor::LoadProperties(const rapidjson::Value& inObj)
+	{
+		std::string state;
+		if (LevelLoader::GetString(inObj, "state", state))
+		{
+			if (state == "Active")
+				SetState(State::Active);
+			else if (state == "Paused")
+				SetState(State::Paused);
+			else if (state == "Dead")
+				SetState(State::Dead);
+		}
+
+		LevelLoader::GetVec3(inObj, "position", mPosition);
+		LevelLoader::GetVec3(inObj, "scale", mScale);
+		LevelLoader::GetQuat(inObj, "rotation", mRotation);
+		ComputeWorldTransform();
 	}
 
 	void Actor::ProcessUpdate(float deltaTime)

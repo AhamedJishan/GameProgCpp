@@ -6,5 +6,43 @@
       "direction": [ 1.0, -1.0, -1.0 ],
       "color": [ 0.83, 0.88, 1.0 ]
     }
-  }
+  },
+  "actors": [
+    {
+      "type": "TargetActor",
+      "properties": {
+        "position": [ 0.0, 1.2, -9.5 ]
+      }
+    },
+    {
+      "type": "TargetActor",
+      "properties": {
+        "position": [ 0.0, 3.0, -9.5 ]
+      }
+    },
+    {
+      "type": "TargetActor",
+      "properties": {
+        "position": [ -1.5, 2.1, -9.5 ]
+      }
+    },
+    {
+      "type": "TargetActor",
+      "properties": {
+        "position": [ 1.5, 2.1, -9.5 ]
+      }
+    },
+    {
+      "type": "TargetActor",
+      "properties": {
+        "position": [ 7.5, 2.0, -9.5 ]
+      }
+    },
+    {
+      "type": "TargetActor",
+      "properties": {
+        "position": [ -7.5, 2.0, -9.5 ]
+      }
+    }
+  ]
 }

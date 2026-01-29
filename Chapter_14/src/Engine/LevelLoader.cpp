@@ -7,9 +7,18 @@
 #include "Game.h"
 #include "Renderer.h"
 
+#include "Actor.h"
+#include "Game/TargetActor.h"
+
 namespace jLab
 {
 	const int LEVEL_VERSION = 1;
+
+	std::unordered_map<std::string, ActorFunc> LevelLoader::sActorFactoryMap
+	{
+		{ "Actor", &Actor::Create<Actor> },
+		{ "TargetActor", &Actor::Create<TargetActor> }
+	};
 
 	bool LevelLoader::LoadLevel(Game* game, const std::string& filename)
 	{
@@ -32,6 +41,10 @@ namespace jLab
 			printf("ERROR: Failed to Load Global Properties\n");
 			return false;
 		}
+
+		const rapidjson::Value& actorsObj = doc["actors"];
+		if (actorsObj.IsArray())
+			LoadActors(game, actorsObj);
 
 		return true;
 	}
@@ -85,6 +98,26 @@ namespace jLab
 		}
 
 		return true;
+	}
+
+	void LevelLoader::LoadActors(Game* game, const rapidjson::Value& inArray)
+	{
+		for (rapidjson::SizeType i = 0; i < inArray.Size(); i++)
+		{
+			const rapidjson::Value& actorObj = inArray[i];
+			if (actorObj.IsObject())
+			{
+				std::string type;
+				if (GetString(actorObj, "type", type))
+				{
+					auto iter = sActorFactoryMap.find(type);
+					if (iter != sActorFactoryMap.end())
+						Actor* actor = iter->second(game, actorObj["properties"]);
+					else
+						printf("ERROR: Unknown Actor type '%s'\n", type.c_str());
+				}
+			}
+		}
 	}
 
 
@@ -202,6 +235,39 @@ namespace jLab
 		outVec.x = property[0].GetDouble();
 		outVec.y = property[1].GetDouble();
 		outVec.z = property[2].GetDouble();
+
+		return true;
+	}
+
+	bool LevelLoader::GetQuat(const rapidjson::Value& inObject, const char* inProperty, glm::quat& outQuat)
+	{
+		auto itr = inObject.FindMember(inProperty);
+		if (itr == inObject.MemberEnd())
+		{
+			printf("ERROR: Property '%s' doesn't exist in the JSON file\n", inProperty);
+			return false;
+		}
+
+		auto& property = itr->value;
+		if (!property.IsArray() || property.Size() != 4)
+		{
+			printf("ERROR: Property '%s' is not a Quaternion \n", inProperty);
+			return false;
+		}
+
+		for (rapidjson::SizeType i = 0; i < property.Size(); i++)
+		{
+			if (!property[i].IsDouble())
+			{
+				printf("ERROR: Property '%s' doesn't have double member in the vector3\n", inProperty);
+				return false;
+			}
+		}
+
+		outQuat.x = property[0].GetDouble();
+		outQuat.y = property[1].GetDouble();
+		outQuat.z = property[2].GetDouble();
+		outQuat.w = property[3].GetDouble();
 
 		return true;
 	}

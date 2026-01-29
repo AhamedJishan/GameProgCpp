@@ -1,6 +1,6 @@
 #pragma once
 
-#include <cstdint>
+#include <rapidjson/document.h>
 #include <vector>
 #include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>
@@ -50,6 +50,17 @@ namespace jLab
 		}
 
 		void LookAt(const glm::vec3& direction);
+
+		// Load/Save
+		virtual void LoadProperties(const rapidjson::Value& inObj);
+
+		template <typename T>
+		static Actor* Create(class Game* game, const rapidjson::Value& inObj)
+		{
+			T* t = new T(game);
+			t->LoadProperties(inObj);
+			return t;
+		}
 
 	protected:
 		friend class Game;
