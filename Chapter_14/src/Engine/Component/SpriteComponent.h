@@ -20,6 +20,8 @@ namespace jLab
 		bool IsVisible() const { return mVisible; }
 		void SetVisible(bool value) { mVisible = value; }
 
+		Component::TypeID GetType() const override { return Component::TSpriteComponent; }
+
 	private:
 		class Texture* mTexture;
 		int mWidth;

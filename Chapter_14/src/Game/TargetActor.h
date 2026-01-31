@@ -15,6 +15,8 @@ namespace jLab
 		TargetActor(Game* game)
 			:Actor(game)
 		{
+			mGame->AddTarget(this);
+
 			SetScale(glm::vec3(0.75f));
 			Rotate(glm::radians(90.0f), glm::vec3(1, 0, 0));
 
@@ -23,8 +25,8 @@ namespace jLab
 			mc->SetMesh(model);
 			mc->SetSpecular(glm::vec3(0.0f), 32.0f);
 
-			BoxComponent* bc = new BoxComponent(this);
-			bc->SetObjectBox(model->GetBox());
+			//BoxComponent* bc = new BoxComponent(this);
+			//bc->SetObjectBox(model->GetBox());
 		}
 	};
 }

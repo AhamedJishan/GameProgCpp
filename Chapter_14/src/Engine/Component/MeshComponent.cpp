@@ -5,6 +5,7 @@
 #include "Engine/Renderer.h"
 #include "Engine/Shader.h"
 #include "Engine/Model.h"
+#include "Engine/LevelLoader.h"
 
 namespace jLab
 {
@@ -33,5 +34,19 @@ namespace jLab
 			shader->SetFloat("uSpecularPower", mSpecularPower);
 			mModel->Draw(shader);
 		}
+	}
+
+	void MeshComponent::LoadProperties(const rapidjson::Value& inObj)
+	{
+		Component::LoadProperties(inObj);
+
+		std::string meshFile;
+		if (LevelLoader::GetString(inObj, "meshFile", meshFile))
+			mOwner->GetGame()->GetRenderer()->GetModel(meshFile);
+
+		LevelLoader::GetVec3(inObj, "specularColor", mSpecularColor);
+		LevelLoader::GetFloat(inObj, "specularPower", mSpecularPower);
+		LevelLoader::GetBool(inObj, "isSkinned", mIsSkinned);
+		LevelLoader::GetBool(inObj, "isVisible", mIsVisible);
 	}
 }

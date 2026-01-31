@@ -42,7 +42,10 @@ namespace jLab
 		void LoadText(const std::string& filename);
 		const std::string& GetText(const std::string& key);
 
+		// Game specific
 		std::vector<class WallActor*>& GetWallPlanes() { return mWallPlanes; }
+		std::vector<class Actor*>& GetTargets() { return mTargets; }
+		void AddTarget(class Actor* target) { mTargets.emplace_back(target); }
 
 	private:
 		void ProcessInput();
@@ -73,5 +76,6 @@ namespace jLab
 
 		// Game Specific
 		std::vector<class WallActor*> mWallPlanes;
+		std::vector<class Actor*> mTargets;
 	};
 }

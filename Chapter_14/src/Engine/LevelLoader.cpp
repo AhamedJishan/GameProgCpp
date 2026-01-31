@@ -8,7 +8,10 @@
 #include "Renderer.h"
 
 #include "Actor.h"
+#include "Component/Component.h"
 #include "Game/TargetActor.h"
+#include "Component/AudioComponent.h"
+#include "Component/MeshComponent.h"
 
 namespace jLab
 {
@@ -18,6 +21,12 @@ namespace jLab
 	{
 		{ "Actor", &Actor::Create<Actor> },
 		{ "TargetActor", &Actor::Create<TargetActor> }
+	};
+
+	std::unordered_map<std::string, std::pair<int, ComponentFunc>> LevelLoader::sComponentFactoryMap
+	{
+		{"AudioComponent", {Component::TAudioComponent, &Component::Create<AudioComponent>} },
+		{"MeshComponent", {Component::TMeshComponent, &Component::Create<MeshComponent>} }
 	};
 
 	bool LevelLoader::LoadLevel(Game* game, const std::string& filename)
@@ -112,9 +121,44 @@ namespace jLab
 				{
 					auto iter = sActorFactoryMap.find(type);
 					if (iter != sActorFactoryMap.end())
+					{
 						Actor* actor = iter->second(game, actorObj["properties"]);
+
+						if (actorObj.HasMember("components"))								
+						{
+							const rapidjson::Value& components = actorObj["components"];
+							if (components.IsArray())
+								LoadComponents(actor, components);
+						}
+					}
 					else
 						printf("ERROR: Unknown Actor type '%s'\n", type.c_str());
+				}
+			}
+		}
+	}
+
+	void LevelLoader::LoadComponents(Actor* actor, const rapidjson::Value& inArray)
+	{
+		for (rapidjson::SizeType i = 0; i < inArray.Size(); i++)
+		{
+			const rapidjson::Value& componentObj = inArray[i];
+			if (componentObj.IsObject())
+			{
+				std::string type;
+				if (GetString(componentObj, "type", type))
+				{
+					auto iter = sComponentFactoryMap.find(type);
+					if (iter != sComponentFactoryMap.end())
+					{
+						Component* component = actor->GetComponentofType(static_cast<Component::TypeID>(iter->second.first));
+						if (component == nullptr)
+							iter->second.second(actor, componentObj["properties"]);
+						else
+							component->LoadProperties(componentObj["properties"]);
+					}
+					else
+						printf("ERROR: Unknown component type '%s'", type);
 				}
 			}
 		}

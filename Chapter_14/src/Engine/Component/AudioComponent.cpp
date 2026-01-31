@@ -4,6 +4,7 @@
 #include "Engine/Actor.h"
 #include "Engine/Game.h"
 #include "Engine/AudioSystem.h"
+#include "Engine/LevelLoader.h"
 
 namespace jLab
 {
@@ -74,5 +75,10 @@ namespace jLab
 
 		mEvents2D.clear();
 		mEvents3D.clear();
+	}
+
+	void AudioComponent::LoadProperties(const rapidjson::Value& inObj)
+	{
+		Component::LoadProperties(inObj);
 	}
 }

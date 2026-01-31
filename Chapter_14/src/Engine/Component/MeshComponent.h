@@ -20,6 +20,11 @@ namespace jLab
 
 		bool IsSkinned() { return mIsSkinned; }
 
+		Component::TypeID GetType() const override { return Component::TMeshComponent; }
+
+		// Load/Save
+		void LoadProperties(const rapidjson::Value& inObj) override;
+
 	private:
 		class Model* mModel;
 

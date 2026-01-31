@@ -18,6 +18,8 @@ namespace jLab
 
 		void SetShouldRotate(bool shouldRotate) { mShouldRotate = shouldRotate; }
 
+		Component::TypeID GetType() const override { return Component::TBoxComponent; }
+
 	private:
 		AABB mObjectBox;
 		AABB mWorldBox;

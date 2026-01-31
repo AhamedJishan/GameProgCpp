@@ -12,37 +12,73 @@
       "type": "TargetActor",
       "properties": {
         "position": [ 0.0, 1.2, -9.5 ]
-      }
+      },
+      "components": [
+        {
+          "type": "MeshComponent",
+          "properties": { "meshFile": "Assets/Models/target/target_corrected.obj" }
+        }
+      ]
     },
     {
       "type": "TargetActor",
       "properties": {
         "position": [ 0.0, 3.0, -9.5 ]
-      }
+      },
+      "components": [
+        {
+          "type": "MeshComponent",
+          "properties": { "meshFile": "Assets/Models/target/target_corrected.obj" }
+        }
+      ]
     },
     {
       "type": "TargetActor",
       "properties": {
         "position": [ -1.5, 2.1, -9.5 ]
-      }
+      },
+      "components": [
+        {
+          "type": "MeshComponent",
+          "properties": { "meshFile": "Assets/Models/target/target_corrected.obj" }
+        }
+      ]
     },
     {
       "type": "TargetActor",
       "properties": {
         "position": [ 1.5, 2.1, -9.5 ]
-      }
+      },
+      "components": [
+        {
+          "type": "MeshComponent",
+          "properties": { "meshFile": "Assets/Models/target/target_corrected.obj" }
+        }
+      ]
     },
     {
       "type": "TargetActor",
       "properties": {
         "position": [ 7.5, 2.0, -9.5 ]
-      }
+      },
+      "components": [
+        {
+          "type": "MeshComponent",
+          "properties": { "meshFile": "Assets/Models/target/target_corrected.obj" }
+        }
+      ]
     },
     {
       "type": "TargetActor",
       "properties": {
         "position": [ -7.5, 2.0, -9.5 ]
-      }
+      },
+      "components": [
+        {
+          "type": "MeshComponent",
+          "properties": { "meshFile": "Assets/Models/target/target_corrected.obj" }
+        }
+      ]
     }
   ]
 }

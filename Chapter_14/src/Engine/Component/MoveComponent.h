@@ -19,6 +19,8 @@ namespace jLab
 		glm::vec3 GetVelocity() const { return mVelocity; }
 		float GetAngularVelocity() const { return mAngularVelocity; }
 
+		Component::TypeID GetType() const override { return Component::TMoveComponent; }
+
 	protected:
 		glm::vec3 mVelocity;
 		float mAngularVelocity;

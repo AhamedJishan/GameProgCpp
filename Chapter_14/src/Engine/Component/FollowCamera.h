@@ -19,6 +19,8 @@ namespace jLab
 		void SetTargetDistance(float targetDistance) { mTargetDistance = targetDistance; }
 		void SetSpringConstant(float springConstant) { mSpringConstant = springConstant; }
 
+		Component::TypeID GetType() const override { return Component::TFollowCameraComponent; }
+
 	private:
 		glm::vec3 ComputeIdealCamPosition();
 

@@ -5,6 +5,7 @@
 #include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>
 #include <glm/gtc/quaternion.hpp>
+#include "Component/Component.h"
 
 namespace jLab
 {
@@ -60,6 +61,15 @@ namespace jLab
 			T* t = new T(game);
 			t->LoadProperties(inObj);
 			return t;
+		}
+
+		class Component* GetComponentofType(Component::TypeID type)
+		{
+			for (Component* comp : mComponents)
+				if (comp->GetType() == type)
+					return comp;
+
+			return nullptr;
 		}
 
 	protected:

@@ -10,6 +10,7 @@
 namespace jLab
 {
 	using ActorFunc = std::function<class Actor* (class Game*, const rapidjson::Value&)>;
+	using ComponentFunc = std::function<class Component* (class Actor*, const rapidjson::Value&)>;
 
 	class LevelLoader
 	{
@@ -20,6 +21,7 @@ namespace jLab
 		static bool LoadJSON(const std::string& filename, rapidjson::Document& outDoc);
 		static bool LoadGlobalProperties(class Game* game, const rapidjson::Value& inObject);
 		static void LoadActors(class Game* game, const rapidjson::Value& inArray);
+		static void LoadComponents(class Actor* actor, const rapidjson::Value& inArray);
 
 	public:
 		static bool GetInt(const rapidjson::Value& inObject, const char* inProperty, int& outInt);
@@ -31,5 +33,6 @@ namespace jLab
 
 	private:
 		static std::unordered_map<std::string, ActorFunc> sActorFactoryMap;
+		static std::unordered_map<std::string, std::pair<int, ComponentFunc>> sComponentFactoryMap;
 	};
 }

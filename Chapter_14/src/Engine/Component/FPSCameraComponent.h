@@ -15,6 +15,8 @@ namespace jLab
 		void SetPitchSpeed(float pitchSpeed) { mPitchSpeed = pitchSpeed; }
 		float GetPitchSpeed() const { return mPitchSpeed; }
 
+		Component::TypeID GetType() const override { return Component::TFPSCameraComponent; }
+
 	private:
 		const float MAX_PITCH = glm::radians(60.0f);
 		float mPitch;

@@ -2,6 +2,7 @@
 
 #include "Engine/InputSystem.h"
 #include "Engine/Actor.h"
+#include "Engine/LevelLoader.h"
 
 namespace jLab
 {
@@ -27,5 +28,10 @@ namespace jLab
 
 	void Component::OnUpdateWorldTransform()
 	{
+	}
+
+	void Component::LoadProperties(const rapidjson::Value& inObj)
+	{
+		LevelLoader::GetInt(inObj, "updateOrder", mUpdateOrder);
 	}
 }

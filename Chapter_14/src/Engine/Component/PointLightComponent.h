@@ -22,6 +22,8 @@ namespace jLab
 		void SetInnerRadius(float value) { mInnerRadius = value; }
 		void SetOuterRadius(float value) { mOuterRadius = value; }
 
+		Component::TypeID GetType() const override { return Component::TPointLightComponent; }
+
 	private:
 		glm::vec3 mDiffuseColor;
 		float mInnerRadius;

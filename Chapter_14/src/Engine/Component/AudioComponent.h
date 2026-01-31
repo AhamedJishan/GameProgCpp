@@ -19,6 +19,11 @@ namespace jLab
 		SoundEvent PlayEvent(const std::string& name);
 		void StopAllEvents();
 
+		Component::TypeID GetType() const override { return Component::TAudioComponent; }
+
+		// Load/Save
+		void LoadProperties(const rapidjson::Value& inObj) override;
+
 	protected:
 		std::vector<SoundEvent> mEvents2D;
 		std::vector<SoundEvent> mEvents3D;

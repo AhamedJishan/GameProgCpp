@@ -17,6 +17,8 @@ namespace jLab
 
 		float PlayAnimation(class Animation* animation, float playRate = 1.0f);
 
+		Component::TypeID GetType() const override { return Component::TSkinnedMeshComponent; }
+
 	private:
 		void ComputeMatrixPalette();
 
