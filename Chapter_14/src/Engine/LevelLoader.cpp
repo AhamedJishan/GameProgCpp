@@ -4,6 +4,8 @@
 #include <fstream>
 #include <vector>
 #include <rapidjson/rapidjson.h>
+#include <rapidjson/stringbuffer.h>
+#include <rapidjson/prettywriter.h>
 #include "Game.h"
 #include "Renderer.h"
 
@@ -60,6 +62,36 @@ namespace jLab
 			LoadActors(game, actorsObj);
 
 		return true;
+	}
+
+	void LevelLoader::SaveLevel(Game* game, const std::string& filename)
+	{
+		rapidjson::Document doc;
+		doc.SetObject();
+
+		// Save Version
+		AddInt(doc.GetAllocator(), doc, "version", LEVEL_VERSION);
+
+		// Save global properties
+		rapidjson::Value globalObj;
+		globalObj.SetObject();
+		SaveGlobalProperties(doc.GetAllocator(), game, globalObj);
+		doc.AddMember("globalProperties", globalObj, doc.GetAllocator());
+
+
+		// Write to the buffer
+		rapidjson::StringBuffer buffer;
+		rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(buffer);
+		doc.Accept(writer);
+		
+		const char* output = buffer.GetString();
+		
+		// Write to the output file
+		std::ofstream outFile(filename);
+		if (outFile.is_open())
+			outFile << output;
+		else
+			printf("ERROR: Failed to open file '%s'\n", filename.c_str());
 	}
 
 	bool LevelLoader::LoadJSON(const std::string& filename, rapidjson::Document& outDoc)
@@ -162,10 +194,23 @@ namespace jLab
 							component->LoadProperties(componentObj["properties"]);
 					}
 					else
-						printf("ERROR: Unknown component type '%s'", type);
+						printf("ERROR: Unknown component type '%s'", type.c_str());
 				}
 			}
 		}
+	}
+
+	void LevelLoader::SaveGlobalProperties(rapidjson::Document::AllocatorType& alloc, Game* game, rapidjson::Value& inObj)
+	{
+		AddVec3(alloc, inObj, "ambientColor", game->GetRenderer()->GetAmbientColor());
+
+		DirectionalLight& dirLight = game->GetRenderer()->GetDirectionalLight();
+		rapidjson::Value directionalLightObj;
+		directionalLightObj.SetObject();
+		AddVec3(alloc, directionalLightObj, "direction", dirLight.mDirection);
+		AddVec3(alloc, directionalLightObj, "color", dirLight.mColor);
+
+		inObj.AddMember("directionalLight", directionalLightObj, alloc);
 	}
 
 
@@ -318,5 +363,53 @@ namespace jLab
 		outQuat.w = property[3].GetDouble();
 
 		return true;
+	}
+
+	void LevelLoader::AddInt(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj, const char* name, int value)
+	{
+		rapidjson::Value v(value);
+		inObj.AddMember(rapidjson::StringRef(name), v, alloc);
+	}
+
+	void LevelLoader::AddFloat(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj, const char* name, float value)
+	{
+		rapidjson::Value v(value);
+		inObj.AddMember(rapidjson::StringRef(name), v, alloc);
+	}
+	
+	void LevelLoader::AddBool(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj, const char* name, bool value)
+	{
+		rapidjson::Value v(value);
+		inObj.AddMember(rapidjson::StringRef(name), v, alloc);
+	}
+	
+	void LevelLoader::AddString(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj, const char* name, const std::string& value)
+	{
+		rapidjson::Value v;
+		v.SetString(value.c_str(), static_cast<rapidjson::SizeType>(value.length()));
+		inObj.AddMember(rapidjson::StringRef(name), v, alloc);
+	}
+	
+	void LevelLoader::AddVec3(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj, const char* name, glm::vec3 value)
+	{
+		rapidjson::Value v(rapidjson::kArrayType);
+
+		v.PushBack(rapidjson::Value(value.x).Move(), alloc);
+		v.PushBack(rapidjson::Value(value.y).Move(), alloc);
+		v.PushBack(rapidjson::Value(value.z).Move(), alloc);
+
+		inObj.AddMember(rapidjson::StringRef(name), v, alloc);
+	}
+	
+	void LevelLoader::AddQuat(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj, const char* name, glm::quat value)
+	{
+		rapidjson::Value v(rapidjson::kArrayType);
+
+		v.PushBack(rapidjson::Value(value.x).Move(), alloc);
+		v.PushBack(rapidjson::Value(value.y).Move(), alloc);
+		v.PushBack(rapidjson::Value(value.z).Move(), alloc);
+		v.PushBack(rapidjson::Value(value.w).Move(), alloc);
+
+		inObj.AddMember(rapidjson::StringRef(name), v, alloc);
 	}
 }

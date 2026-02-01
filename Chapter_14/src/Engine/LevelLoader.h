@@ -16,12 +16,15 @@ namespace jLab
 	{
 	public:
 		static bool LoadLevel(class Game* game, const std::string& filename);
+		static void SaveLevel(class Game* game, const std::string& filename);
 
 	private:
 		static bool LoadJSON(const std::string& filename, rapidjson::Document& outDoc);
 		static bool LoadGlobalProperties(class Game* game, const rapidjson::Value& inObject);
 		static void LoadActors(class Game* game, const rapidjson::Value& inArray);
 		static void LoadComponents(class Actor* actor, const rapidjson::Value& inArray);
+
+		static void SaveGlobalProperties(rapidjson::Document::AllocatorType& alloc, class Game* game, rapidjson::Value& inObj);
 
 	public:
 		static bool GetInt(const rapidjson::Value& inObject, const char* inProperty, int& outInt);
@@ -30,6 +33,13 @@ namespace jLab
 		static bool GetString(const rapidjson::Value& inObject, const char* inProperty, std::string& outString);
 		static bool GetVec3(const rapidjson::Value& inObject, const char* inProperty, glm::vec3& outVec);
 		static bool GetQuat(const rapidjson::Value& inObject, const char* inProperty, glm::quat& outQuat);
+
+		static void AddInt(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj, const char* name, int value);
+		static void AddFloat(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj, const char* name, float value);
+		static void AddBool(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj, const char* name, bool value);
+		static void AddString(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj, const char* name, const std::string& value);
+		static void AddVec3(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj, const char* name, glm::vec3 value);
+		static void AddQuat(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj, const char* name, glm::quat value);
 
 	private:
 		static std::unordered_map<std::string, ActorFunc> sActorFactoryMap;

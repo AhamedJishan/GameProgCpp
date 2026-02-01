@@ -50,6 +50,8 @@ namespace jLab
 		void SetSetViewMatrix(const glm::mat4& view) { mView = view; }
 
 		// Global properties
+		glm::vec3 GetAmbientColor() { return mAmbientColor; }
+		DirectionalLight GetDirectionalLight() { return mDirectionalLight; }
 		void SetAmbientColor(glm::vec3 color) { mAmbientColor = color; }
 		void SetDirectionalLight(glm::vec3 direction, glm::vec3 color) { mDirectionalLight.mDirection = direction; mDirectionalLight.mColor = color; }
 
