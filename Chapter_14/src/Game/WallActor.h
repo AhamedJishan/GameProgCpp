@@ -22,6 +22,8 @@ namespace jLab
 
 			mBox = new BoxComponent(this);
 			mBox->SetObjectBox(model->GetBox());
+
+			mGame->AddWall(this);
 		}
 
 		BoxComponent* GetBox() const { return mBox; }

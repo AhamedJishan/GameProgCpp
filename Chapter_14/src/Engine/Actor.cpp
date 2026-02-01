@@ -75,6 +75,8 @@ namespace jLab
 		LevelLoader::GetVec3(inObj, "position", mPosition);
 		LevelLoader::GetVec3(inObj, "scale", mScale);
 		LevelLoader::GetQuat(inObj, "rotation", mRotation);
+
+		mRecomputeWorldTransform = true;
 		ComputeWorldTransform();
 	}
 

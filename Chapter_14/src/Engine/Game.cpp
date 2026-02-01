@@ -322,26 +322,6 @@ namespace jLab
 		
 		HUD* hud = new HUD(this, playerController, GetTargets());
 
-		GroundActor* ground = new GroundActor(this);
-
-		WallActor* wa1 = new WallActor(this);
-		WallActor* wa2 = new WallActor(this);
-		WallActor* wa3 = new WallActor(this);
-		WallActor* wa4 = new WallActor(this);	
-
-		wa1->SetPosition(glm::vec3(10, 0, 0));
-		wa2->SetPosition(glm::vec3(-10, 0, 0));
-		wa3->SetPosition(glm::vec3(0, 0, 10));
-		wa4->SetPosition(glm::vec3(0, 0, -10));
-
-		wa3->SetRotation(glm::angleAxis(glm::radians(90.0f), glm::vec3(0, 1, 0)));
-		wa4->SetRotation(glm::angleAxis(glm::radians(90.0f), glm::vec3(0, 1, 0)));
-
-		mWallPlanes.emplace_back(wa1);
-		mWallPlanes.emplace_back(wa2);
-		mWallPlanes.emplace_back(wa3);
-		mWallPlanes.emplace_back(wa4);
-
 		AnimTestActor* animTest = new AnimTestActor(this);
 		animTest->SetScale(glm::vec3(0.005f));
 		animTest->SetPosition(glm::vec3(0, 0.25f, -5));

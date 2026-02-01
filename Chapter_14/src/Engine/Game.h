@@ -44,6 +44,7 @@ namespace jLab
 
 		// Game specific
 		std::vector<class WallActor*>& GetWallPlanes() { return mWallPlanes; }
+		void AddWall(class WallActor* wall) { mWallPlanes.emplace_back(wall); }
 		std::vector<class Actor*>& GetTargets() { return mTargets; }
 		void AddTarget(class Actor* target) { mTargets.emplace_back(target); }
 

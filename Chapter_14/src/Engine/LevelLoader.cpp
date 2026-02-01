@@ -10,6 +10,8 @@
 #include "Actor.h"
 #include "Component/Component.h"
 #include "Game/TargetActor.h"
+#include "Game/GroundActor.h"
+#include "Game/WallActor.h"
 #include "Component/AudioComponent.h"
 #include "Component/MeshComponent.h"
 
@@ -20,7 +22,9 @@ namespace jLab
 	std::unordered_map<std::string, ActorFunc> LevelLoader::sActorFactoryMap
 	{
 		{ "Actor", &Actor::Create<Actor> },
-		{ "TargetActor", &Actor::Create<TargetActor> }
+		{ "TargetActor", &Actor::Create<TargetActor> },
+		{ "GroundActor", &Actor::Create<GroundActor> },
+		{ "WallActor", &Actor::Create<WallActor> }
 	};
 
 	std::unordered_map<std::string, std::pair<int, ComponentFunc>> LevelLoader::sComponentFactoryMap
